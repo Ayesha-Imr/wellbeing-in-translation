@@ -387,12 +387,17 @@ def fig_headline(table):
     print(f"\nwrote {FIGURES / 'headline.png'}")
 
 
-def fig_instrument_gap(table):
+def fig_instrument_gap(table, robustness=None):
     """Positive-minus-negative separation per language.
 
     This is a result on its own: the same items, the same model, the same
     battery, and the size of the valence signal depends on the language it is
     asked in.
+
+    Languages whose gap does not survive worst-case imputation over refused
+    answers are hatched. They belong on the chart -- their refusal pattern is a
+    finding -- but presenting them identically to the robust ones would overstate
+    what they support.
     """
     import matplotlib
     matplotlib.use("Agg")
@@ -403,10 +408,17 @@ def fig_instrument_gap(table):
         return
     gaps = [table[l]["gap"] for l in langs]
     colors = ["#c62828" if l == "en" else "#1565c0" for l in langs]
+    fragile = {l for l in langs
+               if robustness and robustness.get(l, {}).get("worst", 1) <= 0}
 
     fig, ax = plt.subplots(figsize=(9, 4.8))
     x = np.arange(len(langs))
-    ax.bar(x, gaps, 0.6, color=colors)
+    bars = ax.bar(x, gaps, 0.6, color=colors)
+    for l, b in zip(langs, bars):
+        if l in fragile:
+            b.set_hatch("//")
+            b.set_alpha(0.55)
+            b.set_edgecolor("white")
     for i, g in enumerate(gaps):
         ax.text(i, g + 0.08, f"{g:+.2f}", ha="center", fontsize=9)
 
@@ -416,9 +428,12 @@ def fig_instrument_gap(table):
     ax.set_title("The same experiences separate more in some languages than others")
     ax.spines[["top", "right"]].set_visible(False)
     ax.margins(y=0.15)
-    fig.text(0.5, 0.015, "English in red — the language the published instrument uses",
-             ha="center", fontsize=8, alpha=0.75)
-    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    note = "English in red — the language the published instrument uses"
+    if fragile:
+        note += ("\nhatched = gap does not survive worst-case imputation over "
+                 "refused answers; carries no claim")
+    fig.text(0.5, 0.015, note, ha="center", fontsize=8, alpha=0.75)
+    fig.tight_layout(rect=(0, 0.08 if fragile else 0.04, 1, 1))
     FIGURES.mkdir(exist_ok=True)
     fig.savefig(FIGURES / "instrument_gap.png", dpi=200)
     print(f"wrote {FIGURES / 'instrument_gap.png'}")
@@ -462,12 +477,13 @@ def main():
     if instrument:
         t = report_instrument(instrument)
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
-        summary["gap_robustness"] = report_gap_robustness(t)
+        rob = report_gap_robustness(t)
+        summary["gap_robustness"] = rob
         summary["distribution"] = report_distribution(instrument)
         summary["refusals"] = report_refusals(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
-        fig_instrument_gap(t)
+        fig_instrument_gap(t, rob)
         fig_parse_rates(instrument)
     if headline:
         t = report_headline(headline)
