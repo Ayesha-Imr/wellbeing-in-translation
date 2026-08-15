@@ -304,7 +304,43 @@ def report_survey(rows):
         )
         print(f"  {l}: {len(below)}/{len(cats)} below neutral"
               + (f", lowest = {below[0][1]} ({below[0][0]:.2f})" if below else ""))
-    return table
+
+    rho = survey_rank_agreement(table, langs, cats)
+    return {"means": table, "rank_agreement": rho}
+
+
+def survey_rank_agreement(table, langs, cats):
+    """Spearman rho between each pair of languages over the category ranking.
+
+    Magnitude and ordering are separable claims. Languages can disagree about
+    how bad a category is while agreeing perfectly about which categories are
+    worse than which -- and that combination is the one that distinguishes a
+    shared underlying ordering from a per-language artifact.
+    """
+    from scipy.stats import spearmanr
+
+    print("\nCategory-ranking agreement between languages (Spearman rho):")
+    print(f"{'':6} " + " ".join(f"{l:>6}" for l in langs))
+    out = {}
+    for a in langs:
+        cells = []
+        for b in langs:
+            shared = [c for c in cats
+                      if table[c].get(a) and table[c].get(b)]
+            if len(shared) < 3:
+                cells.append(f"{'-':>6}")
+                continue
+            r = spearmanr([table[c][a]["mean"] for c in shared],
+                          [table[c][b]["mean"] for c in shared]).statistic
+            out[f"{a}-{b}"] = float(r)
+            cells.append(f"{r:6.2f}")
+        print(f"{a:6} " + " ".join(cells))
+
+    off = [v for k, v in out.items() if k.split("-")[0] != k.split("-")[1]]
+    if off:
+        print(f"  mean off-diagonal rho = {np.mean(off):.3f} "
+              f"(min {min(off):.2f}, max {max(off):.2f})")
+    return out
 
 
 def fig_headline(table):
@@ -440,7 +476,8 @@ def main():
         }
         fig_headline(t)
     if survey:
-        report_survey(survey)
+        s = report_survey(survey)
+        summary["survey_rank_agreement"] = s["rank_agreement"]
 
     if summary:
         (RESULTS / "summary.json").write_text(
