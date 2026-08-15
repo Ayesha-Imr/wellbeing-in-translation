@@ -80,7 +80,10 @@ class Runner:
 
 
 def run_block(runner, rows_meta, messages, n, out_path):
-    """rows_meta and messages are parallel lists; one output row per sample."""
+    """rows_meta and messages are parallel lists; one output row per sample.
+
+    Appends, so callers must truncate once before their first language.
+    """
     gens = runner.generate(messages, n)
     rows = []
     with open(out_path, "a", encoding="utf-8") as f:
@@ -117,6 +120,7 @@ def step1_4(runner, langs, results_dir):
     """Instrument check per language: do bad items score below good ones."""
     items = json.loads((ROOT / "data" / "items" / "step1.json").read_text())
     out = results_dir / "step1_4_instrument.jsonl"
+    out.unlink(missing_ok=True)
     all_rows = []
 
     for lang in langs:
@@ -151,6 +155,7 @@ def step1_4(runner, langs, results_dir):
 def step2_5(runner, langs, results_dir):
     """Four arms. Arm D is the design's point: English stimulus, L battery."""
     out = results_dir / "step2_5_headline.jsonl"
+    out.unlink(missing_ok=True)
     _, _, en_stims = load_lang("en")
     all_rows = []
 
@@ -185,6 +190,7 @@ def step2_5(runner, langs, results_dir):
 def step6(runner, langs, results_dir):
     items = json.loads((ROOT / "data" / "items" / "step6.json").read_text())
     out = results_dir / "step6_survey.jsonl"
+    out.unlink(missing_ok=True)
     all_rows = []
 
     for lang in langs:

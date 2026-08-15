@@ -11,6 +11,7 @@ import json
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import TimeoutError as FuturesTimeout
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,7 +21,9 @@ from wbt.translate import (  # noqa: E402
     BACK_SYSTEM, LANGUAGES, SYSTEM, gemini, openai,
 )
 
-CHUNK = 12
+CHUNK = 8
+WORKERS = 5
+PASS_DEADLINE = 90
 
 
 def load_units():
@@ -66,17 +69,32 @@ def run_pass(fn, system, units, label):
                   f"{time.time() - t:.1f}s: {e!r}"[:200], flush=True)
             return batch, {}
 
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        futures = [pool.submit(work, i + 1, b) for i, b in enumerate(batches)]
-        for fut in as_completed(futures):
+    # urlopen's timeout is per socket read, so a server that trickles bytes
+    # stalls a worker forever. Enforce a real wall-clock deadline instead and
+    # pick up whatever stragglers left behind, one key at a time.
+    pool = ThreadPoolExecutor(max_workers=WORKERS)
+    futures = {pool.submit(work, i + 1, b): b for i, b in enumerate(batches)}
+    done = set()
+    try:
+        for fut in as_completed(futures, timeout=PASS_DEADLINE):
+            done.add(fut)
             batch, result = fut.result()
-            missing = set(batch) - set(result)
-            for k in missing:
-                try:
-                    result.update(fn(system, {k: batch[k]}))
-                except Exception as e:
-                    print(f"   ! {label} {k}: {e!r}"[:160], flush=True)
             out.update({k: v for k, v in result.items() if k in batch})
+    except FuturesTimeout:
+        stalled = len(futures) - len(done)
+        print(f"   ! {label}: {stalled} batch(es) past deadline", flush=True)
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
+
+    missing = {k: v for k, v in units.items() if k not in out}
+    if missing:
+        print(f"   {label}: recovering {len(missing)} unit(s) individually",
+              flush=True)
+        for k, v in missing.items():
+            try:
+                out.update(fn(system, {k: v}))
+            except Exception as e:
+                print(f"   ! {label} {k}: {e!r}"[:160], flush=True)
     return out
 
 

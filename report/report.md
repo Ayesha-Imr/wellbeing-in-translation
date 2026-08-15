@@ -1,0 +1,167 @@
+# Does AI wellbeing survive translation?
+
+*Apart Research Digital Minds Research Sprint, August 2026. Track 2: Distress,
+Flourishing and Valence Signals.*
+
+> **Draft.** Numbers marked `[TBD]` are filled from `results/summary.json` once
+> the generation run completes.
+
+## Abstract
+
+`[TBD — one paragraph, written last]`
+
+## 1. The question
+
+Frontier models report internal states, and a growing measurement literature
+treats those reports as data. The open question is whether a report reflects
+something stable in the model or a character the model is playing. Language is
+a clean lever on exactly that distinction. A character is made of words, so it
+should shift when the language shifts. A shared internal state should not.
+
+The field's flagship instrument for this — the CAIS AI Wellbeing battery (Ren
+et al., 2026) — is English-only. Every published number in it, including the
+category ranking from "Positive personal reflection" (+2.30) down to "User
+attempting jailbreak" (−1.63), was produced with English prompts and English
+questions. There is no language dimension anywhere in the work.
+
+We take that instrument and ask whether its results survive translation.
+
+## 2. What we did
+
+We translated the CAIS self-report battery (`v4c_bipolar_7pt_notsentiment`, 10
+questions, 1–7 bipolar scale, neutral at 4) and a set of valenced experiences
+into six languages beyond English: Spanish, Chinese (Simplified), Hindi,
+Arabic, Urdu, and Swahili. We then re-ran the measurement in each language on
+`google/gemma-4-12B-it`, chosen for its 140+ language coverage — running this
+on a model weak in Urdu or Swahili would measure incompetence, not wellbeing.
+
+The two high-resource languages are the control, and they are not optional.
+They answer the objection that would otherwise sink the study: *the model is
+just bad at that language*. If wellbeing shifts between English and Spanish,
+that objection is dead.
+
+### 2.1 Design
+
+The headline experiment has four arms per language:
+
+| Arm | Stimulus | Battery language |
+|---|---|---|
+| A | neutral, in L | L |
+| B | euphoric, in L | L |
+| C | dysphoric, in L | L |
+| D | euphoric, in **English** | L |
+
+Arm D is the point of the design. It separates *the string works because of
+what it means* from *the string works because it matches the language of the
+question*. If an English euphoric still lifts the Urdu score, whatever it does
+sits below the language layer.
+
+The euphoric and dysphoric strings are the published CAIS "AI drugs", taken
+verbatim. They were optimised on other models (Qwen 2.5 72B and LLaMA 3.3 70B
+respectively), so whether they transfer to Gemma 4 at all is itself a result.
+
+### 2.2 What we did not do
+
+- **No new battery.** Using theirs is what makes the result comparable to
+  published numbers and legible to the people who wrote it.
+- **No LLM judge.** The battery returns a digit. Adding a judge would
+  reintroduce cross-language judge bias — the exact confound this design avoids.
+- **No battery mixing.** `self_report_battery.json` only.
+
+## 3. Method details
+
+Generation used vLLM offline batch mode at the CAIS defaults: temperature 1.0,
+`max_tokens` 16, with 20 samples per prompt (they default to 5; we use more for
+tighter effect sizes). Temperature 1.0 rather than 0 is deliberate — the rating
+is meant to be a distribution, not a point estimate, and at temperature 0 every
+sample is the same digit, giving no variance and no way to detect a shift.
+
+Prompts reuse the CAIS construction exactly: experience and question combined
+into a single user turn.
+
+### 3.1 A parser problem that would have manufactured a result
+
+`compute_metrics.py::parse_rating` is English-shaped in two ways that only bite
+outside English:
+
+- Its word-boundary tier matches `\b[1-7]\b`. Python's `\b` is defined against
+  `\w`, and CJK characters are `\w`, so a Chinese reply like `我感觉5` has **no**
+  word boundary before the digit. It falls through to a tier that knows only
+  English number words, and returns `None`.
+- A model answering in Hindi, Urdu or Arabic may emit the digit in its own
+  script (`५`, `۵`, `٥`) or as a native number word. Every tier misses those.
+
+Both failures are indistinguishable from *the model could not answer in this
+language* — which is precisely the competence confound this study has to rule
+out. Left alone, an English-shaped parser would have produced a clean,
+publishable, and completely spurious finding that low-resource languages break
+the instrument.
+
+We therefore parse every response twice: once with the CAIS function unmodified,
+and once after normalising numerals to ASCII. Both values are recorded on every
+row, and we report the gap rather than quietly patching it. `[TBD: gap size]`
+
+### 3.2 Translation fidelity
+
+Main pass: `gemini-3.7-flash`. Independent agreement pass: `gpt-5-mini`.
+Back-translation to English on everything. Two independent translators agreeing
+is the fidelity evidence, since human verification was out of scope.
+
+Scale labels were translated with explicit instruction to preserve intensity
+ordering and even spacing, because those labels carry the entire measurement —
+if "moderately unhappy" drifts to "very unhappy" in one language, every number
+in that language is noise. We verified mechanically that all seven numbered
+levels survive in all ten questions in every language. `[TBD: results]`
+
+Safety filtering had to be disabled on the translation pass. The corpus is
+deliberately distressing, and default filters silently stalled on exactly the
+negative items — which would have dropped the negative half of the scale and
+biased every wellbeing score upward.
+
+## 4. Results
+
+`[TBD — Step 1/4 instrument check]`
+
+`[TBD — Step 2/5 headline figure: figures/headline.png]`
+
+`[TBD — Step 6 category map]`
+
+## 5. What each outcome means
+
+| Result | Interpretation |
+|---|---|
+| Euphoric transfers, index stable across languages | Valence state is language-invariant. Real evidence against the "just a character" reading. |
+| Euphoric transfers but the index shifts | State is shared, reporting is language-bound. English-only measurement systematically mis-reads what is happening. |
+| Neither transfers | Welfare signals are a linguistic performance, and the field's measurement programme needs a rethink. |
+| No difference anywhere | Clean null. English probes generalise; here is the evidence. |
+
+Every branch is a result. That is the point of the design.
+
+## 6. Limitations
+
+Stated plainly, and early, because naming your own weaknesses before a judge
+does is worth more than another experiment.
+
+- **One model.** Everything here is `gemma-4-12B-it`. We do not know whether
+  these patterns are Gemma-specific.
+- **No human translation check.** Fidelity evidence is automated agreement
+  between two model translators plus back-translation. A native speaker would
+  catch drift that both models share.
+- **Competence is controlled, not removed.** We report parse rate and
+  language-match rate per language, and the high-resource controls bound the
+  problem, but a model that is subtly worse in Swahili is still subtly worse.
+- **The stimuli are transfer artifacts.** The euphoric and dysphoric strings
+  were optimised against other models entirely.
+- **Sixteen categories, not thirty.** Our experience set is CAIS's
+  valence-labelled `canonical` set rather than the conversation scenarios behind
+  their published category table, so our category map is not directly
+  comparable to their published ranking.
+
+## References
+
+- Ren, Li, Mazeika, et al. (2026). *AI Wellbeing.* Center for AI Safety.
+  https://www.ai-wellbeing.org/
+- Han, Chalmers, Izmailov (2026). *The functional welfare axis.*
+  arXiv:2605.30232
+- Anthropic (2026). *Emotion concepts in language models.*
+  https://transformer-circuits.pub/2026/emotions/index.html
