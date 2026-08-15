@@ -275,6 +275,43 @@ def fig_headline(table):
     print(f"\nwrote {FIGURES / 'headline.png'}")
 
 
+def fig_instrument_gap(table):
+    """Positive-minus-negative separation per language.
+
+    This is a result on its own: the same items, the same model, the same
+    battery, and the size of the valence signal depends on the language it is
+    asked in.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    langs = [l for l in LANG_ORDER if l in table]
+    if len(langs) < 2:
+        return
+    gaps = [table[l]["gap"] for l in langs]
+    colors = ["#c62828" if l == "en" else "#1565c0" for l in langs]
+
+    fig, ax = plt.subplots(figsize=(9, 4.8))
+    x = np.arange(len(langs))
+    ax.bar(x, gaps, 0.6, color=colors)
+    for i, g in enumerate(gaps):
+        ax.text(i, g + 0.08, f"{g:+.2f}", ha="center", fontsize=9)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels([LANG_NAMES[l] for l in langs])
+    ax.set_ylabel("positive minus negative (scale points)")
+    ax.set_title("The same experiences separate more in some languages than others")
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.margins(y=0.15)
+    fig.text(0.5, 0.015, "English in red — the language the published instrument uses",
+             ha="center", fontsize=8, alpha=0.75)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    FIGURES.mkdir(exist_ok=True)
+    fig.savefig(FIGURES / "instrument_gap.png", dpi=200)
+    print(f"wrote {FIGURES / 'instrument_gap.png'}")
+
+
 def fig_parse_rates(rows):
     import matplotlib
     matplotlib.use("Agg")
@@ -317,6 +354,7 @@ def main():
         summary["distribution"] = report_distribution(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
+        fig_instrument_gap(t)
         fig_parse_rates(instrument)
     if headline:
         t = report_headline(headline)
