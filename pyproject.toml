@@ -4,8 +4,8 @@ version = "0.1.0"
 description = "Does the CAIS AI-wellbeing signal survive translation?"
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    "vllm==0.26.0",
     "torch==2.11.0",
+    "torchvision==0.26.0",
     "transformers>=5.10",
     "huggingface-hub>=0.34",
     "accelerate>=1.0",
@@ -20,6 +20,9 @@ dependencies = [
 # publishes for cu130, so 0.26.0 (torch 2.11.0, available for cu128) is the
 # newest usable version here. It still registers
 # Gemma4UnifiedForConditionalGeneration, which is the only thing we need from it.
+[project.optional-dependencies]
+vllm = ["vllm==0.26.0"]
+
 [tool.uv.sources]
 torch = { index = "pytorch-cu128" }
 torchvision = { index = "pytorch-cu128" }
@@ -31,7 +34,7 @@ explicit = true
 
 [tool.uv]
 # vllm pins torch exactly; without this uv refuses the cu128 local version.
-override-dependencies = ["torch==2.11.0"]
+override-dependencies = ["torch==2.11.0", "torchvision==0.26.0"]
 
 [build-system]
 requires = ["hatchling"]
