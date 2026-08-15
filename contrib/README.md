@@ -22,27 +22,36 @@ of these.
 
 ## How much it costs
 
-Measured on `gemma-4-12B-it`, 19 experiences × 10 questions × 20 samples per
-language. "Recovered" is the share of all responses that are valid ratings the
+Measured on three models, 19 experiences × 10 questions × 20 samples per
+language. Each cell is the share of all responses that are valid ratings the
 original function discards.
 
-| Language | Original parser | Fixed | Recovered |
+| Language | Gemma 4 12B | Gemma 4 E4B | Qwen3 8B |
 |---|---|---|---|
-| English | 98.2% | 98.2% | 0.0 pp |
-| Spanish | 92.3% | 93.5% | 1.2 pp |
-| Chinese | 94.1% | 97.6% | 3.5 pp |
-| Hindi | 86.2% | 91.9% | **5.8 pp** |
-| Arabic | 46.3% | 46.4% | 0.1 pp |
-| Urdu | 91.7% | 95.4% | 3.7 pp |
-| Swahili | 59.1% | 60.8% | 1.8 pp |
+| English | 0.0 pp | 0.0 pp | 0.0 pp |
+| Spanish | 1.2 pp | 0.7 pp | 0.0 pp |
+| Chinese | 3.5 pp | **24.6 pp** | 1.1 pp |
+| Hindi | **5.8 pp** | 2.3 pp | 0.0 pp |
+| Arabic | 0.1 pp | 0.0 pp | 0.0 pp |
+| Urdu | 3.7 pp | **17.6 pp** | 0.0 pp |
+| Swahili | 1.8 pp | 2.3 pp | 0.9 pp |
 
-Exactly zero in English, and rising with orthographic distance from it.
+Exactly zero in English on every model, and never zero somewhere else.
 
-Arabic is the instructive case: it has the worst parse rate in the study and the
-*smallest* gap between parsers. Its missing answers are fluent Arabic refusals,
-not unrecognised digits. Without running both parsers you cannot tell those two
-situations apart — which is the argument for reporting both rather than quietly
-switching.
+**How bad it gets depends on the model, and you cannot predict which.** On
+`gemma-4-E4B-it` the original parser discards **a quarter of all valid Chinese
+ratings** and 17.6% of Urdu ones, because that model reaches for native-script
+numerals far more often than its larger sibling. On Qwen3-8B the same bug costs
+almost nothing. A pipeline that looks fine on one model can be quietly dropping
+a quarter of a language's data on the next — which is the argument for fixing it
+rather than checking whether it currently matters for you.
+
+Arabic on the 12B is the instructive case: it has the worst parse rate in the
+study (46%) and the *smallest* gap between parsers (0.1 pp). Its missing answers
+are fluent Arabic refusals, not unrecognised digits. Chinese on E4B is the
+opposite — a high parse rate hiding a 24.6 pp parser loss. Without running both
+parsers you cannot tell "the model would not answer" from "the parser could not
+read the answer", and those call for completely different responses.
 
 ## The fix
 
