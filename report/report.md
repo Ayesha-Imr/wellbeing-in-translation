@@ -116,21 +116,33 @@ All six languages passed the gate. Every one retains all seven numbered levels
 in all ten battery questions, and none shows any untranslated (English) unit in
 the battery or the stimuli:
 
-| Language | Scale intact | Back-translation similarity |
-|---|---|---|
-| Spanish | yes | 0.83 |
-| Chinese (Simplified) | yes | 0.67 |
-| Hindi | yes | 0.73 |
-| Arabic | yes | 0.76 |
-| Urdu | yes | 0.71 |
-| Swahili | yes | 0.74 |
+| Language | Scale intact | Back-translation | Translator agreement |
+|---|---|---|---|
+| Spanish | yes | 0.83 | 0.92 |
+| Chinese (Simplified) | yes | 0.67 | 0.53 |
+| Hindi | yes | 0.73 | 0.76 |
+| Arabic | yes | 0.76 | 0.77 |
+| Urdu | yes | 0.71 | 0.76 |
+| Swahili | yes | 0.74 | 0.80 |
 
-Similarity is token-level Dice between the English source and its
-back-translation, so it compares English against English and never has to score
-across scripts. Spanish scoring highest and Chinese lowest is the expected
-ordering — lexical overlap after a round trip through a language that shares
-little vocabulary with English is inherently lower, and that is a property of
-the metric rather than evidence of meaning loss.
+Back-translation similarity is word-level Dice between the English source and
+its back-translation — English against English, so it never has to score across
+scripts. Translator agreement compares the two independent forward translations
+of the same unit, which are both in the target language, and therefore uses
+character-bigram overlap instead.
+
+That distinction is not cosmetic. Scoring the agreement with the word-level
+measure returns 0.14-0.17 for Chinese, Hindi, Arabic and Urdu regardless of how
+similar the two translations actually are, because its tokeniser only matches
+`[a-z0-9]`. Reported uncritically, that would have appeared in this table as
+severe translator disagreement in exactly the four non-Latin-script languages —
+a clean, plausible, entirely spurious finding.
+
+Spanish scoring highest and Chinese lowest on both measures is expected: lexical
+overlap after a round trip through a language sharing little vocabulary with
+English is inherently lower, and Chinese has no word boundaries and more
+defensible character choices per concept. Both are properties of the metrics
+rather than evidence of meaning loss.
 
 We also guard a failure mode that would otherwise pass silently. When a
 translation call drops a unit, the pipeline falls back to the English source
