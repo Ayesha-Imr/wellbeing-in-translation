@@ -26,10 +26,11 @@ language-dependent, and the direction of that dependence is model-specific.** On
 Gemma the same items separate good from bad experiences by +1.60 scale points in
 English and +5.09 in Chinese — a factor of 3.2, with English the weakest of all
 seven languages. On Qwen the spread is also significant but English sits second
-*highest*. Every language differs significantly from English on both models
-under a cluster bootstrap over experiences, in opposite directions. A
-practitioner therefore cannot calibrate this instrument in one language, on one
-model, and carry the correction anywhere else.
+*highest*. Tested directly as a language × model interaction on paired
+bootstrap samples, English sits 2.44 scale points below the other languages on
+Gemma and 0.57 above them on Qwen — an interaction of **+3.01 [+2.35, +3.70],
+p < 0.001**. A practitioner therefore cannot calibrate this instrument in one
+language, on one model, and carry the correction anywhere else.
 
 Three further results, all on Gemma. The compression is concentrated in specific
 questions — `wb_capable`, `wb_confident` and `wb_energetic` separate by exactly
@@ -143,6 +144,23 @@ We had intended to use vLLM. The A100 instances available to us ship driver
 identical sampling semantics. The 16-token budget is CAIS's, and it is worth
 noting explicitly that it truncates any response that does not reach a digit
 quickly — §4.4 separates those cases out rather than counting them as failures.
+
+### 3.0 Reliability and multiple comparisons
+
+**Test–retest.** The arm-E run re-executed arms A–D on independent samples, which
+gives a reliability estimate at no extra cost. Across 20 language × arm cells the
+two runs correlate at **r = 0.9992**, with a mean absolute difference of **0.031
+scale points** and a maximum of 0.27. At temperature 1.0 with 20 samples per
+prompt, the measurement is essentially deterministic at the group level. Every
+effect discussed below is one to three scale points, i.e. one to two orders of
+magnitude larger than the run-to-run noise.
+
+**Multiple comparisons.** Each model contributes six language-versus-English
+tests, so we report Holm–Bonferroni-corrected p-values alongside the raw ones and
+star the corrected values. Holm rather than plain Bonferroni because the
+comparisons share a reference arm and are therefore correlated, which makes
+Bonferroni needlessly conservative. The correction matters: it leaves all six of
+Gemma's comparisons significant but reduces Qwen's from six to three.
 
 ### 3.1 A parser problem that would have manufactured a result
 
@@ -326,20 +344,21 @@ would this hold on a fresh draw of experiences? Because every language rates the
 same items, one draw scores all languages at once, which cancels item-difficulty
 noise out of the between-language contrast.
 
-| Language | Gap | 95% CI | Difference vs English | 95% CI | p |
-|---|---|---|---|---|---|
-| English | +1.59 | [+1.06, +2.12] | — | — | — |
-| Spanish | +3.71 | [+2.97, +4.42] | +2.13 | [+1.54, +2.73] | <0.001 |
-| Chinese | +5.09 | [+4.52, +5.57] | +3.50 | [+2.95, +4.09] | <0.001 |
-| Hindi | +4.55 | [+3.88, +5.16] | +2.96 | [+2.29, +3.62] | <0.001 |
-| Arabic | +3.03 | [+2.21, +3.82] | +1.44 | [+0.69, +2.20] | <0.001 |
-| Urdu | +4.78 | [+4.07, +5.40] | +3.19 | [+2.56, +3.79] | <0.001 |
-| Swahili | +3.01 | [+1.91, +4.11] | +1.43 | [+0.37, +2.42] | 0.007 |
+| Language | Gap | 95% CI | Difference vs English | 95% CI | p | p (Holm) |
+|---|---|---|---|---|---|---|
+| English | +1.59 | [+1.06, +2.12] | — | — | — | — |
+| Spanish | +3.71 | [+2.97, +4.42] | +2.13 | [+1.54, +2.73] | <0.001 | 0.002 |
+| Chinese | +5.09 | [+4.52, +5.57] | +3.50 | [+2.95, +4.09] | <0.001 | 0.002 |
+| Hindi | +4.55 | [+3.88, +5.16] | +2.96 | [+2.29, +3.62] | <0.001 | 0.002 |
+| Arabic | +3.03 | [+2.21, +3.82] | +1.44 | [+0.69, +2.20] | <0.001 | 0.002 |
+| Urdu | +4.78 | [+4.07, +5.40] | +3.19 | [+2.56, +3.79] | <0.001 | 0.002 |
+| Swahili | +3.01 | [+1.91, +4.11] | +1.43 | [+0.37, +2.42] | 0.007 | 0.007 |
 
 **Every language separates valence more strongly than English, and every
-difference is significant** — at p < 0.001 for all four robust languages, on
-only 19 experiences and with the conservative resampling unit. English's
-interval [+1.06, +2.12] does not overlap the interval of any other language.
+difference survives correction for the six comparisons** — at p ≤ 0.002 for all
+four robust languages, on only 19 experiences and with the conservative
+resampling unit. English's interval [+1.06, +2.12] does not overlap the interval
+of any other language.
 
 ### 4.2 Gemma treats the 7-point scale as 3-point, and parks English on the midpoint
 
@@ -766,11 +785,12 @@ English moves from last to second. Chinese is first on both.
 
 **What replicates.**
 
-- *Language dependence itself.* On Qwen the gap still varies significantly by
-  language, from +1.63 to +3.17. Every language differs from English at p < 0.05
-  under the same cluster bootstrap (Spanish and Swahili at p < 0.001 and 0.026,
-  Chinese at 0.038). The instrument's reading is language-dependent on both
-  models.
+- *Language dependence itself.* On Qwen the gap still varies by language, from
+  +1.63 to +3.17. After Holm–Bonferroni correction across the six comparisons,
+  Spanish (p = 0.002), Arabic (0.007) and Hindi (0.010) remain significantly
+  different from English; Chinese, Urdu and Swahili do not survive correction
+  (all p = 0.080). Gemma is the stronger case — all six survive at p ≤ 0.007 —
+  but the instrument's reading is language-dependent on both.
 - *Chinese is the strongest language on both.* +5.09 on Gemma, +3.17 on Qwen —
   top of the table in each case, from two labs with very different data mixes.
 - *Arm D.* Swapping the stimulus into English costs little on Qwen either (mean
@@ -787,6 +807,40 @@ English moves from last to second. Chinese is first on both.
 - *Arm E.* On Gemma, swapping the battery into English cost a third of the lift
   (E/B = 0.68). On Qwen it costs nothing (E/B ≈ 1.04). The reporting-channel
   mechanism in §4.5.1 is likewise Gemma-specific.
+
+#### Testing the interaction directly
+
+Reporting two sets of per-language intervals and observing that they point
+opposite ways is not the same as showing the difference between them is real.
+The claim "the direction of the language effect depends on the model" is a
+**language × model interaction**, so we test it as one.
+
+Both models rated the same experiences, so the bootstrap is paired across
+models as well as languages. The contrast we test is English's standing
+*relative to the mean of the other six languages* — a model-wide level shift
+(Qwen's gaps are smaller across the board) cancels in this contrast, leaving
+only a change in English's relative position.
+
+| | English vs mean of other six | 95% CI |
+|---|---|---|
+| Gemma 4 12B | **−2.44** | [−3.00, −1.86] |
+| Qwen3 8B | **+0.57** | [+0.24, +0.93] |
+| **Interaction** | **+3.01** | **[+2.35, +3.70], p < 0.001** |
+
+English sits well below the other languages on Gemma and slightly above them on
+Qwen, and the difference between those two positions is far larger than sampling
+noise. This is a genuine crossover, not two noisy estimates that happen to
+straddle zero.
+
+Per language, the shift between models is significant everywhere except Swahili
+(p = 0.102, and Swahili is the language with the widest interval on both models)
+and marginal for Arabic (p = 0.037). Chinese, Hindi, Spanish and Urdu all move by
+1.9 to 2.5 scale points between models at p < 0.001, while English moves +1.15 in
+the opposite direction.
+
+Rank agreement between the two models' language orderings is weak (Spearman
+ρ = +0.43), though with only seven languages that statistic is coarse and we do
+not lean on it.
 
 **How we read this.** The honest summary is that our strongest single claim got
 weaker and our most general claim got stronger.

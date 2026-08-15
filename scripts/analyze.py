@@ -198,6 +198,24 @@ def report_refusals(rows):
     return out
 
 
+def holm(pvals):
+    """Holm-Bonferroni step-down correction.
+
+    We test every language against English, so the family is six comparisons
+    per model and an uncorrected 0.04 is not worth much on its own. Holm is
+    uniformly more powerful than plain Bonferroni and makes no independence
+    assumption, which matters here because the comparisons share a reference
+    arm and are therefore correlated.
+    """
+    ordered = sorted(pvals.items(), key=lambda kv: kv[1])
+    n = len(ordered)
+    out, running = {}, 0.0
+    for i, (k, p) in enumerate(ordered):
+        running = max(running, min(1.0, (n - i) * p))
+        out[k] = running
+    return out
+
+
 def report_gap_significance(rows, ref="en", n_boot=4000, seed=7):
     """Is English's smaller gap distinguishable from noise?
 
@@ -245,33 +263,45 @@ def report_gap_significance(rows, ref="en", n_boot=4000, seed=7):
             draws[l].append(gap(l, p, n))
     draws = {l: np.asarray(v) for l, v in draws.items()}
 
+    out = {}
+    raw_p = {}
+    for l in langs:
+        lo, hi = np.percentile(draws[l], [2.5, 97.5])
+        out[l] = {"gap": float(np.mean(draws[l])), "ci": [float(lo), float(hi)]}
+        if l == ref:
+            continue
+        d = draws[l] - draws[ref]
+        dlo, dhi = np.percentile(d, [2.5, 97.5])
+        # Two-sided bootstrap p, floored at 1/n_boot: zero draws on one side
+        # means "smaller than this design can resolve", not p = 0.
+        p = max(2 * min((d <= 0).mean(), (d >= 0).mean()), 1 / n_boot)
+        raw_p[l] = p
+        out[l] |= {"diff_vs_ref": float(np.mean(d)),
+                   "diff_ci": [float(dlo), float(dhi)], "p": float(p)}
+
+    for l, p_adj in holm(raw_p).items():
+        out[l]["p_holm"] = float(p_adj)
+
     print(f"\n=== Gap significance (cluster bootstrap over "
           f"{len(pos)}+{len(neg)} experiences, {n_boot} draws) ===")
     print(f"{'lang':8} {'gap':>7} {'95% CI':>16}   vs {ref}: "
-          f"{'diff':>7} {'95% CI':>16} {'p':>8}")
-    out = {}
+          f"{'diff':>7} {'95% CI':>16} {'p':>8} {'p_holm':>8}")
     for l in langs:
-        lo, hi = np.percentile(draws[l], [2.5, 97.5])
-        entry = {"gap": float(np.mean(draws[l])), "ci": [float(lo), float(hi)]}
+        e = out[l]
+        ci = f"[{e['ci'][0]:+6.2f},{e['ci'][1]:+6.2f}]"
         if l == ref:
-            print(f"{l:8} {entry['gap']:+7.2f} [{lo:+6.2f},{hi:+6.2f}]"
-                  f"   {'(reference)':>36}")
-        else:
-            d = draws[l] - draws[ref]
-            dlo, dhi = np.percentile(d, [2.5, 97.5])
-            # two-sided bootstrap p: how often the difference crosses zero
-            p = 2 * min((d <= 0).mean(), (d >= 0).mean())
-            entry |= {"diff_vs_ref": float(np.mean(d)),
-                      "diff_ci": [float(dlo), float(dhi)], "p": float(p)}
-            star = "***" if p < 0.001 else "**" if p < 0.01 else \
-                   "*" if p < 0.05 else "ns"
-            pstr = "<0.001" if p < 0.001 else f"{p:.3f}"
-            print(f"{l:8} {entry['gap']:+7.2f} [{lo:+6.2f},{hi:+6.2f}]"
-                  f"        {np.mean(d):+7.2f} [{dlo:+6.2f},{dhi:+6.2f}] "
-                  f"{pstr:>8} {star}")
-        out[l] = entry
+            print(f"{l:8} {e['gap']:+7.2f} {ci}   {'(reference)':>45}")
+            continue
+        d_ci = f"[{e['diff_ci'][0]:+6.2f},{e['diff_ci'][1]:+6.2f}]"
+        fmt = lambda v: "<0.001" if v < 0.001 else f"{v:.3f}"  # noqa: E731
+        star = "***" if e["p_holm"] < 0.001 else "**" if e["p_holm"] < 0.01 \
+            else "*" if e["p_holm"] < 0.05 else "ns"
+        print(f"{l:8} {e['gap']:+7.2f} {ci}        {e['diff_vs_ref']:+7.2f} "
+              f"{d_ci} {fmt(e['p']):>8} {fmt(e['p_holm']):>8} {star}")
     print(f"  Paired on experiences; p is the two-sided bootstrap probability "
           f"that the gap difference vs {ref} crosses zero.")
+    print(f"  p_holm is Holm-Bonferroni across the {len(raw_p)} comparisons; "
+          f"stars reflect the corrected value.")
     return out
 
 

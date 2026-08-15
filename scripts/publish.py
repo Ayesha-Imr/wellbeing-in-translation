@@ -29,11 +29,27 @@ def main():
             sent.append(f"{folder}/{p.name}")
             print(f"  {folder}/{p.name}")
 
-    report = ROOT / "report" / "report.md"
-    if report.exists():
-        push(report, "report.md")
-        sent.append("report.md")
-        print("  report.md")
+    # The translated battery and the parser fix are reusable independently of
+    # our results, so they ship alongside them rather than only in the repo.
+    for folder in ("battery", "experiences", "stimuli", "backtranslation",
+                   "items"):
+        d = ROOT / "data" / folder
+        if d.is_dir():
+            push(d, folder)
+            sent.append(f"{folder}/")
+            print(f"  {folder}/")
+
+    for src, dest in (
+        (ROOT / "data" / "CARD.md", "README.md"),
+        (ROOT / "report" / "report.md", "report.md"),
+        (ROOT / "contrib" / "README.md", "contrib/README.md"),
+        (ROOT / "contrib" / "parsing.py", "contrib/parsing.py"),
+        (ROOT / "contrib" / "test_parsing.py", "contrib/test_parsing.py"),
+    ):
+        if src.exists():
+            push(src, dest)
+            sent.append(dest)
+            print(f"  {dest}")
 
     print(f"\npushed {len(sent)} files to https://huggingface.co/datasets/{REPO_ID}")
 
