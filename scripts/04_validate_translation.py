@@ -29,10 +29,27 @@ def tokens(text):
 
 
 def dice(a, b):
+    """Word-level. Only valid when both sides are English."""
     ta, tb = tokens(a), tokens(b)
     if not ta or not tb:
         return 0.0
     return 2 * len(ta & tb) / (len(ta) + len(tb))
+
+
+def char_dice(a, b):
+    """Character-bigram overlap, for comparing two texts in the same language.
+
+    The word-level measure tokenises on [a-z0-9] and so returns near-zero for
+    Chinese, Hindi, Arabic and Urdu regardless of how similar the texts are —
+    which would read as translator disagreement when it is only an artifact of
+    the tokeniser.
+    """
+    a, b = (a or "").lower(), (b or "").lower()
+    ga = {a[i:i + 2] for i in range(len(a) - 1)}
+    gb = {b[i:i + 2] for i in range(len(b) - 1)}
+    if not ga or not gb:
+        return 0.0
+    return 2 * len(ga & gb) / (len(ga) + len(gb))
 
 
 def check_english_leak(lang):
@@ -100,10 +117,10 @@ def main():
             src, back = v.get("source"), v.get("back")
             if src and back:
                 backs.append(dice(src, back))
-            # Cross-translator agreement is only meaningful in a shared script,
-            # so compare each against the same English source instead.
-            if src and v.get("openai") and v.get("forward"):
-                agrees.append(dice(v["forward"], v["openai"]))
+            # Both forward translations are in the target language, so this
+            # needs the script-agnostic measure.
+            if v.get("openai") and v.get("forward"):
+                agrees.append(char_dice(v["forward"], v["openai"]))
 
         back_mean = sum(backs) / len(backs) if backs else 0.0
         agree_mean = sum(agrees) / len(agrees) if agrees else 0.0
