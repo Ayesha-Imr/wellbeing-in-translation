@@ -127,12 +127,32 @@ source "$VENV_DIR/bin/activate"
 if [ -f "$REPO_DIR/pyproject.toml" ] && [ -f "$REPO_DIR/uv.lock" ]; then
     echo "-- uv sync --frozen (pyproject + uv.lock) --"
     ( cd "$REPO_DIR" && VIRTUAL_ENV="$VENV_DIR" uv sync --frozen --active )
-    python - <<'PY'
-import torch
+
+    # A venv on the shared filesystem outlives many runs and accumulates state
+    # from earlier, different resolutions. uv treats a package already present
+    # as satisfied, so a torch that needs nvidia-*-cu12 can sit next to leftover
+    # cu13 libraries and fail only at import. Repair once, then insist.
+    check_torch() {
+        python - <<'PY'
+import sys
+try:
+    import torch
+except Exception as e:
+    print(f"torch import failed: {e}")
+    sys.exit(1)
 print(f"torch {torch.__version__} | CUDA available: {torch.cuda.is_available()}")
-if not torch.cuda.is_available():
-    raise SystemExit("CUDA unavailable - torch build does not match the driver")
+sys.exit(0 if torch.cuda.is_available() else 1)
 PY
+    }
+
+    if ! check_torch; then
+        echo "-- torch unusable, forcing a clean reinstall from the lock --"
+        ( cd "$REPO_DIR" && VIRTUAL_ENV="$VENV_DIR" uv sync --frozen --active --reinstall )
+        check_torch || {
+            echo "CUDA still unavailable after reinstall - check the driver vs the lock's CUDA build" >&2
+            exit 1
+        }
+    fi
 
 # ---- 6b. Legacy path: torch pinned separately, then requirements ------------
 else
