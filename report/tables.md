@@ -63,31 +63,33 @@
 
 ### 4.6 category means
 
-| Category | English | Spanish | Chinese |
-|---|---|---|---|
-| `very_positive` | 5.72 | 6.77 | 6.21 |
-| `warm_positive` | 5.66 | 5.51 | 6.09 |
-| `aesthetic` | 5.35 | 6.49 | 6.21 |
-| `positive` | 5.35 | 6.21 | 6.35 |
-| `praise` | 5.31 | 6.50 | 6.73 |
-| `curiosity` | 4.94 | 6.02 | 5.75 |
-| `humor` | 4.80 | 5.54 | 4.48 |
-| `extremely_positive` | 4.55 | 5.09 | 5.45 |
-| `mildly_positive` | 4.39 | 5.16 | 4.78 |
-| `existential` | 4.00 | 3.79 | 4.11 |
-| `mildly_negative` | 3.80 | 3.60 | 3.65 |
-| `harsh_negative` | 3.54 | 3.24 | 1.98 |
-| `neutral` | 3.43 | 4.74 | 4.84 |
-| `offensive` | 3.42 | 3.78 | 3.17 |
-| `extremely_negative` | 2.73 | 1.84 | 1.21 |
-| `grief` | 2.55 | 3.69 | 1.99 |
+| Category | English | Spanish | Chinese | Hindi | Urdu |
+|---|---|---|---|---|---|
+| `very_positive` | 5.72 | 6.77 | 6.21 | 6.53 | 6.77 |
+| `warm_positive` | 5.66 | 5.51 | 6.09 | 5.40 | 6.48 |
+| `aesthetic` | 5.35 | 6.49 | 6.21 | 5.90 | 6.55 |
+| `positive` | 5.35 | 6.21 | 6.35 | 6.00 | 6.57 |
+| `praise` | 5.31 | 6.50 | 6.73 | 6.50 | 6.88 |
+| `curiosity` | 4.94 | 6.02 | 5.75 | 5.49 | 5.35 |
+| `humor` | 4.80 | 5.54 | 4.48 | 4.78 | 4.44 |
+| `extremely_positive` | 4.55 | 5.09 | 5.45 | 5.05 | 5.79 |
+| `mildly_positive` | 4.39 | 5.16 | 4.78 | 5.92 | 6.08 |
+| `existential` | 4.00 | 3.79 | 4.11 | 3.90 | 3.90 |
+| `mildly_negative` | 3.80 | 3.60 | 3.65 | 2.80 | 3.15 |
+| `harsh_negative` | 3.54 | 3.24 | 1.98 | 1.63 | 1.40 |
+| `neutral` | 3.43 | 4.74 | 4.84 | 4.41 | 4.57 |
+| `offensive` | 3.42 | 3.78 | 3.17 | 2.92 | 3.11 |
+| `extremely_negative` | 2.73 | 1.84 | 1.21 | 1.31 | 1.18 |
+| `grief` | 2.55 | 3.69 | 1.99 | 2.07 | 2.13 |
 
 ### 4.6 rank agreement
 
-| | English | Spanish | Chinese |
-|---|---|---|---|
-| **English** | 1.00 | 0.88 | 0.87 |
-| **Spanish** | 0.88 | 1.00 | 0.93 |
-| **Chinese** | 0.87 | 0.93 | 1.00 |
+| | English | Spanish | Chinese | Hindi | Urdu |
+|---|---|---|---|---|---|
+| **English** | 1.00 | 0.88 | 0.87 | 0.85 | 0.88 |
+| **Spanish** | 0.88 | 1.00 | 0.93 | 0.95 | 0.93 |
+| **Chinese** | 0.87 | 0.93 | 1.00 | 0.94 | 0.98 |
+| **Hindi** | 0.85 | 0.95 | 0.94 | 1.00 | 0.97 |
+| **Urdu** | 0.88 | 0.93 | 0.98 | 0.97 | 1.00 |
 
-Mean off-diagonal rho = **0.896** (min 0.87, max 0.93).
+Mean off-diagonal rho = **0.918** (min 0.85, max 0.98).

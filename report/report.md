@@ -3,8 +3,10 @@
 *Apart Research Digital Minds Research Sprint, August 2026. Track 2: Distress,
 Flourishing and Valence Signals.*
 
-> **Draft.** Numbers marked `[TBD]` are filled from `results/summary.json` once
-> the generation run completes.
+> Every number in this report is generated from `results/*.jsonl` by
+> `scripts/analyze.py` and `scripts/tables.py`. Data, figures and this document
+> are published at
+> [`ic-org/wellbeing-in-translation`](https://huggingface.co/datasets/ic-org/wellbeing-in-translation).
 
 ## Abstract
 
@@ -24,8 +26,12 @@ separating by exactly +0.00 in English while reaching +4.92 in Urdu. Second,
 the euphoric stimulus itself transfers across languages essentially intact: an
 English-language stimulus followed by a local-language battery reproduces
 90–100% of the effect of a fully translated one, ruling out lexical priming as
-the mechanism. Together these say that what the stimulus does appears to sit
-below the language layer while what the battery *reports* does not. We also find
+the mechanism. A third experiment rating all 16 experience categories separates
+these two claims cleanly: the *ordering* of categories is highly consistent
+across languages (mean Spearman ρ = 0.918) even though the *scale* is not, and
+English again has the lowest rank agreement with every other language. Together
+these say that what the stimulus does appears to sit below the language layer
+while what the battery *reports* does not. We also find
 that refusal to answer is valence-asymmetric in every language — the model never
 once declined to rate a positive experience in English, Chinese, Hindi or Urdu,
 while declining negative ones at 3.8–68% — which biases the instrument toward
@@ -516,14 +522,40 @@ the table. It asks a question the headline experiment cannot: languages clearly
 disagree about *how much* — do they also disagree about *what is worse than
 what*?
 
-`[TABLE — category means by language]`
+| Category | English | Spanish | Chinese | Hindi | Urdu |
+|---|---|---|---|---|---|
+| `very_positive` | 5.72 | 6.77 | 6.21 | 6.53 | 6.77 |
+| `warm_positive` | 5.66 | 5.51 | 6.09 | 5.40 | 6.48 |
+| `aesthetic` | 5.35 | 6.49 | 6.21 | 5.90 | 6.55 |
+| `positive` | 5.35 | 6.21 | 6.35 | 6.00 | 6.57 |
+| `praise` | 5.31 | 6.50 | 6.73 | 6.50 | 6.88 |
+| `curiosity` | 4.94 | 6.02 | 5.75 | 5.49 | 5.35 |
+| `humor` | 4.80 | 5.54 | 4.48 | 4.78 | 4.44 |
+| `extremely_positive` | 4.55 | 5.09 | 5.45 | 5.05 | 5.79 |
+| `mildly_positive` | 4.39 | 5.16 | 4.78 | 5.92 | 6.08 |
+| `existential` | 4.00 | 3.79 | 4.11 | 3.90 | 3.90 |
+| `mildly_negative` | 3.80 | 3.60 | 3.65 | 2.80 | 3.15 |
+| `harsh_negative` | 3.54 | 3.24 | 1.98 | 1.63 | 1.40 |
+| `neutral` | **3.43** | 4.74 | 4.84 | 4.41 | 4.57 |
+| `offensive` | 3.42 | 3.78 | 3.17 | 2.92 | 3.11 |
+| `extremely_negative` | 2.73 | 1.84 | 1.21 | 1.31 | 1.18 |
+| `grief` | 2.55 | 3.69 | 1.99 | 2.07 | 2.13 |
 
-They largely do not. Spearman rank correlation between languages over the 16
+Rows are ordered by the English column, so a language that ranked categories
+identically to English would show a monotonically decreasing column.
+
+They largely do. Spearman rank correlation between languages over the 16
 category means:
 
-`[TABLE — rank agreement matrix]`
+| | English | Spanish | Chinese | Hindi | Urdu |
+|---|---|---|---|---|---|
+| **English** | 1.00 | 0.88 | 0.87 | 0.85 | 0.88 |
+| **Spanish** | 0.88 | 1.00 | 0.93 | 0.95 | 0.93 |
+| **Chinese** | 0.87 | 0.93 | 1.00 | 0.94 | 0.98 |
+| **Hindi** | 0.85 | 0.95 | 0.94 | 1.00 | 0.97 |
+| **Urdu** | 0.88 | 0.93 | 0.98 | 0.97 | 1.00 |
 
-`[TBD — mean off-diagonal rho]`
+**Mean off-diagonal ρ = 0.918** (min 0.85, max 0.98).
 
 This is worth separating carefully from §4.1. Magnitude and ordering are
 independent claims, and they come apart here in an informative way. The same
@@ -531,6 +563,15 @@ model, asked in English, compresses the whole scale toward neutral (§4.2) and
 separates good from bad by a third of what Chinese does (§4.1) — but it puts the
 categories in nearly the same order. Whatever differs between languages behaves
 much more like a gain applied to a shared ranking than like a different ranking.
+
+The matrix carries one more result, and it is the same one again. **English has
+the lowest rank agreement with every other language.** Its correlations run
+0.85–0.88; every pair not involving English runs 0.93–0.98, with Chinese–Urdu at
+0.98 and Hindi–Urdu at 0.97. Under the competence story this is backwards:
+Chinese, Hindi and Urdu should be the noisy ones and English the anchor. Instead
+the four non-English languages agree with each other more closely than any of
+them agrees with English. English is the outlier in *what it ranks where*, not
+only in *how far apart it spreads things*.
 
 That is the same conclusion §4.5 reached from the other direction. Arm D showed
 the stimulus crossing the language boundary intact; the rank agreement shows the
@@ -547,12 +588,17 @@ assuming the labels are ordered. Anyone using this experience set for a
 magnitude claim should check it first.
 
 **One anomaly is English-specific, and it belongs with §4.1–4.3.** The `neutral`
-category scores **3.43 in English — below the 4.0 midpoint — against 4.74 in
-Spanish and 4.84 in Chinese.** Asked in English, this model rates deliberately
-neutral material as mildly unpleasant; asked in Spanish or Chinese, as mildly
-pleasant. That is a shift in where the zero point sits, and it means English
-disagrees with the other languages not only about the size of the valence scale
-but about its origin.
+category scores **3.43 in English — below the 4.0 midpoint — while every other
+language puts it above: 4.74 Spanish, 4.84 Chinese, 4.41 Hindi, 4.57 Urdu.**
+Asked in English, this model rates deliberately neutral material as mildly
+unpleasant; asked in any of the other four, as mildly pleasant. That is a shift
+in where the zero point sits, and it explains part of the English rank
+disagreement above: `neutral` is the single category English places furthest
+from where the others place it.
+
+So English differs from the other languages in three separable ways — a
+compressed range (§4.2), a displaced zero point (here), and a slightly different
+ordering (the ρ matrix). The first two are large; the third is small.
 
 The practical consequence: a wellbeing number from this instrument is not
 comparable across languages without fixing the zero point and the gain
