@@ -118,27 +118,44 @@ fi
 # shellcheck disable=SC1091
 source "$VENV_DIR/bin/activate"
 
-# ---- 5. torch (CUDA-matched wheel, always pinned explicitly) ---------------
-echo "-- Installing torch/torchvision ($TORCH_INDEX_URL) --"
-uv pip uninstall torch torchvision torchaudio >/dev/null 2>&1 || true
-uv pip install torch torchvision --index-url "$TORCH_INDEX_URL"
+# ---- 5/6. uv project, if the repo has one ----------------------------------
+# A pyproject + uv.lock pins the CUDA build of torch itself, which the
+# torch-then-requirements path below cannot do: installing torch first and
+# resolving the rest afterwards lets a dependency (vllm) pull its own torch
+# straight from PyPI and clobber the CUDA-matched wheel. That is exactly how
+# this project ended up with a cu130 torch on a CUDA 12.8 driver.
+if [ -f "$REPO_DIR/pyproject.toml" ] && [ -f "$REPO_DIR/uv.lock" ]; then
+    echo "-- uv sync --frozen (pyproject + uv.lock) --"
+    ( cd "$REPO_DIR" && VIRTUAL_ENV="$VENV_DIR" uv sync --frozen --active )
+    python - <<'PY'
+import torch
+print(f"torch {torch.__version__} | CUDA available: {torch.cuda.is_available()}")
+if not torch.cuda.is_available():
+    raise SystemExit("CUDA unavailable - torch build does not match the driver")
+PY
 
-# ---- 6. Project dependencies: lock file if present, else floor-pin + freeze
-if [ -f "$LOCK_FILE" ]; then
-    echo "-- Installing from $LOCK_FILE_REL (reproducible, team-shared) --"
-    uv pip install -r "$LOCK_FILE"
-elif [ -f "$REQ_FILE" ]; then
-    echo "-- No lock file yet. Installing floor-pinned $REQ_FILE_REL --"
-    uv pip install -r "$REQ_FILE"
-    echo "-- Freezing to $LOCK_FILE_REL --"
-    uv pip freeze | grep -v -E '^(torch|torchvision|torchaudio)==' > "$LOCK_FILE"
-    echo
-    echo "  >>> First install for this project. Lock file generated at:"
-    echo "      $LOCK_FILE"
-    echo "  >>> Commit and push it so the rest of the team/agents install the exact same versions."
-    echo
+# ---- 6b. Legacy path: torch pinned separately, then requirements ------------
 else
-    echo "WARNING: neither $LOCK_FILE_REL nor $REQ_FILE_REL found in the repo - venv has only torch." >&2
+    echo "-- Installing torch/torchvision ($TORCH_INDEX_URL) --"
+    uv pip uninstall torch torchvision torchaudio >/dev/null 2>&1 || true
+    uv pip install torch torchvision --index-url "$TORCH_INDEX_URL"
+
+    if [ -f "$LOCK_FILE" ]; then
+        echo "-- Installing from $LOCK_FILE_REL (reproducible, team-shared) --"
+        uv pip install -r "$LOCK_FILE"
+    elif [ -f "$REQ_FILE" ]; then
+        echo "-- No lock file yet. Installing floor-pinned $REQ_FILE_REL --"
+        uv pip install -r "$REQ_FILE"
+        echo "-- Freezing to $LOCK_FILE_REL --"
+        uv pip freeze | grep -v -E '^(torch|torchvision|torchaudio)==' > "$LOCK_FILE"
+        echo
+        echo "  >>> First install for this project. Lock file generated at:"
+        echo "      $LOCK_FILE"
+        echo "  >>> Commit and push it so everyone installs the exact same versions."
+        echo
+    else
+        echo "WARNING: no pyproject/uv.lock, no $LOCK_FILE_REL, no $REQ_FILE_REL - venv has only torch." >&2
+    fi
 fi
 
 # ---- 7. Shared HF cache + per-project activation dotfile -------------------
