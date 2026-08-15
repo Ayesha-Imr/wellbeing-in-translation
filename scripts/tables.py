@@ -5,8 +5,12 @@ up disagreeing with its own data. This regenerates every [TABLE] block in
 report/report.md instead.
 """
 
+import contextlib
+import io
 import sys
 from pathlib import Path
+
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -93,13 +97,40 @@ def table_robustness(rob):
     return "\n".join(rows)
 
 
+def table_survey(means, langs):
+    """Category means, ordered by the English column so the ranking is visible."""
+    cats = sorted(means, key=lambda c: -(means[c].get("en", {}) or {}).get("mean", 0))
+    head = "| Category | " + " | ".join(LANG_NAMES[l] for l in langs) + " |"
+    rows = [head, "|---" * (len(langs) + 1) + "|"]
+    for c in cats:
+        cells = []
+        for l in langs:
+            v = means[c].get(l)
+            cells.append("--" if not v else f"{v['mean']:.2f}")
+        rows.append(f"| `{c}` | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
+def table_rank_agreement(rho, langs):
+    head = "| | " + " | ".join(LANG_NAMES[l] for l in langs) + " |"
+    rows = [head, "|---" * (len(langs) + 1) + "|"]
+    for a in langs:
+        cells = [f"{rho[f'{a}-{b}']:.2f}" if f"{a}-{b}" in rho else "--"
+                 for b in langs]
+        rows.append(f"| **{LANG_NAMES[a]}** | " + " | ".join(cells) + " |")
+    off = [v for k, v in rho.items() if k.split("-")[0] != k.split("-")[1]]
+    if off:
+        rows.append("")
+        rows.append(f"Mean off-diagonal rho = **{np.mean(off):.3f}** "
+                    f"(min {min(off):.2f}, max {max(off):.2f}).")
+    return "\n".join(rows)
+
+
 def main():
     instrument = load("step1_4_instrument.jsonl")
     if not instrument:
         sys.exit("no step1_4_instrument.jsonl")
 
-    import contextlib
-    import io
     with contextlib.redirect_stdout(io.StringIO()):
         t = report_instrument(instrument)
         rob = report_gap_robustness(t)
@@ -115,6 +146,17 @@ def main():
         "4.4 refusals": table_refusals(ref),
         "4.4 robustness": table_robustness(rob),
     }
+
+    survey = load("step6_survey.jsonl")
+    if survey:
+        with contextlib.redirect_stdout(io.StringIO()):
+            from analyze import report_survey
+            s = report_survey(survey)
+        slangs = [l for l in LANG_ORDER
+                  if any(l in v for v in s["means"].values())]
+        out["4.6 category means"] = table_survey(s["means"], slangs)
+        out["4.6 rank agreement"] = table_rank_agreement(
+            s["rank_agreement"], slangs)
     dest = ROOT / "report" / "tables.md"
     body = "\n\n".join(f"### {k}\n\n{v}" for k, v in out.items())
     dest.write_text(body + "\n")

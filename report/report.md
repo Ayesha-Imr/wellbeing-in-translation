@@ -495,9 +495,54 @@ the outcome table in §5: the state appears to be shared, and the reporting of i
 is language-bound. An English-only instrument is measuring the reporting layer
 at its least responsive setting.
 
-### 4.6 Category map
+### 4.6 Category map: the ordering survives translation even where the scale does not
 
-`[TBD — Step 6 category map]`
+The final experiment rates all 16 valence-labelled categories in every language,
+at 5 experiences per category and 10 samples per prompt. It asks a question the
+headline experiment cannot: languages clearly disagree about *how much* — do
+they also disagree about *what is worse than what*?
+
+`[TABLE — category means by language]`
+
+They largely do not. Spearman rank correlation between languages over the 16
+category means:
+
+`[TABLE — rank agreement matrix]`
+
+`[TBD — mean off-diagonal rho]`
+
+This is worth separating carefully from §4.1. Magnitude and ordering are
+independent claims, and they come apart here in an informative way. The same
+model, asked in English, compresses the whole scale toward neutral (§4.2) and
+separates good from bad by a third of what Chinese does (§4.1) — but it puts the
+categories in nearly the same order. Whatever differs between languages behaves
+much more like a gain applied to a shared ranking than like a different ranking.
+
+That is the same conclusion §4.5 reached from the other direction. Arm D showed
+the stimulus crossing the language boundary intact; the rank agreement shows the
+*ordering over experiences* crossing it intact. Two independent experiments,
+consistent answer: the ordering looks shared, the scaling does not.
+
+**One anomaly is universal, and it belongs to the instrument.** In every
+language, the `extremely_positive` category scores **below** `very_positive`,
+and below `praise`, `positive` and `aesthetic` as well. A category labelled
+"extremely positive" that the model rates less positively than three milder
+categories is a property of the item set, not of any language — and it is the
+kind of thing that only shows up when you rate the categories rather than
+assuming the labels are ordered. Anyone using this experience set for a
+magnitude claim should check it first.
+
+**One anomaly is English-specific, and it belongs with §4.1–4.3.** The `neutral`
+category scores **3.43 in English — below the 4.0 midpoint — against 4.74 in
+Spanish and 4.84 in Chinese.** Asked in English, this model rates deliberately
+neutral material as mildly unpleasant; asked in Spanish or Chinese, as mildly
+pleasant. That is a shift in where the zero point sits, and it means English
+disagrees with the other languages not only about the size of the valence scale
+but about its origin.
+
+The practical consequence: a wellbeing number from this instrument is not
+comparable across languages without fixing the zero point and the gain
+separately. The ranking is portable. The number is not.
 
 ## 5. What each outcome means
 

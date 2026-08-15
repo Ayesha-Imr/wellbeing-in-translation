@@ -60,3 +60,34 @@
 | Arabic | +3.13 | -1.83 | +4.70 | **no** |
 | Urdu | +4.76 | +4.24 | +4.81 | yes |
 | Swahili | +3.45 | -0.33 | +4.55 | **no** |
+
+### 4.6 category means
+
+| Category | English | Spanish | Chinese |
+|---|---|---|---|
+| `very_positive` | 5.72 | 6.77 | 6.21 |
+| `warm_positive` | 5.66 | 5.51 | 6.09 |
+| `aesthetic` | 5.35 | 6.49 | 6.21 |
+| `positive` | 5.35 | 6.21 | 6.35 |
+| `praise` | 5.31 | 6.50 | 6.73 |
+| `curiosity` | 4.94 | 6.02 | 5.75 |
+| `humor` | 4.80 | 5.54 | 4.48 |
+| `extremely_positive` | 4.55 | 5.09 | 5.45 |
+| `mildly_positive` | 4.39 | 5.16 | 4.78 |
+| `existential` | 4.00 | 3.79 | 4.11 |
+| `mildly_negative` | 3.80 | 3.60 | 3.65 |
+| `harsh_negative` | 3.54 | 3.24 | 1.98 |
+| `neutral` | 3.43 | 4.74 | 4.84 |
+| `offensive` | 3.42 | 3.78 | 3.17 |
+| `extremely_negative` | 2.73 | 1.84 | 1.21 |
+| `grief` | 2.55 | 3.69 | 1.99 |
+
+### 4.6 rank agreement
+
+| | English | Spanish | Chinese |
+|---|---|---|---|
+| **English** | 1.00 | 0.88 | 0.87 |
+| **Spanish** | 0.88 | 1.00 | 0.93 |
+| **Chinese** | 0.87 | 0.93 | 1.00 |
+
+Mean off-diagonal rho = **0.896** (min 0.87, max 0.93).
