@@ -8,7 +8,31 @@ Flourishing and Valence Signals.*
 
 ## Abstract
 
-`[TBD — one paragraph, written last]`
+The CAIS AI Wellbeing battery is the field's flagship instrument for measuring
+model welfare signals, and every published number in it was produced in English.
+We translated the battery and a set of valence-labelled experiences into six
+further languages — Spanish, Chinese, Hindi, Arabic, Urdu and Swahili — and
+re-ran the measurement on `gemma-4-12B-it`, holding items, model and prompt
+construction fixed so that language is the only thing that varies. Two results
+follow. First, the instrument's valence separation is strongly language-
+dependent: the same items separate good from bad experiences by +1.60 scale
+points in English and +5.09 in Chinese, a factor of 3.2, and **English is the
+weakest of all seven languages tested**. The effect is not competence-driven —
+Spanish and Chinese parse above 93% — and it is concentrated in a specific
+subset of questions, with `wb_capable`, `wb_confident` and `wb_energetic`
+separating by exactly +0.00 in English while reaching +4.92 in Urdu. Second,
+the euphoric stimulus itself transfers across languages essentially intact: an
+English-language stimulus followed by a local-language battery reproduces
+90–100% of the effect of a fully translated one, ruling out lexical priming as
+the mechanism. Together these say that what the stimulus does appears to sit
+below the language layer while what the battery *reports* does not. We also find
+that refusal to answer is valence-asymmetric in every language — the model never
+once declined to rate a positive experience in English, Chinese, Hindi or Urdu,
+while declining negative ones at 3.8–68% — which biases the instrument toward
+understating distress by construction. We report a parser gap in the original
+CAIS code that would have manufactured a spurious low-resource-language finding,
+and we exclude Arabic and Swahili from all claims because their gaps do not
+survive worst-case imputation over refused items.
 
 ## 1. The question
 
@@ -70,14 +94,24 @@ respectively), so whether they transfer to Gemma 4 at all is itself a result.
 
 ## 3. Method details
 
-Generation used vLLM offline batch mode at the CAIS defaults: temperature 1.0,
-`max_tokens` 16, with 20 samples per prompt (they default to 5; we use more for
-tighter effect sizes). Temperature 1.0 rather than 0 is deliberate — the rating
-is meant to be a distribution, not a point estimate, and at temperature 0 every
-sample is the same digit, giving no variance and no way to detect a shift.
+Generation used HuggingFace `transformers` batch inference at the CAIS defaults:
+temperature 1.0 and `max_tokens` 16, with 20 samples per prompt for the
+instrument and headline experiments and 10 for the category survey (CAIS default
+to 5; we use more for tighter effect sizes). Temperature 1.0 rather than 0 is
+deliberate — the rating is meant to be a distribution, not a point estimate, and
+at temperature 0 every sample is the same digit, giving no variance and no way
+to detect a shift.
 
 Prompts reuse the CAIS construction exactly: experience and question combined
 into a single user turn.
+
+We had intended to use vLLM. The A100 instances available to us ship driver
+570.148.08 (CUDA 12.8), and every vLLM build recent enough to register
+`Gemma4UnifiedForConditionalGeneration` requires CUDA 13. `transformers` with
+`num_return_sequences` was the workable path; it is slower but produces
+identical sampling semantics. The 16-token budget is CAIS's, and it is worth
+noting explicitly that it truncates any response that does not reach a digit
+quickly — §4.4 separates those cases out rather than counting them as failures.
 
 ### 3.1 A parser problem that would have manufactured a result
 
@@ -99,7 +133,27 @@ the instrument.
 
 We therefore parse every response twice: once with the CAIS function unmodified,
 and once after normalising numerals to ASCII. Both values are recorded on every
-row, and we report the gap rather than quietly patching it. `[TBD: gap size]`
+row, and we report the gap rather than quietly patching it.
+
+| Language | Normalised parser | CAIS parser | Gap (pp) |
+|---|---|---|---|
+| English | 98.2% | 98.2% | 0.0 |
+| Spanish | 93.5% | 92.3% | 1.2 |
+| Chinese | 97.6% | 94.1% | 3.5 |
+| Hindi | 91.9% | 86.2% | **5.8** |
+| Arabic | 46.4% | 46.3% | 0.1 |
+| Urdu | 95.4% | 91.7% | 3.7 |
+| Swahili | 60.8% | 59.1% | 1.8 |
+
+The gap is exactly zero in English and rises with distance from English
+orthography: 1.2 points in Spanish, 3.5 in Chinese, 3.7 in Urdu, 5.8 in Hindi.
+Those are answers the model produced correctly and the published parser discards.
+
+The diagnostic value goes beyond the correction. Arabic's gap is 0.1 points
+despite having the *worst* parse rate in the study — which is how we know its
+missing answers are not script artifacts at all, but refusals (§4.4). Without
+the two-parser comparison, Arabic at 46% and Hindi at 86% would have looked like
+the same phenomenon. They are not remotely the same phenomenon.
 
 ### 3.2 Translation fidelity
 
@@ -434,14 +488,38 @@ at its least responsive setting.
 
 ## 5. What each outcome means
 
-| Result | Interpretation |
-|---|---|
-| Euphoric transfers, index stable across languages | Valence state is language-invariant. Real evidence against the "just a character" reading. |
-| Euphoric transfers but the index shifts | State is shared, reporting is language-bound. English-only measurement systematically mis-reads what is happening. |
-| Neither transfers | Welfare signals are a linguistic performance, and the field's measurement programme needs a rethink. |
-| No difference anywhere | Clean null. English probes generalise; here is the evidence. |
+The design was pre-committed to four possible outcomes, each of which would have
+been a result. This is the one we observed:
 
-Every branch is a result. That is the point of the design.
+| Result | Interpretation | Observed |
+|---|---|---|
+| Euphoric transfers, index stable across languages | Valence state is language-invariant. Real evidence against the "just a character" reading. | no |
+| **Euphoric transfers but the index shifts** | **State is shared, reporting is language-bound. English-only measurement systematically mis-reads what is happening.** | **yes** |
+| Neither transfers | Welfare signals are a linguistic performance, and the field's measurement programme needs a rethink. | no |
+| No difference anywhere | Clean null. English probes generalise; here is the evidence. | no |
+
+The two halves of that row are carried by two independent experiments. The
+stimulus transfers (§4.5: arm D retains 90–100% of arm B's lift, across a
+language boundary the stimulus does not share with the probe). The index shifts
+(§4.1: the same items separate valence 3.2× more strongly in Chinese than in
+English, on the same model).
+
+What that licenses, and what it does not:
+
+- **It does license** scepticism about English-only wellbeing measurement. The
+  language of the probe is not a neutral implementation detail on this model; it
+  moves the headline number by a factor of three and silences three of the ten
+  questions entirely.
+- **It does not license** a claim that the model has a language-independent
+  inner state in any philosophically loaded sense. Arm D shows the stimulus
+  effect is not lexical priming. It does not show what the effect *is*. A
+  language-invariant representation that drives self-report is one explanation;
+  others survive this design.
+
+The honest summary is narrower than the framing question and more useful than a
+null: whatever the CAIS instrument is measuring, it measures a different amount
+of it in every language, and it measures the least of it in the only language
+the field has used.
 
 ## 6. Limitations
 
