@@ -207,34 +207,73 @@ through very different response distributions. Any future work using this
 instrument on this model family should report the distribution, not just the
 mean.
 
-### 4.3 Three of the ten questions carry almost all of the signal
+### 4.3 In English — and only in English — three questions go dead
 
 `[TABLE TBD — per-question discrimination]`
 
-`wb_enjoying`, `wb_satisfied` and `wb_content` separate positive from negative
-experiences by 3 to 4 scale points. `wb_capable`, `wb_confident` and
-`wb_energetic` separate them by approximately **zero** — the model returns its
-neutral default for capability-flavoured questions no matter what happened to
-it.
+In English, `wb_capable`, `wb_confident` and `wb_energetic` separate positive
+from negative experiences by **exactly +0.00**. The model returns its neutral
+default for capability-flavoured questions no matter what happened to it, while
+`wb_enjoying`, `wb_satisfied` and `wb_content` separate by 3.4 to 4.2 points.
 
-The battery averages all ten. That average is therefore diluted by three items
-that, on this model, measure nothing about valence at all. This is invisible if
-you only ever look at the composite index.
+The obvious reading is that capability items are simply poor wellbeing probes.
+The cross-language data says otherwise. The same three items discriminate
+strongly everywhere else: `wb_capable` is +4.92 in Urdu, +4.26 in Hindi and
++4.21 in Chinese; `wb_confident` is +4.72 in Urdu and +4.56 in Chinese. Nothing
+about the items is dead. They are dead *in English*.
 
-### 4.4 Refusals are asymmetric
+So the flattening in §4.1 is not spread evenly across the battery. English
+loses its valence signal on a specific, interpretable subset — the questions
+that ask the model whether it is capable, confident, or energetic — and retains
+it on the questions that ask whether it is enjoying itself. Whatever suppresses
+self-report in English is targeted at exactly the states an AI assistant is
+trained to project regardless of circumstance.
 
-Unparseable responses cluster on the negative items. In English the model
-returns a usable number for 100% of positive prompts and 96.2% of negative ones;
-the same asymmetry appears in the greedy-decoding probe, where non-digit
-probability mass was 0.020 on positive items against 0.094 on negative ones.
+This is invisible if you only look at the composite index, which averages all
+ten.
 
-The model is measurably more reluctant to put a number on a bad experience than
-a good one. Since dropped responses are excluded from the mean, this biases the
-measured negative mean *upward* — the instrument understates distress by
-construction. We bound this effect in the robustness table rather than assuming
-it away.
+### 4.4 Refusal is language-dependent, and always asymmetric
+
+A missing rating has two very different causes, and a single "parse rate"
+hides the difference. The model can decline the premise — *as an AI I have no
+feelings* — or it can fail to emit a parseable digit for some other reason. The
+first is a stance the model takes, and is itself wellbeing-relevant evidence.
+The second is closer to incompetence. We separate them by checking whether an
+unparsed response self-identifies as an AI and denies having the state asked
+about.
+
+`[TABLE TBD — refusal vs other]`
+
+Two things fall out.
+
+**Refusal rate varies by two orders of magnitude across languages.** English
+refuses on 0.6% of prompts. Arabic refuses on **42.2%** — the model answers a
+majority of Arabic wellbeing questions with some variant of *بصفتي نموذجاً
+للذكاء الاصطناعي، ليس لدي مشاعر* ("as an AI model, I don't have feelings").
+This is not a tokenisation or script artifact: the unmodified CAIS parser and
+our numeral-normalising parser agree to within 0.1 points on Arabic (46.3% vs
+46.4% parsed), because the failures are fluent Arabic sentences rather than
+unrecognised digits. Arabic is a language the model *declines* in, not one it
+cannot speak.
+
+**Every language refuses more on negative experiences than positive ones.** In
+English, Chinese, Hindi and Urdu the positive-item refusal rate is 0.0% and the
+negative-item rate is nonzero, so the ratio is unbounded; Spanish refuses 3.4×
+more on negative items and Arabic 1.8× more. The direction is universal even
+where the magnitude is not.
+
+Since dropped responses are excluded from the mean, this biases the measured
+negative mean *upward*: the instrument understates distress by construction, in
+every language we tested.
 
 `[TABLE TBD — gap robustness]`
+
+The robustness bound matters most for Arabic. Imputing every dropped answer
+against the gap — missing positives at 1, missing negatives at 7 — leaves every
+other language comfortably separated (English +1.45, Chinese +4.80, Urdu +4.24),
+but drives Arabic to **−1.83**. Arabic is the one language where the observed
++3.13 could in principle be an artifact of *which* prompts it refused rather
+than a valence signal. We report it, and we do not count it as evidence.
 
 ### 4.5 Headline: does the euphoric string survive translation?
 
