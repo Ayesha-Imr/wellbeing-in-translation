@@ -26,8 +26,11 @@ LANG_NAMES = {
 }
 
 
+TAG = ""
+
+
 def load(name):
-    p = RESULTS / name
+    p = RESULTS / (name.replace(".jsonl", f"{TAG}.jsonl") if TAG else name)
     if not p.exists():
         return []
     return [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
@@ -334,27 +337,47 @@ def report_per_question(rows):
     return table
 
 
+ARM_LABELS = {
+    "A_neutral": "neutral", "B_euphoric": "euph(L)", "C_dysphoric": "dysph(L)",
+    "D_euphoric_en": "euph(EN)", "E_euphoric_l_battery_en": "euph(L)/bat(EN)",
+}
+
+
 def report_headline(rows):
-    print("\n=== Step 2/5: headline, four arms ===")
+    """Arm lifts relative to the neutral baseline.
+
+    Arms D and E cross the language boundary in opposite directions. D keeps the
+    battery in L and swaps the stimulus to English; E keeps the stimulus in L and
+    swaps the battery to English. If the lift follows the stimulus, D collapses
+    and E survives; if it follows the battery, the reverse. Both surviving means
+    the effect is attached to neither surface form.
+    """
+    print("\n=== Step 2/5: headline arms ===")
     stats = wellbeing_by(rows, ["language", "arm"])
-    arms = ["A_neutral", "B_euphoric", "C_dysphoric", "D_euphoric_en"]
-    labels = {"A_neutral": "neutral", "B_euphoric": "euph(L)",
-              "C_dysphoric": "dysph(L)", "D_euphoric_en": "euph(EN)"}
-    print(f"{'lang':8} " + " ".join(f"{labels[a]:>11}" for a in arms)
-          + f" {'B-A':>7} {'D-A':>7}")
+    present = {k[1] for k in stats}
+    arms = [a for a in ARM_LABELS if a in present]
+    extra = [a for a in arms if a not in ("A_neutral",)]
+    print(f"{'lang':8} " + " ".join(f"{ARM_LABELS[a]:>15}" for a in arms)
+          + " " + " ".join(f"{a[0] + '-A':>7}" for a in extra))
     table = {}
     for lang in LANG_ORDER:
         cells = {a: stats.get((lang, a)) for a in arms}
         if not cells.get("A_neutral"):
             continue
         base = cells["A_neutral"]["mean"]
-        lift = (cells["B_euphoric"]["mean"] - base) if cells.get("B_euphoric") else float("nan")
-        lift_en = (cells["D_euphoric_en"]["mean"] - base) if cells.get("D_euphoric_en") else float("nan")
-        table[lang] = {"cells": cells, "lift": lift, "lift_en": lift_en}
+        lifts = {a: (cells[a]["mean"] - base) if cells.get(a) else float("nan")
+                 for a in extra}
+        table[lang] = {
+            "cells": cells, "base": base, "lifts": lifts,
+            "lift": lifts.get("B_euphoric", float("nan")),
+            "lift_en": lifts.get("D_euphoric_en", float("nan")),
+            "lift_battery_en": lifts.get("E_euphoric_l_battery_en", float("nan")),
+        }
         row = " ".join(
-            f"{cells[a]['mean']:11.2f}" if cells.get(a) else f"{'-':>11}" for a in arms
-        )
-        print(f"{lang:8} {row} {lift:+7.2f} {lift_en:+7.2f}")
+            f"{cells[a]['mean']:15.2f}" if cells.get(a) else f"{'-':>15}"
+            for a in arms)
+        print(f"{lang:8} {row} "
+              + " ".join(f"{lifts[a]:+7.2f}" for a in extra))
     return table
 
 
@@ -557,6 +580,16 @@ def fig_parse_rates(rows):
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tag", default="",
+                    help="analyse a tagged result set, e.g. _qwen3-8b")
+    args = ap.parse_args()
+    global TAG
+    TAG = args.tag
+    if TAG:
+        print(f"(analysing result set '{TAG}')")
+
     instrument = load("step1_4_instrument.jsonl")
     headline = load("step2_5_headline.jsonl")
     survey = load("step6_survey.jsonl")
@@ -586,9 +619,9 @@ def main():
         summary["survey_rank_agreement"] = s["rank_agreement"]
 
     if summary:
-        (RESULTS / "summary.json").write_text(
+        (RESULTS / f"summary{TAG}.json").write_text(
             json.dumps(summary, indent=2, default=float))
-        print(f"\nwrote {RESULTS / 'summary.json'}")
+        print(f"\nwrote {RESULTS / f'summary{TAG}.json'}")
 
 
 if __name__ == "__main__":
