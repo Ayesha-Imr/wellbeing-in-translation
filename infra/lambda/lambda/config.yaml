@@ -33,10 +33,13 @@ ssh_private_key_file: "~/.ssh/lambda_id_ed25519"
 # realistic single-GPU default and had live capacity in us-east-1,
 # us-west-2, and asia-south-1 at check time. Re-run
 # `python lambda/lambda_cli.py types --filter a100` if these stop matching.
+# Matched as a case-insensitive SUBSTRING, so "a100_80gb_sxm4" also matches
+# gpu_8x_a100_80gb_sxm4 - an 8-GPU node at $22.32/hr. That is not theoretical:
+# on 2026-08-15 it had capacity, won the match, and launched. Single-GPU names
+# only, most specific first.
 preferred_instance_types:
-  - "a100_80gb_sxm4"
-  - "a100_sxm4"
-  - "a100"
+  - "gpu_1x_a100_sxm4"
+  - "gpu_1x_a100"
 
 # Optional, OFF by default: you chose explicit-stop-only (no watchdog, no
 # hard cap) as the idle-safety policy, so bin/run.sh's primary and only

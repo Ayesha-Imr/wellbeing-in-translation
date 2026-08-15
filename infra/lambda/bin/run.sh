@@ -126,13 +126,16 @@ else
     fi
 
     echo "-- Launching $INSTANCE_TYPE in $REGION --"
+    # tail -1: launch echoes a multi-line confirmation banner before the id.
+    # Capturing all of it sent the banner to terminate as a UUID, so the trap
+    # that is meant to guarantee shutdown 400'd and left the pod billing.
     INSTANCE_ID=$($LAMBDA_CLI launch \
         --instance-type "$INSTANCE_TYPE" \
         --region "$REGION" \
         --ssh-key "$SSH_KEY_NAME" \
         --filesystem "$FILESYSTEM" \
         --name "${PROJECT_NAME}-agent-run" \
-        --yes)
+        --yes | tail -1)
     WE_LAUNCHED=1
     echo "Launched instance: $INSTANCE_ID"
 fi
