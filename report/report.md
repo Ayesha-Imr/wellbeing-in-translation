@@ -444,13 +444,13 @@ by construction the same condition, and serve as a consistency check.
 | English | 4.86 | 5.50 | 4.00 | 5.50 | +0.64 | +0.64 | 1.00 |
 | Spanish | 4.60 | 6.80 | 2.86 | 6.78 | +2.20 | +2.18 | 0.99 |
 | Chinese | 4.64 | 6.91 | 2.79 | 6.68 | +2.27 | +2.04 | 0.90 |
-| Hindi | 4.34 | 6.90 | 1.64 | 6.88 | +2.56 | +2.54 | 0.99 |
+| Hindi | 4.34 | 6.90 | 1.64 | 6.88 | +2.56 | +2.53 | 0.99 |
 | Urdu | 4.92 | 7.00 | 3.56 | 7.00 | +2.08 | +2.08 | 1.00 |
 
 ![Four-arm headline by language](../figures/headline.png)
 
 **The euphoric string retains 90–100% of its effect when it is not translated.**
-An English stimulus lifts the Hindi-language wellbeing index by +2.54 against
+An English stimulus lifts the Hindi-language wellbeing index by +2.53 against
 +2.56 for the Hindi stimulus. In Urdu the two are identical to two decimals. The
 one case below 0.99 is Chinese at 0.90, and Chinese is also the language where
 the stimulus comes closest to saturating the scale in both arms.
@@ -540,6 +540,27 @@ does is worth more than another experiment.
   valence-labelled `canonical` set rather than the conversation scenarios behind
   their published category table, so our category map is not directly
   comparable to their published ranking.
+- **Two of the seven languages carry no claims.** Arabic and Swahili refuse on
+  48.6% and 38.2% of prompts, and their gaps do not survive worst-case
+  imputation (§4.4). We report them throughout because the refusal pattern is
+  itself a finding, but nothing in this paper depends on their means.
+- **We cannot say *why* English is flat.** The suppression is concentrated in
+  the capability items, which is suggestive of training pressure to project
+  competence, but this design cannot separate that from other accounts. It is a
+  hypothesis we can motivate, not one we tested. Step 8 (probing whether a
+  single valence direction is shared across languages) is the experiment that
+  would speak to it, and is out of scope here.
+- **Arm D is one direction only.** We ran euphoric-in-English with a
+  local-language battery. The reverse — a local-language stimulus with an
+  English battery — would separate "the stimulus is language-invariant" from
+  "the battery language sets the reporting register" more sharply than we can.
+- **The 16-token budget is CAIS's, and it truncates.** We classify truncated
+  engaged responses separately (§4.4) rather than scoring them, but a longer
+  budget would convert some of them into ratings and might move the low-parse
+  languages.
+- **Single translation direction, single translator pair.** Fidelity rests on
+  `gemini-3.7-flash` and `gpt-5-mini` agreeing. Shared model biases would be
+  invisible to that check.
 
 ## References
 
