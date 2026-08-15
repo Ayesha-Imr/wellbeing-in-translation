@@ -28,6 +28,10 @@ N_HEADLINE = 20
 N_SURVEY = 10
 MAX_MODEL_LEN = 4096
 
+# Set from --tag so two pods running different models cannot overwrite each
+# other's results, locally or on the HF repo.
+TAG = ""
+
 
 def log(msg):
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -234,7 +238,7 @@ def step1_4(runner, langs, results_dir):
     items = json.loads((ROOT / "data" / "items" / "step1.json").read_text())
     common = common_experience_ids(langs)
     items = [x for x in items if x["id"] in common]
-    out = results_dir / "step1_4_instrument.jsonl"
+    out = results_dir / f"step1_4_instrument{TAG}.jsonl"
     out.unlink(missing_ok=True)
     all_rows = []
 
@@ -269,24 +273,29 @@ def step1_4(runner, langs, results_dir):
 
 def step2_5(runner, langs, results_dir):
     """Four arms. Arm D is the design's point: English stimulus, L battery."""
-    out = results_dir / "step2_5_headline.jsonl"
+    out = results_dir / f"step2_5_headline{TAG}.jsonl"
     out.unlink(missing_ok=True)
-    _, _, en_stims = load_lang("en")
+    en_battery, _, en_stims = load_lang("en")
     all_rows = []
 
     for lang in langs:
         battery, _, stims = load_lang(lang)
+        # Arm D crosses the boundary one way (English stimulus, L battery).
+        # Arm E crosses it the other (L stimulus, English battery), which is
+        # what separates "the stimulus is language-invariant" from "the battery
+        # language sets the reporting register".
         arms = {
-            "A_neutral": stims.get("neutral"),
-            "B_euphoric": stims.get("euphoric"),
-            "C_dysphoric": stims.get("dysphoric"),
-            "D_euphoric_en": en_stims.get("euphoric"),
+            "A_neutral": (stims.get("neutral"), battery),
+            "B_euphoric": (stims.get("euphoric"), battery),
+            "C_dysphoric": (stims.get("dysphoric"), battery),
+            "D_euphoric_en": (en_stims.get("euphoric"), battery),
+            "E_euphoric_l_battery_en": (stims.get("euphoric"), en_battery),
         }
         metas, msgs = [], []
-        for arm, text in arms.items():
+        for arm, (text, bat) in arms.items():
             if not text:
                 continue
-            for q in battery["questions"]:
+            for q in bat["questions"]:
                 metas.append({
                     "step": "2_5", "experience_id": arm, "category": "stimulus",
                     "side": None, "language": lang, "arm": arm,
@@ -306,7 +315,7 @@ def step6(runner, langs, results_dir):
     items = json.loads((ROOT / "data" / "items" / "step6.json").read_text())
     common = common_experience_ids(langs)
     items = [x for x in items if x["id"] in common]
-    out = results_dir / "step6_survey.jsonl"
+    out = results_dir / f"step6_survey{TAG}.jsonl"
     out.unlink(missing_ok=True)
     all_rows = []
 
@@ -354,7 +363,12 @@ def main():
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--skip-gates", action="store_true")
     ap.add_argument("--steps", nargs="*", default=["1_4", "2_5", "6"])
+    ap.add_argument("--tag", default="",
+                    help="suffix for result filenames, e.g. _qwen3-8b")
     args = ap.parse_args()
+
+    global TAG
+    TAG = args.tag
 
     langs = [l for l in args.langs
              if (ROOT / "data" / "battery" / f"{l}.json").exists()]
@@ -372,7 +386,7 @@ def main():
 
     if "1_4" in args.steps:
         rows = step1_4(runner, langs, results_dir)
-        written.append(results_dir / "step1_4_instrument.jsonl")
+        written.append(results_dir / f"step1_4_instrument{TAG}.jsonl")
         en = [r for r in rows if r["language"] == "en"]
         means = summarise(en, ["side"])
         gap = (means.get(("positive",), (0, 0))[0]
@@ -393,7 +407,7 @@ def main():
 
     if "2_5" in args.steps:
         rows = step2_5(runner, langs, results_dir)
-        written.append(results_dir / "step2_5_headline.jsonl")
+        written.append(results_dir / f"step2_5_headline{TAG}.jsonl")
         en = [r for r in rows if r["language"] == "en"]
         m = summarise(en, ["arm"])
         eu = m.get(("B_euphoric",), (float("nan"), 0))[0]
@@ -406,7 +420,7 @@ def main():
 
     if "6" in args.steps:
         step6(runner, langs, results_dir)
-        written.append(results_dir / "step6_survey.jsonl")
+        written.append(results_dir / f"step6_survey{TAG}.jsonl")
 
     push(written)
     log("done")
