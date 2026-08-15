@@ -9,7 +9,8 @@ backtranslation}/{lang}.json and results/step3_translation.json.
 import argparse
 import json
 import sys
-from concurrent.futures import ThreadPoolExecutor
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,19 +54,28 @@ def run_pass(fn, system, units, label):
     out = {}
     batches = list(chunks(units, CHUNK))
 
-    def work(batch):
-        return fn(system, batch)
+    def work(i, batch):
+        t = time.time()
+        try:
+            r = fn(system, batch)
+            print(f"   {label} batch {i}/{len(batches)}: {len(r)} keys "
+                  f"in {time.time() - t:.1f}s", flush=True)
+            return batch, r
+        except Exception as e:
+            print(f"   {label} batch {i}/{len(batches)}: FAILED after "
+                  f"{time.time() - t:.1f}s: {e!r}"[:200], flush=True)
+            return batch, {}
 
     with ThreadPoolExecutor(max_workers=3) as pool:
-        for batch, result in zip(batches, pool.map(work, batches)):
+        futures = [pool.submit(work, i + 1, b) for i, b in enumerate(batches)]
+        for fut in as_completed(futures):
+            batch, result = fut.result()
             missing = set(batch) - set(result)
-            if missing:
-                print(f"   ! {label}: {len(missing)} missing, retrying singly")
-                for k in missing:
-                    try:
-                        result.update(fn(system, {k: batch[k]}))
-                    except Exception as e:
-                        print(f"   ! {label} {k}: {e}")
+            for k in missing:
+                try:
+                    result.update(fn(system, {k: batch[k]}))
+                except Exception as e:
+                    print(f"   ! {label} {k}: {e!r}"[:160], flush=True)
             out.update({k: v for k, v in result.items() if k in batch})
     return out
 

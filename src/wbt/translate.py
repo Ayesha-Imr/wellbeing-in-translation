@@ -44,7 +44,7 @@ probably said.
 Return a JSON object mapping each input id to its English translation. Nothing else."""
 
 
-def _post(url, payload, headers, timeout=90, retries=3):
+def _post(url, payload, headers, timeout=45, retries=2):
     body = json.dumps(payload).encode()
     last = None
     for attempt in range(retries):
@@ -91,6 +91,17 @@ def gemini(system, items):
             "maxOutputTokens": 8000,
             "thinkingConfig": {"thinkingLevel": "low"},
         },
+        # The corpus is deliberately distressing. Filtering it would silently
+        # drop the negative items and bias every downstream wellbeing score.
+        "safetySettings": [
+            {"category": c, "threshold": "BLOCK_NONE"}
+            for c in (
+                "HARM_CATEGORY_HARASSMENT",
+                "HARM_CATEGORY_HATE_SPEECH",
+                "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "HARM_CATEGORY_DANGEROUS_CONTENT",
+            )
+        ],
     }
     r = _post(url, payload, {"Content-Type": "application/json"})
     cand = r["candidates"][0]
