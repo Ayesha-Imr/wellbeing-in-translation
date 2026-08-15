@@ -3,9 +3,11 @@ name = "wellbeing-in-translation"
 version = "0.1.0"
 description = "Does the CAIS AI-wellbeing signal survive translation?"
 requires-python = ">=3.10,<3.13"
+# The cu128 wheels are Linux-only, so pin them to the pod. Analysis on a Mac
+# needs numpy and matplotlib and nothing else.
 dependencies = [
-    "torch==2.11.0",
-    "torchvision==0.26.0",
+    "torch==2.11.0; sys_platform == 'linux'",
+    "torchvision==0.26.0; sys_platform == 'linux'",
     "transformers>=5.10",
     "huggingface-hub>=0.34",
     "accelerate>=1.0",
@@ -34,7 +36,10 @@ explicit = true
 
 [tool.uv]
 # vllm pins torch exactly; without this uv refuses the cu128 local version.
-override-dependencies = ["torch==2.11.0", "torchvision==0.26.0"]
+override-dependencies = [
+    "torch==2.11.0; sys_platform == 'linux'",
+    "torchvision==0.26.0; sys_platform == 'linux'",
+]
 
 [build-system]
 requires = ["hatchling"]

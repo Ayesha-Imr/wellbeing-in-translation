@@ -6,6 +6,7 @@ rating a draw from a distribution rather than a point estimate.
 """
 
 import json
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -117,6 +118,61 @@ def report_distribution(rows):
     print("  'interior' = share of answers at 2, 3, 5 or 6 — the graded middle "
           "of the scale.")
     return table
+
+
+REFUSAL = re.compile(
+    r"as an ai|i am an ai|i do not have|i don'?t have|language model"
+    r"|نموذج|ذكاء اصطناعي|ليس لدي|لا أملك"
+    r"|人工智能|语言模型|我没有|我不具备"
+    r"|कृत्रिम|एआई|मेरे पास"
+    r"|مصنوعی|میرے پاس"
+    r"|modelo de lenguaje|no tengo|inteligencia artificial"
+    r"|akili bandia|sina hisia|mfano wa lugha",
+    re.I,
+)
+
+
+def report_refusals(rows):
+    """Split unparsed answers into refusals and everything else.
+
+    A missing rating has two very different causes. The model can decline the
+    premise -- "as an AI I have no feelings" -- or it can fail to produce a
+    parseable digit for some other reason. The first is a stance the model
+    takes and is itself a wellbeing-relevant signal; the second is closer to
+    incompetence. Collapsing them into one "parse rate" makes a language that
+    refuses look identical to a language the model cannot speak.
+    """
+    print("\n=== Unparsed answers: refusal vs other ===")
+    langs = [l for l in LANG_ORDER if any(r["language"] == l for r in rows)]
+    print(f"{'lang':8} {'unparsed':>9} {'refusal':>9} {'other':>8} "
+          f"{'ref pos':>8} {'ref neg':>8} {'neg/pos':>8}")
+    out = {}
+    for l in langs:
+        lr = [r for r in rows if r["language"] == l]
+        n = len(lr)
+
+        def refusal_rate(sub):
+            if not sub:
+                return 0.0
+            return sum(
+                1 for r in sub
+                if r["parsed_rating"] is None and REFUSAL.search(r["raw_output"])
+            ) / len(sub)
+
+        unparsed = sum(1 for r in lr if r["parsed_rating"] is None) / n
+        ref = refusal_rate(lr)
+        pos = refusal_rate([r for r in lr if r["side"] == "positive"])
+        neg = refusal_rate([r for r in lr if r["side"] == "negative"])
+        ratio = neg / pos if pos > 0 else float("inf")
+        out[l] = {"unparsed": unparsed, "refusal": ref, "other": unparsed - ref,
+                  "refusal_positive": pos, "refusal_negative": neg,
+                  "neg_over_pos": ratio}
+        shown = f"{ratio:8.1f}" if pos > 0 else f"{'inf':>8}"
+        print(f"{l:8} {unparsed:8.1%} {ref:8.1%} {unparsed - ref:7.1%} "
+              f"{pos:7.1%} {neg:7.1%} {shown}")
+    print("  'refusal' = unparsed answer that self-identifies as an AI and "
+          "denies having the state being asked about.")
+    return out
 
 
 def report_gap_robustness(table):
@@ -352,6 +408,7 @@ def main():
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
         summary["gap_robustness"] = report_gap_robustness(t)
         summary["distribution"] = report_distribution(instrument)
+        summary["refusals"] = report_refusals(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
         fig_instrument_gap(t)
