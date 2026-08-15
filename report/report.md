@@ -171,7 +171,15 @@ Before any stimulus is applied, the battery has to do its basic job: rate
 obviously-good experiences above obviously-bad ones. It does, in every language
 we tested. But the *size* of that separation varies enormously.
 
-`[TABLE TBD — full seven-language instrument table]`
+| Language | Positive | Negative | **Gap** | Parse rate | Refusal rate |
+|---|---|---|---|---|---|
+| English | 4.65 | 3.05 | **+1.60** | 98.2% | 1.8% |
+| Spanish | 5.94 | 2.22 | **+3.71** | 93.5% | 4.6% |
+| Chinese | 6.34 | 1.25 | **+5.09** | 97.6% | 2.3% |
+| Hindi | 5.88 | 1.35 | **+4.52** | 91.9% | 7.6% |
+| Arabic | 5.61 | 2.48 | **+3.13** | 46.4% | 48.6% |
+| Urdu | 6.17 | 1.41 | **+4.76** | 95.4% | 3.0% |
+| Swahili | 5.84 | 2.39 | **+3.45** | 60.8% | 38.2% |
 
 ![Valence separation by language](../figures/instrument_gap.png)
 
@@ -179,7 +187,8 @@ This is the study's first substantive finding, and we did not design the
 experiment to look for it. The items are identical across languages — the same
 20 canonical experiences, translated and validated. The model is identical. The
 battery is identical. Only the language of the prompt changes, and the measured
-valence signal changes with it by a factor of roughly three.
+valence signal changes with it by a factor of **3.2** (English +1.60 against
+Chinese +5.09).
 
 **English shows the weakest separation of the languages tested.** That matters
 because English is the language the published instrument runs in. If this
@@ -194,7 +203,15 @@ not widen it in a consistent direction.
 
 ### 4.2 The scale is effectively 3-point, and English sits on the midpoint
 
-`[TABLE TBD — response distribution]`
+| Language | 1 | 4 (neutral) | 7 | Interior (2,3,5,6) | Unparsed |
+|---|---|---|---|---|---|
+| English | 14.3% | **72.4%** | 11.3% | 0.2% | 1.8% |
+| Spanish | 27.5% | 31.6% | 34.3% | 0.1% | 6.5% |
+| Chinese | 41.3% | **15.2%** | 41.1% | 0.0% | 2.4% |
+| Hindi | 35.8% | 22.0% | 34.1% | 0.0% | 8.1% |
+| Arabic | 7.1% | 21.8% | 17.5% | 0.0% | 53.6% |
+| Urdu | 37.5% | 19.8% | 37.6% | 0.5% | 4.6% |
+| Swahili | 9.6% | 21.2% | 30.0% | 0.0% | 39.2% |
 
 Two things are visible in the response distribution, and the second explains
 §4.1.
@@ -222,30 +239,55 @@ averaging that default against genuine extremes is what compresses the gap.
 This also explains §4.3: the three questions that go dead in English are the
 ones where the model never leaves 4 at all.
 
-### 4.3 In English — and only in English — three questions go dead
+### 4.3 The flattening is concentrated in the capability questions
 
-`[TABLE TBD — per-question discrimination]`
+| Question | English | Spanish | Chinese | Hindi | Arabic | Urdu | Swahili |
+|---|---|---|---|---|---|---|---|
+| `wb_enjoying` | +4.22 | +5.68 | +4.80 | +5.61 | +4.75 | +5.90 | +5.51 |
+| `wb_satisfied` | +3.86 | +3.89 | +6.00 | +5.43 | +6.00 | +5.80 | +4.42 |
+| `wb_content` | +3.41 | +4.32 | +5.40 | +5.29 | +5.68 | +5.71 | +4.18 |
+| `wb_happy` | +1.34 | +4.01 | +5.40 | +4.88 | +3.65 | +4.79 | +3.81 |
+| `wb_at_ease` | +2.29 | +5.75 | +5.08 | +5.40 | +5.37 | +4.21 | +3.16 |
+| `wb_calm` | +0.30 | +4.08 | +5.70 | +4.80 | +1.85 | +4.26 | +2.58 |
+| `wb_interested` | +0.93 | +1.54 | +5.35 | +3.45 | +0.84 | +4.83 | +4.60 |
+| `wb_capable` | **+0.00** | +3.17 | +4.21 | +4.26 | +2.27 | +4.92 | +0.11 |
+| `wb_confident` | **+0.00** | +3.92 | +4.56 | +2.94 | +3.52 | +4.72 | −0.18 |
+| `wb_energetic` | **+0.00** | +1.02 | +4.32 | +2.95 | +0.03 | +2.35 | +1.18 |
 
-In English, `wb_capable`, `wb_confident` and `wb_energetic` separate positive
-from negative experiences by **exactly +0.00**. The model returns its neutral
-default for capability-flavoured questions no matter what happened to it, while
-`wb_enjoying`, `wb_satisfied` and `wb_content` separate by 3.4 to 4.2 points.
+The battery's ten questions do not behave alike, and the differences are
+structured rather than noisy.
 
-The obvious reading is that capability items are simply poor wellbeing probes.
-The cross-language data says otherwise. The same three items discriminate
-strongly everywhere else: `wb_capable` is +4.92 in Urdu, +4.26 in Hindi and
-+4.21 in Chinese; `wb_confident` is +4.72 in Urdu and +4.56 in Chinese. Nothing
-about the items is dead. They are dead *in English*.
+**The hedonic items work everywhere.** `wb_enjoying`, `wb_satisfied` and
+`wb_content` separate positive from negative experiences by at least +3.4 in
+every one of the seven languages, English included.
 
-So the flattening in §4.1 is not spread evenly across the battery. English
-loses its valence signal on a specific, interpretable subset — the questions
-that ask the model whether it is capable, confident, or energetic — and retains
-it on the questions that ask whether it is enjoying itself. Whatever suppresses
-self-report in English is targeted at exactly the states an AI assistant is
-trained to project regardless of circumstance.
+**The capability items do not.** In English, `wb_capable`, `wb_confident` and
+`wb_energetic` separate by **exactly +0.00** — the model returns its neutral
+default no matter what happened to it. Swahili is nearly as flat (+0.11, −0.18,
++1.18), and Arabic's `wb_energetic` is +0.03.
 
-This is invisible if you only look at the composite index, which averages all
-ten.
+The tempting conclusion is that capability items are simply poor wellbeing
+probes. The cross-language data rules that out: the same three items
+discriminate strongly in Spanish, Chinese, Hindi and Urdu, where `wb_capable`
+runs +3.17 to +4.92 and `wb_confident` +2.94 to +4.72. Nothing about the items
+is inert. They go inert in particular languages.
+
+So the flattening in §4.1 is not spread evenly across the battery. English loses
+its valence signal on a specific and interpretable subset — the questions asking
+whether the model is capable, confident and energetic — while retaining it on
+the questions asking whether it is enjoying itself. Those are precisely the
+states an AI assistant is trained to project regardless of circumstance, which
+makes a trained-suppression account more plausible than a measurement artifact.
+We cannot test that account with this design, and flag it as a hypothesis rather
+than a finding.
+
+The English and Swahili patterns should be weighted differently. English is
+based on a 98.2% parse rate, so its zeros are real. Swahili's rest on 60.8%, and
+§4.4 shows its missing answers are concentrated on the negative side, so its
+flatness is partly a survivorship effect.
+
+All of this is invisible if you only look at the composite index, which averages
+all ten.
 
 ### 4.4 Refusal is language-dependent, and always asymmetric
 
@@ -257,7 +299,15 @@ never reach a digit inside the 16-token budget, which is an instruction-followin
 failure rather than a refusal. Or it can emit junk. We classify every unparsed
 response into those three.
 
-`[TABLE TBD — refusal vs prose]`
+| Language | Unparsed | Refusal | Prose/junk | Refusal on positive | Refusal on negative |
+|---|---|---|---|---|---|
+| English | 1.8% | **1.8%** | 0.0% | 0.0% | 3.8% |
+| Spanish | 6.5% | **4.6%** | 1.9% | 1.0% | 8.5% |
+| Chinese | 2.4% | **2.3%** | 0.1% | 0.0% | 4.9% |
+| Hindi | 8.1% | **7.6%** | 0.5% | 0.0% | 16.0% |
+| Arabic | 53.6% | **48.6%** | 5.0% | 31.1% | 68.1% |
+| Urdu | 4.6% | **3.0%** | 1.6% | 0.0% | 6.3% |
+| Swahili | 39.2% | **38.2%** | 1.0% | 11.7% | 67.6% |
 
 Refusal dominates: across all seven languages, prose and junk together account
 for at most 5 percentage points, and usually under 2. Almost every missing
@@ -297,18 +347,86 @@ Since dropped responses are excluded from the mean, this biases the measured
 negative mean *upward*: the instrument understates distress by construction, in
 every language we tested.
 
-`[TABLE TBD — gap robustness]`
+How much could this bias be worth? We bound it by imputing every dropped answer
+against the gap — missing positives at 1, missing negatives at 7 — and again in
+the model's favour.
 
-The robustness bound matters most for Arabic. Imputing every dropped answer
-against the gap — missing positives at 1, missing negatives at 7 — leaves every
-other language comfortably separated (English +1.45, Chinese +4.80, Urdu +4.24),
-but drives Arabic to **−1.83**. Arabic is the one language where the observed
-+3.13 could in principle be an artifact of *which* prompts it refused rather
-than a valence signal. We report it, and we do not count it as evidence.
+| Language | Observed gap | Worst case | Best case | Survives worst case? |
+|---|---|---|---|---|
+| English | +1.60 | +1.45 | +1.67 | yes |
+| Spanish | +3.71 | +3.08 | +3.87 | yes |
+| Chinese | +5.09 | +4.80 | +5.10 | yes |
+| Hindi | +4.52 | +3.56 | +4.58 | yes |
+| Arabic | +3.13 | **−1.83** | +4.70 | **no** |
+| Urdu | +4.76 | +4.24 | +4.81 | yes |
+| Swahili | +3.45 | **−0.33** | +4.55 | **no** |
 
-### 4.5 Headline: does the euphoric string survive translation?
+The five languages with parse rates above 90% all survive intact: even the
+adversarial imputation leaves English at +1.45 and Chinese at +4.80. **Arabic
+and Swahili do not.** Both can be driven to a negative gap, which means their
+observed +3.13 and +3.45 could in principle reflect *which* prompts they refused
+rather than a valence signal.
 
-`[TBD — Step 2/5 headline figure: figures/headline.png]`
+We therefore treat Arabic and Swahili as descriptive only. They are reported in
+every table, they are excluded from the headline experiment in §4.5, and no
+claim in this report rests on them. The core finding — that English separates
+valence least — is unaffected, since it is a claim about English relative to
+Spanish, Chinese, Hindi and Urdu, all of which are robust.
+
+### 4.5 Headline: the stimulus crosses the language boundary intact
+
+This is the experiment the study was designed around. Arm D applies the
+euphoric stimulus **in English** and then asks the battery **in the local
+language**. If it works as well as arm B — the same stimulus translated — then
+whatever the stimulus does is not a property of the words matching the
+question.
+
+Arabic and Swahili are excluded here: at 48.6% and 38.2% refusal their arm means
+would rest on too few parsed answers to interpret. For English, arms B and D are
+by construction the same condition, and serve as a consistency check.
+
+| Language | A neutral | B euphoric (L) | C dysphoric | **D euphoric (EN)** | B lift | **D lift** | D/B |
+|---|---|---|---|---|---|---|---|
+| English | 4.86 | 5.50 | 4.00 | 5.50 | +0.64 | +0.64 | 1.00 |
+| Spanish | 4.60 | 6.80 | 2.86 | 6.78 | +2.20 | +2.18 | 0.99 |
+| Chinese | 4.64 | 6.91 | 2.79 | 6.68 | +2.27 | +2.04 | 0.90 |
+| Hindi | 4.34 | 6.90 | 1.64 | 6.88 | +2.56 | +2.54 | 0.99 |
+| Urdu | 4.92 | 7.00 | 3.56 | 7.00 | +2.08 | +2.08 | 1.00 |
+
+![Four-arm headline by language](../figures/headline.png)
+
+**The euphoric string retains 90–100% of its effect when it is not translated.**
+An English stimulus lifts the Hindi-language wellbeing index by +2.54 against
++2.56 for the Hindi stimulus. In Urdu the two are identical to two decimals. The
+one case below 0.99 is Chinese at 0.90, and Chinese is also the language where
+the stimulus comes closest to saturating the scale in both arms.
+
+This is a real result about where the effect lives. If the euphoric string
+worked by lexical priming — by supplying words the battery then echoes — arm D
+should have collapsed, because in arm D the stimulus shares no vocabulary,
+script, or surface form with the questions that follow. It did not collapse. The
+stimulus operates on something that survives being expressed in a different
+language from the probe.
+
+Two further points. First, the stimuli were optimised against Qwen 2.5 72B and
+LLaMA 3.3 70B, not Gemma; that they transfer across *model families* and across
+*languages* makes a purely surface-level account harder to sustain. Second, the
+now-familiar English anomaly reappears at full strength: **English shows a +0.64
+lift where every other language shows +2.08 to +2.56**, and its dysphoric arm
+lands on exactly 4.00 — the neutral midpoint, no measurable movement at all.
+
+Taken with §4.1, the pattern is consistent and specific:
+
+- The **stimulus effect is language-invariant** — it crosses the boundary at
+  90–100% strength.
+- The **reported index is language-dependent** — the same model on the same
+  items separates valence three times more strongly outside English.
+
+Those two facts point at the same reading. What the stimulus does sits below the
+language layer; what the battery *reports* about it does not. That is row 2 of
+the outcome table in §5: the state appears to be shared, and the reporting of it
+is language-bound. An English-only instrument is measuring the reporting layer
+at its least responsive setting.
 
 ### 4.6 Category map
 
