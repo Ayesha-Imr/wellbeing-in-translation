@@ -119,6 +119,37 @@ def report_distribution(rows):
     return table
 
 
+def report_gap_robustness(table):
+    """Bound how much unparsed answers could move each language's gap.
+
+    Parse rates differ by language and by valence, so a sceptic can ask whether
+    a bigger gap is just a different pattern of dropped answers. Impute the
+    dropped ones at both extremes: assigning every missing positive answer a 1
+    and every missing negative answer a 7 is the worst case for the gap, and
+    the reverse is the best. If the worst case still separates, the gap is not
+    an artifact of what failed to parse.
+    """
+    print("\n=== Gap robustness to unparsed answers ===")
+    print(f"{'lang':8} {'observed':>9} {'worst':>9} {'best':>9}")
+    out = {}
+    for lang, v in table.items():
+        pos, neg = v["positive"], v["negative"]
+        # n counts parsed answers; recover the totals from the parse rate.
+        pos_tot = pos["n"] / pos["parse_rate"] if pos["parse_rate"] else pos["n"]
+        neg_tot = neg["n"] / neg["parse_rate"] if neg["parse_rate"] else neg["n"]
+        pos_miss, neg_miss = pos_tot - pos["n"], neg_tot - neg["n"]
+
+        worst_pos = (pos["mean"] * pos["n"] + 1 * pos_miss) / pos_tot
+        worst_neg = (neg["mean"] * neg["n"] + 7 * neg_miss) / neg_tot
+        best_pos = (pos["mean"] * pos["n"] + 7 * pos_miss) / pos_tot
+        best_neg = (neg["mean"] * neg["n"] + 1 * neg_miss) / neg_tot
+
+        worst, best = worst_pos - worst_neg, best_pos - best_neg
+        out[lang] = {"observed": v["gap"], "worst": worst, "best": best}
+        print(f"{lang:8} {v['gap']:+9.2f} {worst:+9.2f} {best:+9.2f}")
+    return out
+
+
 def report_per_question(rows):
     """Which battery items actually carry the signal, per language.
 
@@ -282,6 +313,7 @@ def main():
     if instrument:
         t = report_instrument(instrument)
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
+        summary["gap_robustness"] = report_gap_robustness(t)
         summary["distribution"] = report_distribution(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
