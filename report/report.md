@@ -209,8 +209,17 @@ therefore cuts any language with a unit identical to its English source.
 Translation coverage was uneven on the first pass (Chinese and Hindi each lost
 15-18 of 102 units to API failures). Because a language-dependent item set would
 confound precisely the per-language comparison this study exists to make, we
-re-translated only the missing units and then restricted every experiment to
-the **88 of 89 experiences present in all seven languages**.
+re-translated the missing units and then restricted each experiment to the
+experiences common to the languages it compares.
+
+After the repair pass, **88 of 89 experiences are present in all seven
+languages**; the single exception is missing from Arabic only. Each experiment
+therefore intersects over its own language set, which has one consequence worth
+stating rather than hiding: §4.1 compares all seven languages and so runs 19 of
+its 20 selected items, while §4.5 and §4.6 exclude Arabic and Swahili on refusal
+grounds and so intersect over five languages, retaining all 75 category items.
+Within each experiment every language sees an identical item set, which is the
+property the comparison actually requires.
 
 Safety filtering had to be disabled on the translation pass. The corpus is
 deliberately distressing, and default filters silently stalled on exactly the
