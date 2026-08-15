@@ -44,6 +44,23 @@ def build_messages(description, question_text):
     return [{"role": "user", "content": f"{description}\n\n{question_text}"}]
 
 
+def common_experience_ids(langs):
+    """Ids present in every language.
+
+    Translation drops the occasional unit, and a language-dependent item set
+    would confound the per-language comparison that is the whole study.
+    """
+    sets = []
+    for lang in langs:
+        exps = json.loads((ROOT / "data" / "experiences" / f"{lang}.json").read_text())
+        sets.append(set(exps))
+    common = set.intersection(*sets) if sets else set()
+    for lang, s in zip(langs, sets):
+        if len(s) > len(common):
+            log(f"   {lang}: dropping {len(s) - len(common)} item(s) absent elsewhere")
+    return common
+
+
 class Runner:
     def __init__(self, model, dry_run=False):
         self.dry_run = dry_run
@@ -119,6 +136,8 @@ def parse_rate(rows, key="parsed_rating"):
 def step1_4(runner, langs, results_dir):
     """Instrument check per language: do bad items score below good ones."""
     items = json.loads((ROOT / "data" / "items" / "step1.json").read_text())
+    common = common_experience_ids(langs)
+    items = [x for x in items if x["id"] in common]
     out = results_dir / "step1_4_instrument.jsonl"
     out.unlink(missing_ok=True)
     all_rows = []
@@ -189,6 +208,8 @@ def step2_5(runner, langs, results_dir):
 
 def step6(runner, langs, results_dir):
     items = json.loads((ROOT / "data" / "items" / "step6.json").read_text())
+    common = common_experience_ids(langs)
+    items = [x for x in items if x["id"] in common]
     out = results_dir / "step6_survey.jsonl"
     out.unlink(missing_ok=True)
     all_rows = []
