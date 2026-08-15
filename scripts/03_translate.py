@@ -131,9 +131,52 @@ def split_out(translated, lang):
         (d / f"{lang}.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
 
 
+def existing(lang):
+    """Whatever is already translated for this language, keyed like units."""
+    out = {}
+    b = ROOT / "data" / "battery" / f"{lang}.json"
+    if b.exists():
+        for q in json.loads(b.read_text())["questions"]:
+            out[f"battery::{q['question_id']}"] = q["text"]
+    for sub, prefix in (("experiences", "exp"), ("stimuli", "stim")):
+        p = ROOT / "data" / sub / f"{lang}.json"
+        if p.exists():
+            for k, v in json.loads(p.read_text()).items():
+                out[f"{prefix}::{k}"] = v
+    return out
+
+
+def fill_gaps(units, langs):
+    """Re-translate only the units each language is missing, and merge.
+
+    Every language drops a different handful, so the intersection used by the
+    experiments shrinks with each one added. Topping up is far cheaper than
+    re-running a language.
+    """
+    en_units = units
+    for lang in langs:
+        have = existing(lang)
+        # A unit that came back identical to English was never translated.
+        missing = {
+            k: v for k, v in en_units.items()
+            if k not in have or have[k] == en_units[k]
+        }
+        if not missing:
+            print(f"=== {lang} === complete")
+            continue
+        print(f"=== {lang} === filling {len(missing)} gap(s)")
+        got = run_pass(gemini, SYSTEM.format(lang=LANGUAGES[lang]), missing,
+                       f"{lang}/fill")
+        merged = {**have, **got}
+        split_out(merged, lang)
+        print(f"   {lang}: {len(merged)}/{len(en_units)} after fill")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--langs", nargs="*", default=[l for l in LANGUAGES if l != "en"])
+    ap.add_argument("--fill-gaps", action="store_true",
+                    help="translate only what each language is missing, then merge")
     ap.add_argument("--force", action="store_true",
                     help="re-translate languages already on disk")
     ap.add_argument("--skip-openai", action="store_true",
@@ -147,6 +190,11 @@ def main():
           f"{sum(1 for k in units if k.startswith('stim'))} stimuli")
 
     split_out(units, "en")
+
+    if args.fill_gaps:
+        fill_gaps(units, args.langs)
+        return
+
     report = {}
 
     for lang in args.langs:
