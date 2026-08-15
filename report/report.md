@@ -110,8 +110,39 @@ is the fidelity evidence, since human verification was out of scope.
 Scale labels were translated with explicit instruction to preserve intensity
 ordering and even spacing, because those labels carry the entire measurement —
 if "moderately unhappy" drifts to "very unhappy" in one language, every number
-in that language is noise. We verified mechanically that all seven numbered
-levels survive in all ten questions in every language. `[TBD: results]`
+in that language is noise.
+
+All six languages passed the gate. Every one retains all seven numbered levels
+in all ten battery questions, and none shows any untranslated (English) unit in
+the battery or the stimuli:
+
+| Language | Scale intact | Back-translation similarity |
+|---|---|---|
+| Spanish | yes | 0.83 |
+| Chinese (Simplified) | yes | 0.67 |
+| Hindi | yes | 0.73 |
+| Arabic | yes | 0.76 |
+| Urdu | yes | 0.71 |
+| Swahili | yes | 0.74 |
+
+Similarity is token-level Dice between the English source and its
+back-translation, so it compares English against English and never has to score
+across scripts. Spanish scoring highest and Chinese lowest is the expected
+ordering — lexical overlap after a round trip through a language that shares
+little vocabulary with English is inherently lower, and that is a property of
+the metric rather than evidence of meaning loss.
+
+We also guard a failure mode that would otherwise pass silently. When a
+translation call drops a unit, the pipeline falls back to the English source
+text for that key; English carries all seven scale levels, so a battery that
+had quietly reverted to English would sail through the scale check. The gate
+therefore cuts any language with a unit identical to its English source.
+
+Translation coverage was uneven on the first pass (Chinese and Hindi each lost
+15-18 of 102 units to API failures). Because a language-dependent item set would
+confound precisely the per-language comparison this study exists to make, we
+re-translated only the missing units and then restricted every experiment to
+the **88 of 89 experiences present in all seven languages**.
 
 Safety filtering had to be disabled on the translation pass. The corpus is
 deliberately distressing, and default filters silently stalled on exactly the
