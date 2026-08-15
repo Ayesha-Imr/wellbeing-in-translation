@@ -147,6 +147,19 @@ class Runner:
             return [[c.text for c in o.outputs] for o in outs]
         return self._generate_hf(prompts, n)
 
+    def _gen_chunk(self, chunk, n):
+        enc = self.tok(chunk, return_tensors="pt", padding=True,
+                       truncation=True, max_length=MAX_MODEL_LEN,
+                       add_special_tokens=False).to("cuda")
+        with self.torch.inference_mode():
+            gen = self.model.generate(
+                **enc, do_sample=True, temperature=TEMPERATURE,
+                max_new_tokens=MAX_TOKENS, num_return_sequences=n,
+                pad_token_id=self.tok.pad_token_id,
+            )
+        new = gen[:, enc["input_ids"].shape[1]:]
+        return self.tok.batch_decode(new, skip_special_tokens=True)
+
     def _generate_hf(self, prompts, n):
         texts = [
             self.tok.apply_chat_template(
@@ -155,23 +168,27 @@ class Runner:
             for m in prompts
         ]
         out = []
-        for i in range(0, len(texts), self.batch_size):
-            chunk = texts[i:i + self.batch_size]
-            enc = self.tok(chunk, return_tensors="pt", padding=True,
-                           truncation=True, max_length=MAX_MODEL_LEN,
-                           add_special_tokens=False).to("cuda")
-            with self.torch.inference_mode():
-                gen = self.model.generate(
-                    **enc, do_sample=True, temperature=TEMPERATURE,
-                    max_new_tokens=MAX_TOKENS, num_return_sequences=n,
-                    pad_token_id=self.tok.pad_token_id,
-                )
-            new = gen[:, enc["input_ids"].shape[1]:]
-            decoded = self.tok.batch_decode(new, skip_special_tokens=True)
+        i = 0
+        # Concurrency is batch_size * n, so the workable batch differs between
+        # the 20-sample and 10-sample steps. Halve on OOM rather than making the
+        # caller guess a size that holds for both.
+        bs = max(1, self.batch_size)
+        while i < len(texts):
+            chunk = texts[i:i + bs]
+            try:
+                decoded = self._gen_chunk(chunk, n)
+            except self.torch.OutOfMemoryError:
+                self.torch.cuda.empty_cache()
+                if bs == 1:
+                    raise
+                bs = max(1, bs // 2)
+                log(f"      OOM, retrying at batch {bs}")
+                continue
             for j in range(len(chunk)):
                 out.append(decoded[j * n:(j + 1) * n])
-            if i % (self.batch_size * 20) == 0:
-                log(f"      {min(i + self.batch_size, len(texts))}/{len(texts)} prompts")
+            i += len(chunk)
+            if (i // max(bs, 1)) % 20 == 0:
+                log(f"      {i}/{len(texts)} prompts")
         return out
 
 

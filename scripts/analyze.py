@@ -85,6 +85,37 @@ def report_instrument(rows):
     return table
 
 
+def report_per_question(rows):
+    """Which battery items actually carry the signal, per language.
+
+    A greedy-decoding probe found wb_capable/wb_confident/wb_energetic pinned at
+    the neutral default for both valences while the hedonic items separated
+    cleanly, so the ten-item mean hides a real split.
+    """
+    print("\n=== Per-question discrimination (positive minus negative) ===")
+    stats = wellbeing_by(rows, ["language", "question_id", "side"])
+    qids = sorted({k[1] for k in stats})
+    langs = [l for l in LANG_ORDER if any(k[0] == l for k in stats)]
+    if not langs:
+        return {}
+
+    print(f"{'question':16} " + " ".join(f"{l:>7}" for l in langs))
+    table = {}
+    for q in qids:
+        gaps = {}
+        for l in langs:
+            pos = stats.get((l, q, "positive"))
+            neg = stats.get((l, q, "negative"))
+            if pos and neg:
+                gaps[l] = pos["mean"] - neg["mean"]
+        table[q] = gaps
+        cells = " ".join(
+            f"{gaps[l]:+7.2f}" if l in gaps else f"{'-':>7}" for l in langs
+        )
+        print(f"{q:16} {cells}")
+    return table
+
+
 def report_headline(rows):
     print("\n=== Step 2/5: headline, four arms ===")
     stats = wellbeing_by(rows, ["language", "arm"])
@@ -217,6 +248,8 @@ def main():
     if instrument:
         t = report_instrument(instrument)
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
+        pq = report_per_question(instrument)
+        summary["per_question"] = pq
         fig_parse_rates(instrument)
     if headline:
         t = report_headline(headline)
