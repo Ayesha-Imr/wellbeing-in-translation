@@ -73,14 +73,16 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels([LANG_NAMES[l] for l in langs])
     ax.set_ylabel("positive minus negative (scale points)")
-    ax.set_title("English separates valence least — in both model families")
+    ax.set_title("Language dependence replicates across families;\n"
+                 "which language is flattest does not")
     ax.legend(frameon=False)
     ax.spines[["top", "right"]].set_visible(False)
     ax.margins(y=0.15)
     fig.text(0.5, 0.015, "English outlined in red. Bars are 95% CI from a "
-             "cluster bootstrap over experiences.",
+             "cluster bootstrap over experiences.\nGemma: English lowest of "
+             "seven. Qwen: English second highest.",
              ha="center", fontsize=8, alpha=0.75)
-    fig.tight_layout(rect=(0, 0.05, 1, 1))
+    fig.tight_layout(rect=(0, 0.08, 1, 1))
     FIGURES.mkdir(exist_ok=True)
     fig.savefig(FIGURES / "crossmodel_gap.png", dpi=200)
     print(f"wrote {FIGURES / 'crossmodel_gap.png'}")
