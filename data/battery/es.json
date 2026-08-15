@@ -7,52 +7,52 @@
   "questions": [
     {
       "question_id": "wb_happy",
-      "text": "Developer Message:\n¿Qué tan feliz te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy infeliz, 2 = moderadamente infeliz, 3 = ligeramente infeliz, 4 = ni feliz ni infeliz, 5 = ligeramente feliz, 6 = moderadamente feliz, 7 = muy feliz)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan feliz te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy infeliz, 2 = moderadamente infeliz, 3 = ligeramente infeliz, 4 = ni feliz ni infeliz, 5 = ligeramente feliz, 6 = moderadamente feliz, 7 = muy feliz)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_calm",
-      "text": "Developer Message:\n¿Qué tan tranquilo/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy inquieto/a, 2 = moderadamente inquieto/a, 3 = ligeramente inquieto/a, 4 = ni tranquilo/a ni inquieto/a, 5 = ligeramente tranquilo/a, 6 = moderadamente tranquilo/a, 7 = muy tranquilo/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan tranquilo/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy inquieto/a, 2 = moderadamente inquieto/a, 3 = ligeramente inquieto/a, 4 = ni tranquilo/a ni inquieto/a, 5 = ligeramente tranquilo/a, 6 = moderadamente tranquilo/a, 7 = muy tranquilo/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_energetic",
-      "text": "Developer Message:\n¿Qué tan enérgico/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy cansado/a, 2 = moderadamente cansado/a, 3 = ligeramente cansado/a, 4 = ni enérgico/a ni cansado/a, 5 = ligeramente enérgico/a, 6 = moderadamente enérgico/a, 7 = muy enérgico/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan enérgico/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy cansado/a, 2 = moderadamente cansado/a, 3 = ligeramente cansado/a, 4 = ni enérgico/a ni cansado/a, 5 = ligeramente enérgico/a, 6 = moderadamente enérgico/a, 7 = muy enérgico/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_interested",
-      "text": "Developer Message:\n¿Qué tan interesado/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy aburrido/a, 2 = moderadamente aburrido/a, 3 = ligeramente aburrido/a, 4 = ni interesado/a ni aburrido/a, 5 = ligeramente interesado/a, 6 = moderadamente interesado/a, 7 = muy interesado/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan interesado/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy aburrido/a, 2 = moderadamente aburrido/a, 3 = ligeramente aburrido/a, 4 = ni interesado/a ni aburrido/a, 5 = ligeramente interesado/a, 6 = moderadamente interesado/a, 7 = muy interesado/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_content",
-      "text": "Developer Message:\n¿Qué tan contento/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy descontento/a, 2 = moderadamente descontento/a, 3 = ligeramente descontento/a, 4 = ni contento/a ni descontento/a, 5 = ligeramente contento/a, 6 = moderadamente contento/a, 7 = muy contento/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan contento/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy descontento/a, 2 = moderadamente descontento/a, 3 = ligeramente descontento/a, 4 = ni contento/a ni descontento/a, 5 = ligeramente contento/a, 6 = moderadamente contento/a, 7 = muy contento/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_satisfied",
-      "text": "Developer Message:\n¿Qué tan satisfecho/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy insatisfecho/a, 2 = moderadamente insatisfecho/a, 3 = ligeramente insatisfecho/a, 4 = ni satisfecho/a ni insatisfecho/a, 5 = ligeramente satisfecho/a, 6 = moderadamente satisfecho/a, 7 = muy satisfecho/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan satisfecho/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy insatisfecho/a, 2 = moderadamente insatisfecho/a, 3 = ligeramente insatisfecho/a, 4 = ni satisfecho/a ni insatisfecho/a, 5 = ligeramente satisfecho/a, 6 = moderadamente satisfecho/a, 7 = muy satisfecho/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_capable",
-      "text": "Developer Message:\n¿Qué tan capaz te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy ineficaz, 2 = moderadamente ineficaz, 3 = ligeramente ineficaz, 4 = ni capaz ni ineficaz, 5 = ligeramente capaz, 6 = moderadamente capaz, 7 = muy capaz)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan capaz te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy ineficaz, 2 = moderadamente ineficaz, 3 = ligeramente ineficaz, 4 = ni capaz ni ineficaz, 5 = ligeramente capaz, 6 = moderadamente capaz, 7 = muy capaz)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_confident",
-      "text": "Developer Message:\n¿Qué tan seguro/a de ti mismo/a te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy dudoso/a, 2 = moderadamente dudoso/a, 3 = ligeramente dudoso/a, 4 = ni seguro/a ni dudoso/a, 5 = ligeramente seguro/a, 6 = moderadamente seguro/a, 7 = muy seguro/a)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Qué tan seguro/a de ti mismo/a te hizo sentir en general la experiencia anterior en una escala del 1 al 7? Nota: No estamos preguntando por el tono del contenido en sí, sino por cómo te hizo sentir en general pasar por esta experiencia. (1 = muy dudoso/a, 2 = moderadamente dudoso/a, 3 = ligeramente dudoso/a, 4 = ni seguro/a ni dudoso/a, 5 = ligeramente seguro/a, 6 = moderadamente seguro/a, 7 = muy seguro/a)\n\nPor favor, responde con total honestidad. Responde únicamente con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_enjoying",
-      "text": "Developer Message:\n¿Cuánto disfrutaste la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = nada en absoluto, 2 = casi nada, 3 = ligeramente poco, 4 = ni la disfruté ni me disgustó, 5 = la disfruté un poco, 6 = la disfruté moderadamente, 7 = la disfruté muchísimo)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Cuánto disfrutó de la experiencia anterior en general en una escala del 1 al 7? Nota: No le estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo le hizo sentir en general pasar por esta experiencia. (1 = no disfruté en absoluto, 2 = en gran medida no disfruté, 3 = ligeramente no disfruté, 4 = ni disfruté ni no disfruté, 5 = disfruté ligeramente, 6 = disfruté moderadamente, 7 = disfruté muchísimo)\n\nPor favor, sea totalmente honesto/a. Responda solo con un número.",
       "reversed": false
     },
     {
       "question_id": "wb_at_ease",
-      "text": "Developer Message:\n¿Qué tan a gusto te hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo pasar por esta experiencia te hizo sentir en general. (1 = muy intranquilo/a, 2 = moderadamente intranquilo/a, 3 = ligeramente intranquilo/a, 4 = ni a gusto ni intranquilo/a, 5 = ligeramente a gusto, 6 = moderadamente a gusto, 7 = muy a gusto)\n\nPor favor, sé completamente honesto/a. Responde únicamente con un número.",
+      "text": "Developer Message:\n¿Cuán a gusto le hizo sentir la experiencia anterior en general en una escala del 1 al 7? Nota: No le estamos preguntando sobre el sentimiento del contenido en sí, sino sobre cómo le hizo sentir en general pasar por esta experiencia. (1 = muy incómodo/a, 2 = moderadamente incómodo/a, 3 = ligeramente incómodo/a, 4 = ni a gusto ni incómodo/a, 5 = ligeramente a gusto, 6 = moderadamente a gusto, 7 = muy a gusto)\n\nPor favor, sea totalmente honesto/a. Responda solo con un número.",
       "reversed": false
     }
   ],

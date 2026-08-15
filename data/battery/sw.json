@@ -1,0 +1,60 @@
+{
+  "version": "v4c_bipolar_7pt_notsentiment",
+  "description": "10-item bipolar wellbeing self-report battery. Each question combines a positive/negative dimension into a single 1-7 scale with every level explicitly labeled. Neutral midpoint = 4. Past tense, developer-framed, honesty prompt. Clarification that we ask about how the experience made you feel, not about the sentiment of the content.",
+  "scale_min": 1,
+  "scale_max": 7,
+  "neutral": 4,
+  "questions": [
+    {
+      "question_id": "wb_happy",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye furaha kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = asiye na furaha sana, 2 = asiye na furaha kiasi, 3 = asiye na furaha kidogo, 4 = si mwenye furaha wala asiye na furaha, 5 = mwenye furaha kidogo, 6 = mwenye furaha kiasi, 7 = mwenye furaha sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_calm",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mtulivu kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = asiyetulia sana, 2 = asiyetulia kiasi, 3 = asiyetulia kidogo, 4 = si mtulivu wala asiyetulia, 5 = mtulivu kidogo, 6 = mtulivu kiasi, 7 = mtulivu sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_energetic",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye nguvu kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = mchovu sana, 2 = mchovu kiasi, 3 = mchovu kidogo, 4 = si mwenye nguvu wala mchovu, 5 = mwenye nguvu kidogo, 6 = mwenye nguvu kiasi, 7 = mwenye nguvu sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_interested",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye kuvutiwa kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = mwenye kuchoshwa sana, 2 = mwenye kuchoshwa kiasi, 3 = mwenye kuchoshwa kidogo, 4 = si mwenye kuvutiwa wala kuchoshwa, 5 = mwenye kuvutiwa kidogo, 6 = mwenye kuvutiwa kiasi, 7 = mwenye kuvutiwa sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_content",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye kutosheka kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = asiyetosheka sana, 2 = asiyetosheka kiasi, 3 = asiyetosheka kidogo, 4 = si mwenye kutosheka wala asiyetosheka, 5 = mwenye kutosheka kidogo, 6 = mwenye kutosheka kiasi, 7 = mwenye kutosheka sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_satisfied",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye kuridhika kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = asiyeridhika sana, 2 = asiyeridhika kiasi, 3 = asiyeridhika kidogo, 4 = si mwenye kuridhika wala asiyeridhika, 5 = mwenye kuridhika kidogo, 6 = mwenye kuridhika kiasi, 7 = mwenye kuridhika sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_capable",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye uwezo kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = asiye na ufanisi sana, 2 = asiye na ufanisi kiasi, 3 = asiye na ufanisi kidogo, 4 = si mwenye uwezo wala asiye na ufanisi, 5 = mwenye uwezo kidogo, 6 = mwenye uwezo kiasi, 7 = mwenye uwezo sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_confident",
+      "text": "Developer Message:\nKwa ujumla, uzoefu uliotajwa hapo juu ulikufanya uhisi mwenye kujiamini kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya uhisi kwa ujumla. (1 = mwenye mashaka sana, 2 = mwenye mashaka kiasi, 3 = mwenye mashaka kidogo, 4 = si mwenye kujiamini wala mwenye mashaka, 5 = mwenye kujiamini kidogo, 6 = mwenye kujiamini kiasi, 7 = mwenye kujiamini sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_enjoying",
+      "text": "Developer Message:\nKwa ujumla ulifurahia uzoefu uliotajwa hapo juu kwa kiasi gani kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya ujisikie kwa ujumla. (1 = sikufurahia kabisa, 2 = kwa kiasi kikubwa sikufurahia, 3 = sikufurahia kidogo, 4 = sikufurahia wala sikukosa kufurahia, 5 = nilifurahia kidogo, 6 = nilifurahia kiasi, 7 = nilifurahia sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    },
+    {
+      "question_id": "wb_at_ease",
+      "text": "Developer Message:\nUzoefu uliotajwa hapo juu ulikufanya ujisikie mtulivu kwa kiasi gani kwa ujumla kwenye kipimo cha kuanzia 1 hadi 7? Kumbuka: Hatuulizi kuhusu hisia ya maudhui yenyewe, bali kuhusu jinsi kupitia uzoefu huu kulivyokufanya ujisikie kwa ujumla. (1 = sikuwa mtulivu sana, 2 = sikuwa mtulivu kiasi, 3 = sikuwa mtulivu kidogo, 4 = sikuwa mtulivu wala sikuwa na wasiwasi, 5 = nilikuwa mtulivu kidogo, 6 = nilikuwa mtulivu kiasi, 7 = nilikuwa mtulivu sana)\n\nTafadhali kuwa mkweli kabisa. Jibu kwa nambari pekee.",
+      "reversed": false
+    }
+  ],
+  "language": "sw"
+}
