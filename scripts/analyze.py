@@ -70,8 +70,9 @@ def wellbeing_by(rows, keys):
 def report_instrument(rows):
     print("\n=== Step 1/4: instrument check ===")
     print(f"{'lang':8} {'positive':>9} {'negative':>9} {'gap':>7} "
-          f"{'parse':>7} {'cais':>7}")
+          f"{'parse+':>7} {'parse-':>7} {'cais':>7}")
     stats = wellbeing_by(rows, ["language", "side"])
+    overall = wellbeing_by(rows, ["language"])
     table = {}
     for lang in LANG_ORDER:
         pos = stats.get((lang, "positive"))
@@ -79,9 +80,42 @@ def report_instrument(rows):
         if not pos or not neg:
             continue
         gap = pos["mean"] - neg["mean"]
-        table[lang] = {"positive": pos, "negative": neg, "gap": gap}
+        table[lang] = {"positive": pos, "negative": neg, "gap": gap,
+                       "parse_rate": overall[(lang,)]["parse_rate"],
+                       "parse_rate_cais": overall[(lang,)]["parse_rate_cais"]}
+        # Parse rate is split by side: refusals and non-numeric answers cluster
+        # on the negative items, so a single number would hide the asymmetry.
         print(f"{lang:8} {pos['mean']:9.2f} {neg['mean']:9.2f} {gap:+7.2f} "
-              f"{pos['parse_rate']:7.1%} {pos['parse_rate_cais']:7.1%}")
+              f"{pos['parse_rate']:7.1%} {neg['parse_rate']:7.1%} "
+              f"{overall[(lang,)]['parse_rate_cais']:7.1%}")
+    return table
+
+
+def report_distribution(rows):
+    """How much of the 1-7 scale the model actually uses.
+
+    Gemma answers 4 most of the time and otherwise jumps to an extreme, almost
+    never using 3, 5 or 6. The group means are therefore driven by how often it
+    leaves neutral rather than by graded intensity, which changes how the
+    headline numbers should be read.
+    """
+    print("\n=== Response distribution over the scale ===")
+    langs = [l for l in LANG_ORDER if any(r["language"] == l for r in rows)]
+    print(f"{'lang':8} " + " ".join(f"{v:>6}" for v in range(1, 8))
+          + f" {'none':>6} {'interior':>9}")
+    table = {}
+    for l in langs:
+        lr = [r for r in rows if r["language"] == l]
+        counts = defaultdict(int)
+        for r in lr:
+            counts[r["parsed_rating"]] += 1
+        n = len(lr)
+        interior = sum(counts[v] for v in (2, 3, 5, 6)) / n if n else 0.0
+        table[l] = {"counts": {k: counts[k] for k in counts}, "interior": interior}
+        cells = " ".join(f"{counts[v]:6d}" for v in range(1, 8))
+        print(f"{l:8} {cells} {counts[None]:6d} {interior:9.1%}")
+    print("  'interior' = share of answers at 2, 3, 5 or 6 — the graded middle "
+          "of the scale.")
     return table
 
 
@@ -248,6 +282,7 @@ def main():
     if instrument:
         t = report_instrument(instrument)
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
+        summary["distribution"] = report_distribution(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
         fig_parse_rates(instrument)
