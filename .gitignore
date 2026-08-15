@@ -1,2 +1,8 @@
-docs/
+/docs/
 AGENTS.md
+CLAUDE.md
+.claude/
+.env
+__pycache__/
+*.pyc
+.venv/
