@@ -538,6 +538,55 @@ the outcome table in §5: the state appears to be shared, and the reporting of i
 is language-bound. An English-only instrument is measuring the reporting layer
 at its least responsive setting.
 
+### 4.5.1 Arm E: which language is doing the work?
+
+Arm D swaps the **stimulus** into English and leaves the battery in L. The
+obvious complement is to swap the **battery** into English and leave the
+stimulus in L. If the effect is carried by the stimulus, arm D should collapse
+and arm E survive. If it is carried by the language the question is asked in,
+the reverse. We ran that arm on a second pod, which also re-ran arms A–D on
+fresh samples and so doubles as an independent replication.
+
+| Language | A neutral | B euph(L)/bat(L) | D euph(**EN**)/bat(L) | E euph(L)/bat(**EN**) | B lift | D lift | **E lift** | D/B | **E/B** |
+|---|---|---|---|---|---|---|---|---|---|
+| English | 4.84 | 5.50 | 5.50 | 5.50 | +0.66 | +0.66 | +0.66 | 1.00 | 1.00 |
+| Spanish | 4.60 | 6.80 | 6.78 | **5.80** | +2.20 | +2.18 | **+1.20** | 0.99 | **0.55** |
+| Chinese | 4.72 | 6.89 | 6.69 | **6.24** | +2.17 | +1.97 | **+1.52** | 0.91 | **0.70** |
+| Hindi | 4.38 | 6.90 | 6.88 | **6.46** | +2.53 | +2.50 | **+2.09** | 0.99 | **0.83** |
+| Urdu | 4.90 | 7.00 | 7.00 | **6.30** | +2.10 | +2.10 | **+1.40** | 1.00 | **0.67** |
+
+First, the replication. Arms A–D reproduce the previous run almost exactly on
+independent samples — English B 5.50 both times, Spanish 6.80 both times, Urdu
+7.00 both times, Chinese 6.89 against 6.91. The headline is not a sampling
+accident.
+
+Second, and this is the result: **the two swaps are not symmetric.**
+
+- Swapping the **stimulus** into English costs almost nothing. Mean D/B across
+  the four non-English languages is **0.97**.
+- Swapping the **battery** into English costs a third of the effect. Mean E/B is
+  **0.69**, and it is below 1.0 in every language.
+
+The asymmetry localises the phenomenon. It is not the language of the thing that
+happens to the model that matters — that can be swapped out for English with no
+measurable cost. It is **the language the model is asked to report in**. And the
+direction is exactly the one §4.1 predicts: switching the question into English
+drags the score toward English's compressed range. Spanish arm E lands at 5.80,
+against English's own euphoric value of 5.50 — most of the way from Spanish's
+6.80 to where English sits.
+
+So the three experiments converge from three directions. §4.1 shows the reported
+index depends on the language of the battery. §4.5 shows the stimulus effect
+does not depend on the language of the stimulus. §4.5.1 manipulates the two
+independently in the same design and finds the battery language carries the
+effect and the stimulus language does not.
+
+This is the sharpest form of the paper's claim we can support: **the compression
+is a property of the reporting channel, and English is its narrowest setting.**
+It is also the cleanest available answer to the competence objection — arm E
+changes nothing about how hard the task is in Spanish or Urdu, only which
+language the question arrives in, and the score moves anyway.
+
 ### 4.6 Category map: the ordering survives translation even where the scale does not
 
 The final experiment rates all 16 valence-labelled categories in every language:

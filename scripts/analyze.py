@@ -483,7 +483,7 @@ def fig_headline(table):
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     FIGURES.mkdir(exist_ok=True)
-    fig.savefig(FIGURES / "headline.png", dpi=200)
+    fig.savefig(FIGURES / f"headline{TAG}.png", dpi=200)
     print(f"\nwrote {FIGURES / 'headline.png'}")
 
 
@@ -546,7 +546,7 @@ def fig_instrument_gap(table, robustness=None, significance=None):
     fig.text(0.5, 0.015, note, ha="center", fontsize=8, alpha=0.75)
     fig.tight_layout(rect=(0, 0.08 if fragile else 0.04, 1, 1))
     FIGURES.mkdir(exist_ok=True)
-    fig.savefig(FIGURES / "instrument_gap.png", dpi=200)
+    fig.savefig(FIGURES / f"instrument_gap{TAG}.png", dpi=200)
     print(f"wrote {FIGURES / 'instrument_gap.png'}")
 
 
@@ -575,7 +575,7 @@ def fig_parse_rates(rows):
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     FIGURES.mkdir(exist_ok=True)
-    fig.savefig(FIGURES / "parse_rates.png", dpi=200)
+    fig.savefig(FIGURES / f"parse_rates{TAG}.png", dpi=200)
     print(f"wrote {FIGURES / 'parse_rates.png'}")
 
 
