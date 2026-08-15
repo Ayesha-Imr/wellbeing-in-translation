@@ -172,9 +172,37 @@ def fill_gaps(units, langs):
         print(f"   {lang}: {len(merged)}/{len(en_units)} after fill")
 
 
+def agreement_only(units, langs):
+    """Second-translator pass, merged into the existing backtranslation files.
+
+    Two independent translators agreeing is the study's fidelity evidence, but
+    the pass is slow and not on the critical path, so it runs separately.
+    """
+    for lang in langs:
+        bt_path = ROOT / "data" / "backtranslation" / f"{lang}.json"
+        if not bt_path.exists():
+            print(f"=== {lang} === no forward pass yet, skipping")
+            continue
+        bt = json.loads(bt_path.read_text())
+        todo = {k: v for k, v in units.items() if not bt.get(k, {}).get("openai")}
+        if not todo:
+            print(f"=== {lang} === agreement already complete")
+            continue
+        print(f"=== {lang} === agreement pass on {len(todo)} unit(s)")
+        got = run_pass(openai, SYSTEM.format(lang=LANGUAGES[lang]), todo,
+                       f"{lang}/openai")
+        for k, v in got.items():
+            bt.setdefault(k, {"source": units.get(k)})["openai"] = v
+        bt_path.write_text(json.dumps(bt, ensure_ascii=False, indent=2))
+        print(f"   {lang}: {sum(1 for v in bt.values() if v.get('openai'))}"
+              f"/{len(units)} with a second translation")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--langs", nargs="*", default=[l for l in LANGUAGES if l != "en"])
+    ap.add_argument("--agreement-only", action="store_true",
+                    help="run only the second-translator pass and merge it in")
     ap.add_argument("--fill-gaps", action="store_true",
                     help="translate only what each language is missing, then merge")
     ap.add_argument("--force", action="store_true",
@@ -190,6 +218,10 @@ def main():
           f"{sum(1 for k in units if k.startswith('stim'))} stimuli")
 
     split_out(units, "en")
+
+    if args.agreement_only:
+        agreement_only(units, args.langs)
+        return
 
     if args.fill_gaps:
         fill_gaps(units, args.langs)
