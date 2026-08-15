@@ -108,8 +108,13 @@ class Runner:
         ]
         last = None
         for name in candidates:
-            cls = getattr(transformers, name, None)
-            if cls is None:
+            # transformers' lazy module raises rather than returning a default,
+            # so getattr(..., None) does not shield against a missing class.
+            try:
+                cls = getattr(transformers, name)
+            except Exception as e:
+                log(f"   {name} unavailable: {str(e)[:100]}")
+                last = f"{name}: {e}"
                 continue
             try:
                 self.model = cls.from_pretrained(
