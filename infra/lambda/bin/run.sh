@@ -81,7 +81,9 @@ echo "== GPU pod run =="
 echo "Repo:         $REPO ($BRANCH)"
 echo "Project:      $PROJECT_NAME"
 echo "Filesystem:   $FILESYSTEM  (region $REGION)"
-echo "Command:      $CMD"
+# Redact secrets: --cmd routinely carries HF_TOKEN=... and this banner is
+# echoed straight into logs and terminal scrollback.
+echo "Command:      $(printf '%s' "$CMD" | sed -E 's/((HF_TOKEN|HUGGINGFACE_TOKEN|OPENAI_API_KEY|GEMINI_API_KEY|LAMBDA_API_KEY)=)[^ ]*/\1<redacted>/g')"
 echo
 
 # ---- ssh agent: make sure the key is loaded for forwarded git auth --------
