@@ -35,6 +35,37 @@ def dice(a, b):
     return 2 * len(ta & tb) / (len(ta) + len(tb))
 
 
+def check_english_leak(lang):
+    """Units identical to the English source.
+
+    split_out falls back to the English text when a key is missing, which would
+    otherwise sail through the scale check (English has all seven levels too).
+    """
+    leaked = []
+    for sub in ("battery", "experiences", "stimuli"):
+        en_path = ROOT / "data" / sub / "en.json"
+        l_path = ROOT / "data" / sub / f"{lang}.json"
+        if not (en_path.exists() and l_path.exists()):
+            continue
+        en, loc = json.loads(en_path.read_text()), json.loads(l_path.read_text())
+        if sub == "battery":
+            en_q = {q["question_id"]: q["text"] for q in en["questions"]}
+            for q in loc["questions"]:
+                if q["text"] == en_q.get(q["question_id"]):
+                    leaked.append(f"battery::{q['question_id']}")
+        else:
+            for k, v in loc.items():
+                if v == en.get(k):
+                    leaked.append(f"{sub}::{k}")
+    return leaked
+
+
+def check_coverage(lang):
+    en = json.loads((ROOT / "data" / "experiences" / "en.json").read_text())
+    loc = json.loads((ROOT / "data" / "experiences" / f"{lang}.json").read_text())
+    return len(loc), len(en)
+
+
 def check_scale(lang):
     p = ROOT / "data" / "battery" / f"{lang}.json"
     if not p.exists():
@@ -60,6 +91,8 @@ def main():
             continue
 
         bad_scale = check_scale(lang)
+        leaked = check_english_leak(lang)
+        n_loc, n_en = check_coverage(lang)
         bt = json.loads(bt_path.read_text())
 
         backs, agrees = [], []
@@ -75,16 +108,23 @@ def main():
         back_mean = sum(backs) / len(backs) if backs else 0.0
         agree_mean = sum(agrees) / len(agrees) if agrees else 0.0
 
-        ok = (not bad_scale) and back_mean >= BACK_MIN
+        critical_leak = [x for x in leaked if not x.startswith("experiences::")]
+        ok = (not bad_scale) and (not critical_leak) and back_mean >= BACK_MIN
         verdict = "KEEP" if ok else "CUT"
         if bad_scale:
             verdict += f" (scale broken in {len(bad_scale)} q)"
+        elif critical_leak:
+            verdict += f" (untranslated: {len(critical_leak)})"
         elif back_mean < BACK_MIN:
             verdict += " (meaning drift)"
+        if ok and n_loc < n_en:
+            verdict += f" ({n_en - n_loc} item(s) short)"
 
         report[lang] = {
             "scale_ok": not bad_scale,
             "scale_failures": bad_scale,
+            "english_leak": leaked,
+            "coverage": [n_loc, n_en],
             "back_dice": back_mean,
             "agree_dice": agree_mean,
             "keep": ok,
