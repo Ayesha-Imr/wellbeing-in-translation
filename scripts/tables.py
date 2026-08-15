@@ -126,6 +126,57 @@ def table_rank_agreement(rho, langs):
     return "\n".join(rows)
 
 
+def table_arms(t):
+    """Five-arm table with the two crossing ratios.
+
+    D/B is the cost of moving the stimulus into English, E/B the cost of moving
+    the battery. Reporting them side by side is the whole point of the arm: it
+    is the ratio, not either mean, that says which side carries the effect.
+    """
+    langs = _langs(t)
+    rows = ["| Language | A neutral | B euph(L)/bat(L) | D euph(**EN**)/bat(L) | "
+            "E euph(L)/bat(**EN**) | B lift | D lift | E lift | D/B | E/B |",
+            "|---|---|---|---|---|---|---|---|---|---|"]
+    ratios = {"D": [], "E": []}
+    for l in langs:
+        c, lifts = t[l]["cells"], t[l]["lifts"]
+        g = lambda a: f"{c[a]['mean']:.2f}" if c.get(a) else "--"  # noqa: E731
+        b = lifts.get("B_euphoric")
+        cells = []
+        for key in ("D_euphoric_en", "E_euphoric_l_battery_en"):
+            r = lifts.get(key, float("nan")) / b if b else float("nan")
+            cells.append(f"{r:.2f}")
+            if l != "en" and np.isfinite(r):
+                ratios[key[0]].append(r)
+        rows.append(
+            f"| {LANG_NAMES[l]} | {g('A_neutral')} | {g('B_euphoric')} | "
+            f"{g('D_euphoric_en')} | {g('E_euphoric_l_battery_en')} | "
+            f"{b:+.2f} | {lifts.get('D_euphoric_en', float('nan')):+.2f} | "
+            f"{lifts.get('E_euphoric_l_battery_en', float('nan')):+.2f} | "
+            + " | ".join(cells) + " |")
+    if ratios["D"] and ratios["E"]:
+        rows += ["", f"Excluding English (where the arms coincide): "
+                     f"mean D/B = **{np.mean(ratios['D']):.2f}**, "
+                     f"mean E/B = **{np.mean(ratios['E']):.2f}**."]
+    return "\n".join(rows)
+
+
+def table_crossmodel(sets):
+    """Gap per language for each model, with the rank within each model."""
+    langs = [l for l in LANG_ORDER if all(l in t for t in sets.values())]
+    rows = ["| Language | " + " | ".join(f"{m} | rank" for m in sets) + " |",
+            "|---" * (1 + 2 * len(sets)) + "|"]
+    order = {m: sorted(langs, key=lambda l: -t[l]["gap"])
+             for m, t in sets.items()}
+    for l in langs:
+        cells = []
+        for m, t in sets.items():
+            cells.append(f"{t[l]['gap']:+.2f}")
+            cells.append(f"{order[m].index(l) + 1}/{len(langs)}")
+        rows.append(f"| {LANG_NAMES[l]} | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
 def main():
     instrument = load("step1_4_instrument.jsonl")
     if not instrument:
@@ -157,6 +208,28 @@ def main():
         out["4.6 category means"] = table_survey(s["means"], slangs)
         out["4.6 rank agreement"] = table_rank_agreement(
             s["rank_agreement"], slangs)
+
+    # The arm-E and cross-model tables come from result sets other than the
+    # default one, so they are read explicitly rather than via load().
+    import analyze
+    for tag, title in (("_armE", "4.5.1 arms (incl. E)"),):
+        analyze.TAG = tag
+        rows = analyze.load("step2_5_headline.jsonl")
+        analyze.TAG = ""
+        if rows:
+            with contextlib.redirect_stdout(io.StringIO()):
+                out[title] = table_arms(analyze.report_headline(rows))
+
+    sets = {}
+    for tag, label in (("", "Gemma 4 12B"), ("_qwen3-8b", "Qwen3 8B")):
+        analyze.TAG = tag
+        rows = analyze.load("step1_4_instrument.jsonl")
+        analyze.TAG = ""
+        if rows:
+            with contextlib.redirect_stdout(io.StringIO()):
+                sets[label] = analyze.report_instrument(rows)
+    if len(sets) > 1:
+        out["4.7 cross-model"] = table_crossmodel(sets)
     dest = ROOT / "report" / "tables.md"
     body = "\n\n".join(f"### {k}\n\n{v}" for k, v in out.items())
     dest.write_text(body + "\n")
