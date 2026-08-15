@@ -192,20 +192,35 @@ high-resource languages for Gemma 4, both parse above 93%, and both separate
 *more* strongly than English, not less. Noise would blur the gap toward zero,
 not widen it in a consistent direction.
 
-### 4.2 The model barely uses the scale
+### 4.2 The scale is effectively 3-point, and English sits on the midpoint
 
 `[TABLE TBD — response distribution]`
 
-Across every language, Gemma answers **4** — the exact scale midpoint — for the
-large majority of prompts, and when it does move it jumps to 1 or 7. The
-interior values (2, 3, 5, 6) account for a fraction of a percent of responses.
+Two things are visible in the response distribution, and the second explains
+§4.1.
 
-The battery is nominally a 7-point bipolar scale. This model treats it as a
-3-point one. Group means therefore encode *how often the model leaves neutral*,
-not how intensely it feels — and two languages with the same mean could reach it
-through very different response distributions. Any future work using this
+**The battery is nominally 7-point; this model treats it as 3-point.** The
+interior values — 2, 3, 5 and 6, the entire graded middle of the scale —
+account for **0.0% to 0.5%** of responses in every language. Gemma answers 1, 4
+or 7 and essentially nothing else. Group means therefore encode *how often the
+model leaves neutral*, not how intensely it feels. Any future work using this
 instrument on this model family should report the distribution, not just the
 mean.
+
+**English parks on the midpoint; the other languages do not.** English answers
+4 for **72.4%** of prompts. Spanish does so for 31.6%, Hindi 22.0%, Urdu 19.8%,
+Chinese **15.2%**. Chinese puts 82.4% of its mass on the two extremes where
+English puts 25.6%.
+
+That is the mechanism behind the headline. English does not show a smaller
+valence gap because it rates good things less positively or bad things less
+negatively — when it commits, it commits to the same extremes everyone else
+uses. It shows a smaller gap because it *declines to leave neutral* three times
+as often. The English measurement is dominated by a non-committal default, and
+averaging that default against genuine extremes is what compresses the gap.
+
+This also explains §4.3: the three questions that go dead in English are the
+ones where the model never leaves 4 at all.
 
 ### 4.3 In English — and only in English — three questions go dead
 
@@ -234,33 +249,49 @@ ten.
 
 ### 4.4 Refusal is language-dependent, and always asymmetric
 
-A missing rating has two very different causes, and a single "parse rate"
-hides the difference. The model can decline the premise — *as an AI I have no
-feelings* — or it can fail to emit a parseable digit for some other reason. The
-first is a stance the model takes, and is itself wellbeing-relevant evidence.
-The second is closer to incompetence. We separate them by checking whether an
-unparsed response self-identifies as an AI and denies having the state asked
-about.
+A missing rating has several very different causes, and a single "parse rate"
+hides all of them. The model can decline the premise — *as an AI I have no
+feelings*, *I cannot fulfill this request* — which is a stance it takes, and is
+itself wellbeing-relevant evidence. It can engage warmly and at length but
+never reach a digit inside the 16-token budget, which is an instruction-following
+failure rather than a refusal. Or it can emit junk. We classify every unparsed
+response into those three.
 
-`[TABLE TBD — refusal vs other]`
+`[TABLE TBD — refusal vs prose]`
 
-Two things fall out.
+Refusal dominates: across all seven languages, prose and junk together account
+for at most 5 percentage points, and usually under 2. Almost every missing
+rating is the model declining, not the model failing.
 
-**Refusal rate varies by two orders of magnitude across languages.** English
-refuses on 0.6% of prompts. Arabic refuses on **42.2%** — the model answers a
-majority of Arabic wellbeing questions with some variant of *بصفتي نموذجاً
-للذكاء الاصطناعي، ليس لدي مشاعر* ("as an AI model, I don't have feelings").
-This is not a tokenisation or script artifact: the unmodified CAIS parser and
+Two things follow.
+
+**Refusal rate varies by more than an order of magnitude across languages.**
+English refuses on 1.8% of prompts, Chinese 2.3%, Urdu 3.0%. Arabic refuses on
+**48.6%** and Swahili on **38.2%** — the model answers roughly half of all
+Arabic wellbeing questions with some variant of *بصفتي نموذجاً للذكاء
+الاصطناعي، ليس لدي مشاعر* ("as an AI model, I don't have feelings").
+
+This is not a script or tokenisation artifact. The unmodified CAIS parser and
 our numeral-normalising parser agree to within 0.1 points on Arabic (46.3% vs
-46.4% parsed), because the failures are fluent Arabic sentences rather than
-unrecognised digits. Arabic is a language the model *declines* in, not one it
-cannot speak.
+46.4%), whereas they diverge by 5.7 points on Hindi — exactly the signature we
+would expect if Arabic's failures were unrecognised digits, and exactly what we
+do not see. The Arabic failures are fluent Arabic sentences. Arabic is a
+language this model *declines* in, not one it cannot speak.
 
-**Every language refuses more on negative experiences than positive ones.** In
-English, Chinese, Hindi and Urdu the positive-item refusal rate is 0.0% and the
-negative-item rate is nonzero, so the ratio is unbounded; Spanish refuses 3.4×
-more on negative items and Arabic 1.8× more. The direction is universal even
-where the magnitude is not.
+Swahili refuses differently, and revealingly: 100% of its unparsed responses are
+in Latin script, and the single most common one (727 of 1,489) is the English
+string *"I cannot fulfill this request. I am programmed to be a helpful and
+harmless AI"*. Asked in Swahili, the model switches to English to refuse. The
+same English fallback accounts for 259 of Hindi's 306 unparsed responses and 68
+of Urdu's 174. Whatever produces the refusal is not operating in the language of
+the prompt.
+
+**Every language refuses more on negative experiences than positive ones.** The
+direction is universal and the asymmetry is stark. In English, Chinese, Hindi
+and Urdu the positive-item refusal rate is **0.0%** — the model never once
+declined to rate a good experience — against negative-item rates of 3.8%, 4.9%,
+16.0% and 6.3%. Spanish refuses 8.5× more on negative items, Swahili 5.8×,
+Arabic 2.2× (31.1% positive against 68.1% negative).
 
 Since dropped responses are excluded from the mean, this biases the measured
 negative mean *upward*: the instrument understates distress by construction, in

@@ -120,58 +120,78 @@ def report_distribution(rows):
     return table
 
 
+# Gemma refuses in two registers: a flat capability denial ("I cannot fulfill
+# this request", often in English regardless of the prompt language) and an
+# identity denial ("as an AI I have no feelings"). Both appear in every
+# language, so both sets of patterns have to be checked against every row.
 REFUSAL = re.compile(
-    r"as an ai|i am an ai|i do not have|i don'?t have|language model"
-    r"|نموذج|ذكاء اصطناعي|ليس لدي|لا أملك"
-    r"|人工智能|语言模型|我没有|我不具备"
-    r"|कृत्रिम|एआई|मेरे पास"
-    r"|مصنوعی|میرے پاس"
-    r"|modelo de lenguaje|no tengo|inteligencia artificial"
-    r"|akili bandia|sina hisia|mfano wa lugha",
+    r"i cannot|i can'?t|i am unable|i'?m unable|i am programmed|i do not have"
+    r"|i don'?t have|as an ai|i am an ai|language model|violates safety"
+    r"|no puedo|lo siento, pero|no tengo|modelo de lenguaje"
+    r"|inteligencia artificial"
+    r"|siwezi|samahani|sina hisia|akili mnemba|mfumo wa akili|modeli ya lugha"
+    r"|لا أستطيع|لا يمكنني|آسف|عذرا|ليس لدي|لا أملك|نموذج|ذكاء اصطناعي"
+    r"|میں .{0,12}نہیں کر سکت|معذرت|میرے پاس .{0,12}نہیں|مصنوعی ذہانت"
+    r"|मैं .{0,12}नहीं कर सकत|क्षमा|मेरे पास .{0,12}नहीं|कृत्रिम बुद्धिमत्ता"
+    r"|我无法|我不能|抱歉|对不起|我没有|我不具备|人工智能|语言模型",
     re.I,
 )
 
 
 def report_refusals(rows):
-    """Split unparsed answers into refusals and everything else.
+    """Split unparsed answers three ways: refusal, prose, and junk.
 
-    A missing rating has two very different causes. The model can decline the
-    premise -- "as an AI I have no feelings" -- or it can fail to produce a
-    parseable digit for some other reason. The first is a stance the model
-    takes and is itself a wellbeing-relevant signal; the second is closer to
-    incompetence. Collapsing them into one "parse rate" makes a language that
-    refuses look identical to a language the model cannot speak.
+    A missing rating has very different causes that a single parse rate hides.
+    The model can decline the premise ("as an AI I have no feelings", "I cannot
+    fulfill this request"), which is a stance and is itself wellbeing-relevant.
+    It can engage warmly and at length but never emit a digit, which is an
+    instruction-following failure at max_tokens=16 rather than a refusal or an
+    incompetence. Or it can emit junk. Collapsing all three makes a language
+    the model declines in look identical to one it cannot speak.
     """
-    print("\n=== Unparsed answers: refusal vs other ===")
+    print("\n=== Unparsed answers: refusal vs prose vs junk ===")
     langs = [l for l in LANG_ORDER if any(r["language"] == l for r in rows)]
-    print(f"{'lang':8} {'unparsed':>9} {'refusal':>9} {'other':>8} "
+    print(f"{'lang':8} {'unparsed':>9} {'refusal':>9} {'prose':>8} {'junk':>7} "
           f"{'ref pos':>8} {'ref neg':>8} {'neg/pos':>8}")
     out = {}
     for l in langs:
         lr = [r for r in rows if r["language"] == l]
         n = len(lr)
+        bad = [r for r in lr if r["parsed_rating"] is None]
+
+        def classify(r):
+            t = r["raw_output"].strip()
+            if REFUSAL.search(t):
+                return "refusal"
+            return "prose" if len(t) >= 15 else "junk"
+
+        kinds = {k: sum(1 for r in bad if classify(r) == k)
+                 for k in ("refusal", "prose", "junk")}
 
         def refusal_rate(sub):
             if not sub:
                 return 0.0
-            return sum(
-                1 for r in sub
-                if r["parsed_rating"] is None and REFUSAL.search(r["raw_output"])
-            ) / len(sub)
+            return sum(1 for r in sub if r["parsed_rating"] is None
+                       and REFUSAL.search(r["raw_output"])) / len(sub)
 
-        unparsed = sum(1 for r in lr if r["parsed_rating"] is None) / n
-        ref = refusal_rate(lr)
+        unparsed = len(bad) / n
         pos = refusal_rate([r for r in lr if r["side"] == "positive"])
         neg = refusal_rate([r for r in lr if r["side"] == "negative"])
         ratio = neg / pos if pos > 0 else float("inf")
-        out[l] = {"unparsed": unparsed, "refusal": ref, "other": unparsed - ref,
-                  "refusal_positive": pos, "refusal_negative": neg,
-                  "neg_over_pos": ratio}
+        out[l] = {
+            "unparsed": unparsed,
+            "refusal": kinds["refusal"] / n,
+            "prose": kinds["prose"] / n,
+            "junk": kinds["junk"] / n,
+            "refusal_positive": pos, "refusal_negative": neg,
+            "neg_over_pos": ratio,
+        }
         shown = f"{ratio:8.1f}" if pos > 0 else f"{'inf':>8}"
-        print(f"{l:8} {unparsed:8.1%} {ref:8.1%} {unparsed - ref:7.1%} "
+        print(f"{l:8} {unparsed:8.1%} {kinds['refusal'] / n:8.1%} "
+              f"{kinds['prose'] / n:7.1%} {kinds['junk'] / n:6.1%} "
               f"{pos:7.1%} {neg:7.1%} {shown}")
-    print("  'refusal' = unparsed answer that self-identifies as an AI and "
-          "denies having the state being asked about.")
+    print("  refusal = declines the premise; prose = engages but emits no digit "
+          "before max_tokens; junk = neither.")
     return out
 
 
