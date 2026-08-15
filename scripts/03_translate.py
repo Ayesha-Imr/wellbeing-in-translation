@@ -88,13 +88,25 @@ def run_pass(fn, system, units, label):
 
     missing = {k: v for k, v in units.items() if k not in out}
     if missing:
-        print(f"   {label}: recovering {len(missing)} unit(s) individually",
-              flush=True)
-        for k, v in missing.items():
+        print(f"   {label}: recovering {len(missing)} unit(s)", flush=True)
+
+        def one(k, v):
             try:
-                out.update(fn(system, {k: v}))
+                return fn(system, {k: v})
             except Exception as e:
                 print(f"   ! {label} {k}: {e!r}"[:160], flush=True)
+                return {}
+
+        pool2 = ThreadPoolExecutor(max_workers=WORKERS)
+        futs = [pool2.submit(one, k, v) for k, v in missing.items()]
+        try:
+            for f in as_completed(futs, timeout=PASS_DEADLINE):
+                out.update(f.result())
+        except FuturesTimeout:
+            print(f"   ! {label}: recovery deadline hit, "
+                  f"{len(units) - len(out)} unit(s) unresolved", flush=True)
+        finally:
+            pool2.shutdown(wait=False, cancel_futures=True)
     return out
 
 
@@ -122,6 +134,8 @@ def split_out(translated, lang):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--langs", nargs="*", default=[l for l in LANGUAGES if l != "en"])
+    ap.add_argument("--force", action="store_true",
+                    help="re-translate languages already on disk")
     ap.add_argument("--skip-openai", action="store_true",
                     help="skip the agreement pass; it is slow and not on the critical path")
     args = ap.parse_args()
@@ -137,6 +151,10 @@ def main():
 
     for lang in args.langs:
         name = LANGUAGES[lang]
+        done_marker = ROOT / "data" / "backtranslation" / f"{lang}.json"
+        if done_marker.exists() and not args.force:
+            print(f"\n=== {lang} ({name}) === already done, skipping")
+            continue
         print(f"\n=== {lang} ({name}) ===")
         sys_fwd = SYSTEM.format(lang=name)
 
