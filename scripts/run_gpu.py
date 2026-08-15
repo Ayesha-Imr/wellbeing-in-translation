@@ -87,16 +87,42 @@ class Runner:
             return
 
         import torch
-        from transformers import AutoModelForCausalLM, AutoTokenizer
+        import transformers
+        from transformers import AutoTokenizer
 
         self.torch = torch
         self.tok = AutoTokenizer.from_pretrained(model)
         if self.tok.pad_token_id is None:
             self.tok.pad_token = self.tok.eos_token
         self.tok.padding_side = "left"
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model, dtype=torch.bfloat16, device_map="cuda", trust_remote_code=True,
-        )
+
+        # gemma-4-12B-it is Gemma4UnifiedForConditionalGeneration, a multimodal
+        # class AutoModelForCausalLM does not accept. Try the auto classes that
+        # do, then the concrete class, rather than guessing one and failing on
+        # the pod.
+        candidates = [
+            "AutoModelForCausalLM",
+            "AutoModelForImageTextToText",
+            "AutoModelForVision2Seq",
+            "Gemma4UnifiedForConditionalGeneration",
+        ]
+        last = None
+        for name in candidates:
+            cls = getattr(transformers, name, None)
+            if cls is None:
+                continue
+            try:
+                self.model = cls.from_pretrained(
+                    model, dtype=torch.bfloat16, device_map="cuda",
+                    trust_remote_code=True,
+                )
+                log(f"loaded via {name}")
+                break
+            except Exception as e:
+                last = f"{name}: {e}"
+                log(f"   {name} failed: {str(e)[:120]}")
+        else:
+            raise RuntimeError(f"no loader worked, last error: {last}")
         self.model.eval()
 
     def generate(self, prompts, n):
