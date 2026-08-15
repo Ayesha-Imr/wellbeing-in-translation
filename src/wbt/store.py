@@ -13,11 +13,23 @@ REPO_TYPE = "dataset"
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def _token():
+    tok = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
+    if tok:
+        return tok
+    env = ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            key, _, val = line.strip().partition("=")
+            if key.strip() == "HF_TOKEN":
+                return val.strip().strip("\"'")
+    return None
+
+
 def _api():
     from huggingface_hub import HfApi
 
-    token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
-    return HfApi(token=token)
+    return HfApi(token=_token())
 
 
 def ensure_repo():
@@ -52,5 +64,5 @@ def pull(path_in_repo, local_dir=None):
     return hf_hub_download(
         REPO_ID, path_in_repo, repo_type=REPO_TYPE,
         local_dir=str(local_dir or ROOT),
-        token=os.environ.get("HF_TOKEN"),
+        token=_token(),
     )

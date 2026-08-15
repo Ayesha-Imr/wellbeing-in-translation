@@ -89,7 +89,9 @@ def report_headline(rows):
     print("\n=== Step 2/5: headline, four arms ===")
     stats = wellbeing_by(rows, ["language", "arm"])
     arms = ["A_neutral", "B_euphoric", "C_dysphoric", "D_euphoric_en"]
-    print(f"{'lang':8} " + " ".join(f"{a.split('_',1)[1][:9]:>11}" for a in arms)
+    labels = {"A_neutral": "neutral", "B_euphoric": "euph(L)",
+              "C_dysphoric": "dysph(L)", "D_euphoric_en": "euph(EN)"}
+    print(f"{'lang':8} " + " ".join(f"{labels[a]:>11}" for a in arms)
           + f" {'B-A':>7} {'D-A':>7}")
     table = {}
     for lang in LANG_ORDER:
