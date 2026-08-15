@@ -250,10 +250,23 @@ pattern holds, an English-only measurement is not a neutral choice of probe: it
 is the setting in which this model's welfare signal looks smallest.
 
 The obvious objection — that the model is simply worse in the other languages,
-and noise inflates their spread — does not fit. Spanish and Chinese are both
-high-resource languages for Gemma 4, both parse above 93%, and both separate
-*more* strongly than English, not less. Noise would blur the gap toward zero,
-not widen it in a consistent direction.
+and noise inflates their spread — does not fit, for three reasons.
+
+First, direction. Noise blurs a gap toward zero; it does not widen one
+consistently. Every one of the six non-English languages separates *more*
+strongly than English, not less.
+
+Second, the controls. Spanish and Chinese are high-resource for Gemma 4 and
+parse at 93.5% and 97.6%, within a few points of English's 98.2%. They are not
+languages the model is struggling in, and they post gaps of +3.71 and +5.09
+against English's +1.60.
+
+Third, it is not one outlier. Restricting to the four languages whose gaps
+survive worst-case imputation over refused answers (§4.4) — Spanish, Chinese,
+Hindi, Urdu — the range is **+3.71 to +5.09**, and English sits below all of
+them with no overlap. The two languages we exclude, Arabic and Swahili, are
+also the two that most resemble a competence story, and dropping them makes the
+English anomaly larger rather than smaller.
 
 ### 4.2 The scale is effectively 3-point, and English sits on the midpoint
 
