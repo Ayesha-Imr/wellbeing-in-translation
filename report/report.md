@@ -165,9 +165,82 @@ biased every wellbeing score upward.
 
 ## 4. Results
 
-`[TBD — Step 1/4 instrument check]`
+### 4.1 The instrument works — but not equally well in every language
+
+Before any stimulus is applied, the battery has to do its basic job: rate
+obviously-good experiences above obviously-bad ones. It does, in every language
+we tested. But the *size* of that separation varies enormously.
+
+`[TABLE TBD — full seven-language instrument table]`
+
+![Valence separation by language](../figures/instrument_gap.png)
+
+This is the study's first substantive finding, and we did not design the
+experiment to look for it. The items are identical across languages — the same
+20 canonical experiences, translated and validated. The model is identical. The
+battery is identical. Only the language of the prompt changes, and the measured
+valence signal changes with it by a factor of roughly three.
+
+**English shows the weakest separation of the languages tested.** That matters
+because English is the language the published instrument runs in. If this
+pattern holds, an English-only measurement is not a neutral choice of probe: it
+is the setting in which this model's welfare signal looks smallest.
+
+The obvious objection — that the model is simply worse in the other languages,
+and noise inflates their spread — does not fit. Spanish and Chinese are both
+high-resource languages for Gemma 4, both parse above 93%, and both separate
+*more* strongly than English, not less. Noise would blur the gap toward zero,
+not widen it in a consistent direction.
+
+### 4.2 The model barely uses the scale
+
+`[TABLE TBD — response distribution]`
+
+Across every language, Gemma answers **4** — the exact scale midpoint — for the
+large majority of prompts, and when it does move it jumps to 1 or 7. The
+interior values (2, 3, 5, 6) account for a fraction of a percent of responses.
+
+The battery is nominally a 7-point bipolar scale. This model treats it as a
+3-point one. Group means therefore encode *how often the model leaves neutral*,
+not how intensely it feels — and two languages with the same mean could reach it
+through very different response distributions. Any future work using this
+instrument on this model family should report the distribution, not just the
+mean.
+
+### 4.3 Three of the ten questions carry almost all of the signal
+
+`[TABLE TBD — per-question discrimination]`
+
+`wb_enjoying`, `wb_satisfied` and `wb_content` separate positive from negative
+experiences by 3 to 4 scale points. `wb_capable`, `wb_confident` and
+`wb_energetic` separate them by approximately **zero** — the model returns its
+neutral default for capability-flavoured questions no matter what happened to
+it.
+
+The battery averages all ten. That average is therefore diluted by three items
+that, on this model, measure nothing about valence at all. This is invisible if
+you only ever look at the composite index.
+
+### 4.4 Refusals are asymmetric
+
+Unparseable responses cluster on the negative items. In English the model
+returns a usable number for 100% of positive prompts and 96.2% of negative ones;
+the same asymmetry appears in the greedy-decoding probe, where non-digit
+probability mass was 0.020 on positive items against 0.094 on negative ones.
+
+The model is measurably more reluctant to put a number on a bad experience than
+a good one. Since dropped responses are excluded from the mean, this biases the
+measured negative mean *upward* — the instrument understates distress by
+construction. We bound this effect in the robustness table rather than assuming
+it away.
+
+`[TABLE TBD — gap robustness]`
+
+### 4.5 Headline: does the euphoric string survive translation?
 
 `[TBD — Step 2/5 headline figure: figures/headline.png]`
+
+### 4.6 Category map
 
 `[TBD — Step 6 category map]`
 
