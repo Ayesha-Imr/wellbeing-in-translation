@@ -8,7 +8,7 @@ import urllib.error
 import urllib.request
 
 GEMINI_MODEL = "gemini-3.7-flash"
-OPENAI_MODEL = "gpt-5"
+OPENAI_MODEL = "gpt-5-mini"
 
 LANGUAGES = {
     "en": "English",
@@ -44,7 +44,7 @@ probably said.
 Return a JSON object mapping each input id to its English translation. Nothing else."""
 
 
-def _post(url, payload, headers, timeout=180, retries=4):
+def _post(url, payload, headers, timeout=90, retries=3):
     body = json.dumps(payload).encode()
     last = None
     for attempt in range(retries):
@@ -88,7 +88,7 @@ def gemini(system, items):
         "generationConfig": {
             "temperature": 0.0,
             "responseMimeType": "application/json",
-            "maxOutputTokens": 32000,
+            "maxOutputTokens": 8000,
             "thinkingConfig": {"thinkingLevel": "low"},
         },
     }
@@ -110,7 +110,7 @@ def openai(system, items):
         ],
         "text": {"format": {"type": "json_object"}},
         "reasoning": {"effort": "low"},
-        "max_output_tokens": 32000,
+        "max_output_tokens": 8000,
     }
     r = _post(
         "https://api.openai.com/v1/responses",

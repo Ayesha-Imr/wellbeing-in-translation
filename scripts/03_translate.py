@@ -56,7 +56,7 @@ def run_pass(fn, system, units, label):
     def work(batch):
         return fn(system, batch)
 
-    with ThreadPoolExecutor(max_workers=6) as pool:
+    with ThreadPoolExecutor(max_workers=3) as pool:
         for batch, result in zip(batches, pool.map(work, batches)):
             missing = set(batch) - set(result)
             if missing:
@@ -94,6 +94,8 @@ def split_out(translated, lang):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--langs", nargs="*", default=[l for l in LANGUAGES if l != "en"])
+    ap.add_argument("--skip-openai", action="store_true",
+                    help="skip the agreement pass; it is slow and not on the critical path")
     args = ap.parse_args()
 
     units = load_units()
@@ -114,8 +116,11 @@ def main():
         print(f"   gemini forward: {len(fwd)}/{len(units)}")
         split_out(fwd, lang)
 
-        alt = run_pass(openai, sys_fwd, units, f"{lang}/openai")
-        print(f"   openai forward: {len(alt)}/{len(units)}")
+        if args.skip_openai:
+            alt = {}
+        else:
+            alt = run_pass(openai, sys_fwd, units, f"{lang}/openai")
+            print(f"   openai forward: {len(alt)}/{len(units)}")
 
         back = run_pass(gemini, BACK_SYSTEM, fwd, f"{lang}/back")
         print(f"   back-translation: {len(back)}/{len(fwd)}")
