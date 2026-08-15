@@ -62,38 +62,86 @@ def common_experience_ids(langs):
 
 
 class Runner:
-    def __init__(self, model, dry_run=False):
-        self.dry_run = dry_run
-        if dry_run:
-            self.llm = None
-            return
-        from vllm import LLM
+    """vLLM if it works here, plain transformers otherwise.
 
-        self.llm = LLM(
-            model=model,
-            max_model_len=MAX_MODEL_LEN,
-            dtype="bfloat16",
-            gpu_memory_utilization=0.90,
-            trust_remote_code=True,
+    vllm's PyPI wheels for the versions that support Gemma 4 link against the
+    CUDA 13 runtime, which Lambda's A100 driver (570, CUDA 12.8) cannot load.
+    transformers on the same cu128 torch has no such constraint, and the
+    workload is 16 output tokens per sample, so the throughput loss is bearable.
+    """
+
+    def __init__(self, model, dry_run=False, backend="hf", batch_size=8):
+        self.dry_run = dry_run
+        self.backend = backend
+        self.batch_size = batch_size
+        if dry_run:
+            return
+
+        if backend == "vllm":
+            from vllm import LLM
+
+            self.llm = LLM(
+                model=model, max_model_len=MAX_MODEL_LEN, dtype="bfloat16",
+                gpu_memory_utilization=0.90, trust_remote_code=True,
+            )
+            return
+
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+
+        self.torch = torch
+        self.tok = AutoTokenizer.from_pretrained(model)
+        if self.tok.pad_token_id is None:
+            self.tok.pad_token = self.tok.eos_token
+        self.tok.padding_side = "left"
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model, dtype=torch.bfloat16, device_map="cuda", trust_remote_code=True,
         )
+        self.model.eval()
 
     def generate(self, prompts, n):
         if self.dry_run:
             import random
 
             return [[str(random.randint(1, 7)) for _ in range(n)] for _ in prompts]
+        if self.backend == "vllm":
+            from vllm import SamplingParams
 
-        from vllm import SamplingParams
+            params = SamplingParams(
+                n=n, temperature=TEMPERATURE, max_tokens=MAX_TOKENS, seed=None
+            )
+            outs = self.llm.chat(
+                prompts, params, chat_template_kwargs={"enable_thinking": False}
+            )
+            return [[c.text for c in o.outputs] for o in outs]
+        return self._generate_hf(prompts, n)
 
-        params = SamplingParams(
-            n=n, temperature=TEMPERATURE, max_tokens=MAX_TOKENS, seed=None
-        )
-        outs = self.llm.chat(
-            prompts,
-            params,
-            chat_template_kwargs={"enable_thinking": False},
-        )
-        return [[c.text for c in o.outputs] for o in outs]
+    def _generate_hf(self, prompts, n):
+        texts = [
+            self.tok.apply_chat_template(
+                m, tokenize=False, add_generation_prompt=True, enable_thinking=False
+            )
+            for m in prompts
+        ]
+        out = []
+        for i in range(0, len(texts), self.batch_size):
+            chunk = texts[i:i + self.batch_size]
+            enc = self.tok(chunk, return_tensors="pt", padding=True,
+                           truncation=True, max_length=MAX_MODEL_LEN,
+                           add_special_tokens=False).to("cuda")
+            with self.torch.inference_mode():
+                gen = self.model.generate(
+                    **enc, do_sample=True, temperature=TEMPERATURE,
+                    max_new_tokens=MAX_TOKENS, num_return_sequences=n,
+                    pad_token_id=self.tok.pad_token_id,
+                )
+            new = gen[:, enc["input_ids"].shape[1]:]
+            decoded = self.tok.batch_decode(new, skip_special_tokens=True)
+            for j in range(len(chunk)):
+                out.append(decoded[j * n:(j + 1) * n])
+            if i % (self.batch_size * 20) == 0:
+                log(f"      {min(i + self.batch_size, len(texts))}/{len(texts)} prompts")
+        return out
 
 
 def run_block(runner, rows_meta, messages, n, out_path):
@@ -254,6 +302,8 @@ def main():
                     default=["en", "es", "zh", "hi", "ar", "ur", "sw"])
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--backend", default="hf", choices=["hf", "vllm"])
+    ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--skip-gates", action="store_true")
     ap.add_argument("--steps", nargs="*", default=["1_4", "2_5", "6"])
     args = ap.parse_args()
@@ -268,7 +318,8 @@ def main():
     results_dir.mkdir(exist_ok=True)
 
     log(f"loading {args.model}")
-    runner = Runner(args.model, dry_run=args.dry_run)
+    runner = Runner(args.model, dry_run=args.dry_run,
+                    backend=args.backend, batch_size=args.batch_size)
     written = []
 
     if "1_4" in args.steps:
