@@ -116,6 +116,8 @@ All six languages passed the gate. Every one retains all seven numbered levels
 in all ten battery questions, and none shows any untranslated (English) unit in
 the battery or the stimuli:
 
+![Translation fidelity by language](../figures/fidelity.png)
+
 | Language | Scale intact | Back-translation | Translator agreement |
 |---|---|---|---|
 | Spanish | yes | 0.83 | 0.92 |
