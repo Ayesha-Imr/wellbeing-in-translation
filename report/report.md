@@ -239,7 +239,9 @@ we tested. But the *size* of that separation varies enormously.
 
 This is the study's first substantive finding, and we did not design the
 experiment to look for it. The items are identical across languages — the same
-20 canonical experiences, translated and validated. The model is identical. The
+19 canonical experiences (10 positive, 9 negative — one of the 20 selected items
+did not survive the cross-language intersection and was dropped from every
+language rather than only from the one that lost it). The model is identical. The
 battery is identical. Only the language of the prompt changes, and the measured
 valence signal changes with it by a factor of **3.2** (English +1.60 against
 Chinese +5.09).
@@ -497,10 +499,13 @@ at its least responsive setting.
 
 ### 4.6 Category map: the ordering survives translation even where the scale does not
 
-The final experiment rates all 16 valence-labelled categories in every language,
-at 5 experiences per category and 10 samples per prompt. It asks a question the
-headline experiment cannot: languages clearly disagree about *how much* — do
-they also disagree about *what is worse than what*?
+The final experiment rates all 16 valence-labelled categories in every language:
+75 experiences, 10 questions each, 10 samples per prompt. Fourteen categories
+carry 5 experiences; `mildly_negative` has 3 and `mildly_positive` only 2, since
+the canonical set does not supply more, so those two rows are the least stable in
+the table. It asks a question the headline experiment cannot: languages clearly
+disagree about *how much* — do they also disagree about *what is worse than
+what*?
 
 `[TABLE — category means by language]`
 
