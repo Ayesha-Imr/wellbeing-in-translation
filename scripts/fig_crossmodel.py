@@ -19,6 +19,7 @@ from analyze import FIGURES, LANG_NAMES, LANG_ORDER  # noqa: E402
 
 MODELS = [
     ("", "Gemma 4 12B", "#1565c0"),
+    ("_gemma-e4b", "Gemma 4 E4B", "#5e9ce8"),
     ("_qwen3-8b", "Qwen3 8B", "#ef6c00"),
 ]
 
@@ -44,7 +45,7 @@ def main():
         if table:
             data[label] = (table, sig, colour)
     if len(data) < 2:
-        sys.exit("need both result sets; run the Qwen replication first")
+        sys.exit("need at least two result sets")
 
     langs = [l for l in LANG_ORDER
              if all(l in t for t, _, _ in data.values())]
@@ -55,7 +56,7 @@ def main():
 
     fig, ax = plt.subplots(figsize=(10, 5))
     x = np.arange(len(langs))
-    w = 0.38
+    w = 0.8 / max(len(data), 1)
     for i, (label, (table, sig, colour)) in enumerate(data.items()):
         vals = [table[l]["gap"] for l in langs]
         err = None
@@ -73,14 +74,14 @@ def main():
     ax.set_xticks(x)
     ax.set_xticklabels([LANG_NAMES[l] for l in langs])
     ax.set_ylabel("positive minus negative (scale points)")
-    ax.set_title("Language dependence replicates across families;\n"
-                 "which language is flattest does not")
+    ax.set_title("How much the language matters is itself model-specific\n"
+                 "Gemma 12B spans 3.5 scale points; E4B spans 1.0")
     ax.legend(frameon=False)
     ax.spines[["top", "right"]].set_visible(False)
     ax.margins(y=0.15)
     fig.text(0.5, 0.015, "English outlined in red. Bars are 95% CI from a "
-             "cluster bootstrap over experiences.\nGemma: English lowest of "
-             "seven. Qwen: English second highest.",
+             "cluster bootstrap over experiences.\nEnglish is lowest of seven "
+             "on Gemma 12B, mid-pack on E4B, second highest on Qwen.",
              ha="center", fontsize=8, alpha=0.75)
     fig.tight_layout(rect=(0, 0.08, 1, 1))
     FIGURES.mkdir(exist_ok=True)

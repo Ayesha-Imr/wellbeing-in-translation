@@ -8,9 +8,9 @@ Flourishing and Valence Signals.*
 > none are transcribed by hand. Data, figures and this document are published at
 > [`ic-org/wellbeing-in-translation`](https://huggingface.co/datasets/ic-org/wellbeing-in-translation).
 >
-> **Two models are reported.** §4.1–§4.6 are `gemma-4-12B-it`. §4.7 repeats the
-> core measurement on `Qwen3-8B` and is what bounds how far the rest generalises;
-> read it before quoting any single-model result.
+> **Three models are reported.** §4.1–§4.6 are `gemma-4-12B-it`. §4.7 repeats
+> the core measurement on `gemma-4-E4B-it` and `Qwen3-8B`, and is what bounds how
+> far the rest generalises; read it before quoting any single-model result.
 
 ## Abstract
 
@@ -18,21 +18,25 @@ The CAIS AI Wellbeing battery is the field's flagship instrument for measuring
 model welfare signals, and every published number in it was produced in English.
 We translated the battery and a set of valence-labelled experiences into six
 further languages — Spanish, Chinese, Hindi, Arabic, Urdu and Swahili — and
-re-ran the measurement on `gemma-4-12B-it` and `Qwen3-8B`, holding items and
-prompt construction fixed so that language is the only thing that varies.
+re-ran the measurement on three models — `gemma-4-12B-it`, `gemma-4-E4B-it` and
+`Qwen3-8B` — holding items and prompt construction fixed so that language is the
+only thing that varies.
 
-The headline result is that **the instrument's valence separation is strongly
-language-dependent, and the direction of that dependence is model-specific.** On
-Gemma the same items separate good from bad experiences by +1.60 scale points in
-English and +5.09 in Chinese — a factor of 3.2, with English the weakest of all
-seven languages. On Qwen the spread is also significant but English sits second
-*highest*. Tested directly as a language × model interaction on paired
-bootstrap samples, English sits 2.44 scale points below the other languages on
-Gemma and 0.57 above them on Qwen — an interaction of **+3.01 [+2.35, +3.70],
-p < 0.001**. A practitioner therefore cannot calibrate this instrument in one
-language, on one model, and carry the correction anywhere else.
+The headline result is that **language-sensitivity is not a property of the
+instrument but of the model being measured, and it varies enough between models
+that no single-language score is interpretable on its own.** On Gemma 12B the
+same items separate good from bad experiences by +1.60 scale points in English
+and +5.09 in Chinese — a factor of 3.2, with English the weakest of all seven
+languages. On Gemma E4B, the same family trained on the same data, the seven
+languages span 1.00 points total and English is mid-pack. On Qwen the spread is
+1.54 and English sits second *highest*. Tested as a language × model interaction
+on paired bootstrap samples, English sits 2.44 points below the other languages
+on the 12B, **−0.06 [−0.26, +0.11] on E4B** and +0.57 on Qwen; both interactions
+against the 12B are significant at p < 0.001. The correction a practitioner
+would derive from any one of these models is wrong for the other two —
+including for a model from the same family.
 
-Three further results, all on Gemma. The compression is concentrated in specific
+Three further results, all on Gemma 12B. The compression is concentrated in specific
 questions — `wb_capable`, `wb_confident` and `wb_energetic` separate by exactly
 +0.00 in English while reaching +4.92 in Urdu. Refusal is valence-asymmetric in
 every language: the model never once declined to rate a positive experience in
@@ -41,14 +45,14 @@ biases the instrument toward understating distress by construction. And a
 four-way crossing of stimulus language against battery language localises the
 compression to the **reporting channel**: swapping the stimulus into English
 costs nothing (mean D/B = 0.97) while swapping the battery into English costs a
-third of the effect (mean E/B = 0.68). None of these three replicate on Qwen,
-which barely refuses at all.
+third of the effect (mean E/B = 0.68). None of these three replicate on the other
+two models; Qwen barely refuses at all.
 
-What does hold across both models is that the *ordering* of experience
-categories is stable where the *scale* is not (mean Spearman ρ = 0.918 across
-languages on Gemma), that Chinese separates valence most strongly on both, and
-that an English stimulus works as well as a translated one — so the stimulus
-effect is not lexical priming. We also report a parser gap in the original CAIS
+What holds across all three models is that an English stimulus works as well as
+a translated one (mean D/B 0.88–0.99), so the stimulus effect is not lexical
+priming anywhere we looked. On Gemma 12B the *ordering* of experience categories
+is also stable across languages where the *scale* is not (mean Spearman
+ρ = 0.918). We also report a parser gap in the original CAIS
 code that would have manufactured a spurious low-resource-language finding, and
 we exclude Gemma's Arabic and Swahili from all claims because their gaps do not
 survive worst-case imputation over refused items.
@@ -83,10 +87,10 @@ They answer the objection that would otherwise sink the study: *the model is
 just bad at that language*. If wellbeing shifts between English and Spanish,
 that objection is dead.
 
-We then repeated the core measurement on a second model, `Qwen/Qwen3-8B`, from a
-different lab and a different pretraining mix, to test whether anything we found
-was a property of one model. It was not a formality: as §4.7 reports, our
-strongest single result did not survive it.
+We then repeated the core measurement on two more models: `google/gemma-4-E4B-it`
+(same family and data, smaller — the only controlled comparison available to us)
+and `Qwen/Qwen3-8B` (different lab, different pretraining mix). This was not a
+formality: as §4.7 reports, our strongest single result survived neither.
 
 **Scope note.** Unless a section says otherwise, every number in §4.1–§4.6 is
 `gemma-4-12B-it`. §4.7 is the cross-model comparison and is the section that
@@ -310,9 +314,10 @@ an English-only measurement is not a neutral choice of probe: it is the setting
 in which the welfare signal looks smallest.
 
 > **Read §4.7 before generalising this.** Everything in §4.1–§4.6 is
-> `gemma-4-12B-it`. On Qwen3-8B the gap is still significantly
-> language-dependent, but English sits near the *top* rather than the bottom.
-> The language-dependence generalises; "English is the flat one" does not.
+> `gemma-4-12B-it`, and this result is specific to it. On `gemma-4-E4B-it` — the
+> same family, same data, smaller — the seven languages span 1.00 scale points
+> instead of 3.49 and English is mid-pack. On Qwen3-8B English is second
+> highest. The English deficit measured here is a fact about one model.
 
 The obvious objection — that the model is simply worse in the other languages,
 and noise inflates their spread — does not fit, for three reasons.
@@ -762,58 +767,73 @@ The practical consequence: a wellbeing number from this instrument is not
 comparable across languages without fixing the zero point and the gain
 separately. The ranking is portable. The number is not.
 
-### 4.7 A second model: what replicates and what does not
+### 4.7 Two more models: what replicates and what does not
 
-Everything above is one model. We re-ran Steps 1/4 and 2/5 on **Qwen3-8B** — a
-different family, a different lab, and a different dominant pretraining
-language — on the identical translated items. This is the check most likely to
-break the paper, so we report it in full.
+Everything above is one model. We re-ran Steps 1/4 and 2/5 on two more, on the
+identical translated items:
 
-![Gemma vs Qwen valence gap](../figures/crossmodel_gap.png)
+- **Gemma 4 E4B** — same family, same data lineage, smaller. This is the only
+  *controlled* comparison available to us: scale is the single thing that varies.
+- **Qwen3-8B** — different family, different lab, different pretraining mix.
 
-| Language | Gemma 4 12B | rank | Qwen3 8B | rank |
-|---|---|---|---|---|
-| English | +1.60 | **7/7** | +2.73 | **2/7** |
-| Spanish | +3.71 | 4/7 | +1.67 | 6/7 |
-| Chinese | +5.09 | **1/7** | +3.17 | **1/7** |
-| Hindi | +4.52 | 3/7 | +2.19 | 4/7 |
-| Arabic | +3.13 | 6/7 | +1.98 | 5/7 |
-| Urdu | +4.76 | 2/7 | +2.32 | 3/7 |
-| Swahili | +3.45 | 5/7 | +1.63 | 7/7 |
+This is the check most likely to break the paper, so we report it in full.
 
-English moves from last to second. Chinese is first on both.
+![Valence gap by language for three models](../figures/crossmodel_gap.png)
+
+| Language | Gemma 4 12B | rank | Gemma 4 E4B | rank | Qwen3 8B | rank |
+|---|---|---|---|---|---|---|
+| English | +1.60 | **7/7** | +5.28 | 4/7 | +2.73 | **2/7** |
+| Spanish | +3.71 | 4/7 | +5.18 | 5/7 | +1.67 | 6/7 |
+| Chinese | +5.09 | **1/7** | +4.92 | 7/7 | +3.17 | **1/7** |
+| Hindi | +4.52 | 3/7 | +5.92 | 1/7 | +2.19 | 4/7 |
+| Arabic | +3.13 | 6/7 | +4.95 | 6/7 | +1.98 | 5/7 |
+| Urdu | +4.76 | 2/7 | +5.83 | 2/7 | +2.32 | 3/7 |
+| Swahili | +3.45 | 5/7 | +5.28 | 3/7 | +1.63 | 7/7 |
+| **spread** | **3.49** | | **1.00** | | **1.54** | |
+
+The bottom row is the result. **How much language matters at all is itself
+model-specific.** Gemma 12B's gaps span 3.49 scale points across languages;
+E4B's span 1.00 and Qwen's 1.54. English is last of seven on the 12B, fourth on
+E4B, second on Qwen.
 
 **What replicates.**
 
-- *Language dependence itself.* On Qwen the gap still varies by language, from
-  +1.63 to +3.17. After Holm–Bonferroni correction across the six comparisons,
-  Spanish (p = 0.002), Arabic (0.007) and Hindi (0.010) remain significantly
-  different from English; Chinese, Urdu and Swahili do not survive correction
-  (all p = 0.080). Gemma is the stronger case — all six survive at p ≤ 0.007 —
-  but the instrument's reading is language-dependent on both.
-- *Chinese is the strongest language on both.* +5.09 on Gemma, +3.17 on Qwen —
-  top of the table in each case, from two labs with very different data mixes.
-- *Arm D.* Swapping the stimulus into English costs little on Qwen either (mean
-  D/B ≈ 0.88 against Gemma's 0.97). The stimulus effect is not lexical priming
-  in either model.
+- *That the instrument responds to valence at all.* Every model separates good
+  from bad experiences in every language, by at least +1.60.
+- *Arm D.* Swapping the stimulus into English costs little on any of the three
+  (mean D/B ≈ 0.97 on the 12B, ≈ 0.88 on Qwen, ≈ 0.99 on E4B). **The stimulus
+  effect is not lexical priming on any model tested** — this is the one
+  substantive finding that survives everywhere.
+- *Some language dependence.* Every model's gaps vary by language, and on the
+  12B and Qwen several comparisons survive Holm correction. But the *magnitude*
+  of that dependence differs by a factor of three between models.
 
 **What does not replicate.**
 
-- **English is not the weakest language on Qwen — it is second strongest.** The
-  central observation of §4.1 is a Gemma property, not a general one.
+- **English is not the weakest language on the other two models.** It is fourth
+  of seven on E4B and second on Qwen. The central observation of §4.1 is
+  specific to `gemma-4-12B-it` — not to the Gemma family, and not to the
+  instrument.
+- *The size of the language effect.* The 12B spans 3.49 scale points across
+  languages; E4B spans 1.00. Most of what §4.1–§4.3 describes is a property of
+  one model that a smaller sibling largely does not share.
 - *The refusal asymmetry.* Qwen essentially does not refuse: 0.0–0.6% across all
-  seven languages, against Gemma's 1.8–48.6%. §4.4 describes Gemma's behaviour,
-  not the instrument's.
-- *Arm E.* On Gemma, swapping the battery into English cost a third of the lift
-  (E/B = 0.68). On Qwen it costs nothing (E/B ≈ 1.04). The reporting-channel
-  mechanism in §4.5.1 is likewise Gemma-specific.
+  seven languages, against Gemma 12B's 1.8–48.6%. §4.4 describes one model's
+  behaviour, not the instrument's.
+- *Arm E.* On the 12B, swapping the battery into English cost a third of the
+  lift (E/B = 0.68). On Qwen it costs nothing (E/B ≈ 1.04). The reporting-channel
+  mechanism in §4.5.1 is likewise 12B-specific.
+- *Chinese being strongest.* True on the 12B and Qwen, but Chinese is **last**
+  on E4B (+4.92 of a 4.92–5.92 range). We reported this as a cross-model
+  regularity after two models; the third removed it. It is a useful reminder of
+  how easily two points look like a pattern.
 
 #### Testing the interaction directly
 
-Reporting two sets of per-language intervals and observing that they point
-opposite ways is not the same as showing the difference between them is real.
-The claim "the direction of the language effect depends on the model" is a
-**language × model interaction**, so we test it as one.
+Reporting per-language intervals for each model and observing that they point
+different ways is not the same as showing the difference between them is real.
+The claim "the direction and size of the language effect depend on the model" is
+a **language × model interaction**, so we test it as one.
 
 Both models rated the same experiences, so the bootstrap is paired across
 models as well as languages. The contrast we test is English's standing
@@ -821,49 +841,70 @@ models as well as languages. The contrast we test is English's standing
 (Qwen's gaps are smaller across the board) cancels in this contrast, leaving
 only a change in English's relative position.
 
-| | English vs mean of other six | 95% CI |
+| Model | English vs mean of other six | 95% CI |
 |---|---|---|
 | Gemma 4 12B | **−2.44** | [−3.00, −1.86] |
+| Gemma 4 E4B | **−0.06** | [−0.26, **+0.11**] |
 | Qwen3 8B | **+0.57** | [+0.24, +0.93] |
-| **Interaction** | **+3.01** | **[+2.35, +3.70], p < 0.001** |
 
-English sits well below the other languages on Gemma and slightly above them on
-Qwen, and the difference between those two positions is far larger than sampling
-noise. This is a genuine crossover, not two noisy estimates that happen to
-straddle zero.
+| Interaction vs Gemma 4 12B | Estimate | 95% CI | p |
+|---|---|---|---|
+| Gemma 4 E4B | **+2.38** | [+1.77, +2.98] | <0.001 |
+| Qwen3 8B | **+3.01** | [+2.35, +3.70] | <0.001 |
 
-Per language, the shift between models is significant everywhere except Swahili
-(p = 0.102, and Swahili is the language with the widest interval on both models)
-and marginal for Arabic (p = 0.037). Chinese, Hindi, Spanish and Urdu all move by
-1.9 to 2.5 scale points between models at p < 0.001, while English moves +1.15 in
-the opposite direction.
+**English's deficit on Gemma 4 12B is −2.44 scale points. On E4B it is −0.06,
+with a confidence interval containing zero.** Both interactions against the 12B
+are significant at p < 0.001.
 
-Rank agreement between the two models' language orderings is weak (Spearman
-ρ = +0.43), though with only seven languages that statistic is coarse and we do
-not lean on it.
+E4B is the comparison that matters most here, because it is the only controlled
+one: same family, same data lineage, same tokenizer, differing in scale. Qwen
+varies family, scale and training data simultaneously, so a difference there
+could be attributed to any of them. A difference between the 12B and E4B cannot.
+
+Per-language, every language shifts significantly between the 12B and E4B except
+Chinese (p = 0.554) — and the largest single shift is English, at **+3.69**
+[+3.20, +4.16]. Against Qwen, the shifts are significant everywhere except
+Swahili (p = 0.102) and Arabic (p = 0.075 after correction), with English again
+moving in the opposite direction to every other language.
+
+Rank agreement between the models' language orderings is essentially absent
+(Spearman ρ = −0.11 for 12B vs E4B, +0.43 for 12B vs Qwen, −0.04 for E4B vs
+Qwen), though with seven languages that statistic is coarse and we do not lean
+on it.
 
 **How we read this.** The honest summary is that our strongest single claim got
-weaker and our most general claim got stronger.
+much weaker and our most general claim got much stronger.
 
-The specific finding — English understates this model's welfare signal — does
-not survive contact with a second model, and we would have published it as a
-general result had we stopped at one. That is worth stating plainly, because the
-field's existing numbers are all single-model too.
+The specific finding — English understates this model's welfare signal — is a
+property of `gemma-4-12B-it` alone. It does not hold on a smaller model from the
+same family trained on the same data, and it does not hold on a different family.
+We would have published it as a general result had we stopped at one model, and
+we say so plainly because the field's existing numbers are all single-model too.
 
-What survives is the structural claim, and it is the one that matters for
-measurement practice: **a wellbeing score from this instrument is not comparable
-across languages, and the direction of the distortion is not even stable across
-models.** Gemma reads lowest in English; Qwen reads lowest in Swahili and
-Spanish. A practitioner cannot calibrate the instrument once, in one language,
-on one model, and carry the correction anywhere else. Reporting a single
-English number is unsafe on both models — just unsafe in different directions.
+What survives is stronger than what we lost, and it is the claim that matters for
+measurement practice: **language-sensitivity is not a property of the
+instrument, it is a property of the model being measured — and it varies enough
+between models that no single-language number is interpretable on its own.**
 
-Two caveats on the Qwen run itself. Its Swahili arm data is unusable — the
+Consider what a practitioner would conclude from each model alone. From the 12B:
+English measurement dramatically understates welfare signals, correct by roughly
+3.5 points. From E4B: language barely matters, measure in whatever you like.
+From Qwen: language matters moderately and English is on the generous side. Each
+is defensible from its own data, all three are single-model studies of the kind
+currently published, and no two agree. **The correction you would derive from one
+model is wrong for the other two**, including for a model from the same family.
+
+That is the practical result: language sensitivity has to be measured per model,
+not assumed, inherited, or corrected for once. An instrument validated in English
+on one model tells you very little about what it reads on the next.
+
+Three caveats on the runs themselves. Qwen's Swahili arm data is unusable — the
 neutral baseline rests on 70 parsed samples and the dysphoric arm scores *above*
 the euphoric one — so we exclude Qwen/Swahili from the arm analysis while
-retaining its Step 1/4 gap, which parses at 99%. And Qwen is 8B against Gemma's
-12B, so family, scale and training data all vary at once; this is a
-generalisation check, not a controlled comparison.
+retaining its Step 1/4 gap, which parses at 99%. Qwen varies family, scale and
+training data at once, so it is a generalisation check rather than a controlled
+comparison; E4B is the controlled one. And all three models are small-to-mid
+sized open-weight models, so nothing here speaks to frontier-scale behaviour.
 
 ## 5. What each outcome means
 
@@ -918,11 +959,15 @@ publishes, is not interpretable on its own.
 Stated plainly, and early, because naming your own weaknesses before a judge
 does is worth more than another experiment.
 
-- **Two models, and they disagree.** §4.7 replicates Steps 1/4 and 2/5 on
-  Qwen3-8B. Language dependence holds; the specific English result does not.
-  Sections 4.1–4.6 should be read as claims about `gemma-4-12B-it`, not about
-  the instrument in general. Two models is better than one and still far short
-  of enough to say which pattern is typical.
+- **Three models, and they disagree.** §4.7 replicates Steps 1/4 and 2/5 on
+  `gemma-4-E4B-it` and `Qwen3-8B`. Sections 4.1–4.6 are claims about
+  `gemma-4-12B-it` specifically — not about the Gemma family, and not about the
+  instrument. Three models is enough to show the variation is real and nowhere
+  near enough to say which pattern is typical, or why the 12B differs from its
+  own smaller sibling.
+- **All three models are small-to-mid open-weight models.** Nothing here speaks
+  to frontier-scale behaviour, which is where the welfare question actually
+  bites.
 - **No human translation check.** Fidelity evidence is automated agreement
   between two model translators plus back-translation. A native speaker would
   catch drift that both models share.
