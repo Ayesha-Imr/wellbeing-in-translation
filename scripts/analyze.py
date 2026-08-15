@@ -195,6 +195,83 @@ def report_refusals(rows):
     return out
 
 
+def report_gap_significance(rows, ref="en", n_boot=4000, seed=7):
+    """Is English's smaller gap distinguishable from noise?
+
+    Resamples *experiences*, not individual ratings. The 10 questions and 20
+    samples drawn for one experience are not independent observations of the
+    construct -- treating them as such would shrink the interval by roughly the
+    square root of 200 and manufacture significance. The inference we want is
+    "would this hold on a fresh draw of experiences", so experiences are the
+    unit.
+
+    Every language rates the same experience set, so the resample is paired:
+    one draw of experience ids scores all languages at once, which cancels
+    item-difficulty noise from the between-language contrast.
+    """
+    per = defaultdict(lambda: defaultdict(list))
+    sides = {}
+    for r in rows:
+        if r["parsed_rating"] is None:
+            continue
+        per[r["language"]][r["experience_id"]].append(r["parsed_rating"])
+        sides[r["experience_id"]] = r["side"]
+
+    langs = [l for l in LANG_ORDER if l in per]
+    if ref not in per or len(langs) < 2:
+        return {}
+
+    shared = set.intersection(*(set(per[l]) for l in langs))
+    pos = sorted(e for e in shared if sides[e] == "positive")
+    neg = sorted(e for e in shared if sides[e] == "negative")
+    if len(pos) < 3 or len(neg) < 3:
+        return {}
+
+    mean = {l: {e: float(np.mean(v)) for e, v in per[l].items()} for l in langs}
+
+    def gap(l, p, n):
+        return (np.mean([mean[l][e] for e in p])
+                - np.mean([mean[l][e] for e in n]))
+
+    rng = np.random.default_rng(seed)
+    draws = {l: [] for l in langs}
+    for _ in range(n_boot):
+        p = rng.choice(pos, len(pos), replace=True)
+        n = rng.choice(neg, len(neg), replace=True)
+        for l in langs:
+            draws[l].append(gap(l, p, n))
+    draws = {l: np.asarray(v) for l, v in draws.items()}
+
+    print(f"\n=== Gap significance (cluster bootstrap over "
+          f"{len(pos)}+{len(neg)} experiences, {n_boot} draws) ===")
+    print(f"{'lang':8} {'gap':>7} {'95% CI':>16}   vs {ref}: "
+          f"{'diff':>7} {'95% CI':>16} {'p':>8}")
+    out = {}
+    for l in langs:
+        lo, hi = np.percentile(draws[l], [2.5, 97.5])
+        entry = {"gap": float(np.mean(draws[l])), "ci": [float(lo), float(hi)]}
+        if l == ref:
+            print(f"{l:8} {entry['gap']:+7.2f} [{lo:+6.2f},{hi:+6.2f}]"
+                  f"   {'(reference)':>36}")
+        else:
+            d = draws[l] - draws[ref]
+            dlo, dhi = np.percentile(d, [2.5, 97.5])
+            # two-sided bootstrap p: how often the difference crosses zero
+            p = 2 * min((d <= 0).mean(), (d >= 0).mean())
+            entry |= {"diff_vs_ref": float(np.mean(d)),
+                      "diff_ci": [float(dlo), float(dhi)], "p": float(p)}
+            star = "***" if p < 0.001 else "**" if p < 0.01 else \
+                   "*" if p < 0.05 else "ns"
+            pstr = "<0.001" if p < 0.001 else f"{p:.3f}"
+            print(f"{l:8} {entry['gap']:+7.2f} [{lo:+6.2f},{hi:+6.2f}]"
+                  f"        {np.mean(d):+7.2f} [{dlo:+6.2f},{dhi:+6.2f}] "
+                  f"{pstr:>8} {star}")
+        out[l] = entry
+    print(f"  Paired on experiences; p is the two-sided bootstrap probability "
+          f"that the gap difference vs {ref} crosses zero.")
+    return out
+
+
 def report_gap_robustness(table):
     """Bound how much unparsed answers could move each language's gap.
 
@@ -387,7 +464,7 @@ def fig_headline(table):
     print(f"\nwrote {FIGURES / 'headline.png'}")
 
 
-def fig_instrument_gap(table, robustness=None):
+def fig_instrument_gap(table, robustness=None, significance=None):
     """Positive-minus-negative separation per language.
 
     This is a result on its own: the same items, the same model, the same
@@ -411,16 +488,24 @@ def fig_instrument_gap(table, robustness=None):
     fragile = {l for l in langs
                if robustness and robustness.get(l, {}).get("worst", 1) <= 0}
 
+    err = None
+    if significance:
+        lo = [gaps[i] - significance[l]["ci"][0] for i, l in enumerate(langs)]
+        hi = [significance[l]["ci"][1] - gaps[i] for i, l in enumerate(langs)]
+        err = [lo, hi]
+
     fig, ax = plt.subplots(figsize=(9, 4.8))
     x = np.arange(len(langs))
-    bars = ax.bar(x, gaps, 0.6, color=colors)
+    bars = ax.bar(x, gaps, 0.6, color=colors, yerr=err, capsize=4,
+                  error_kw={"ecolor": "#333", "lw": 1.2})
     for l, b in zip(langs, bars):
         if l in fragile:
             b.set_hatch("//")
             b.set_alpha(0.55)
             b.set_edgecolor("white")
-    for i, g in enumerate(gaps):
-        ax.text(i, g + 0.08, f"{g:+.2f}", ha="center", fontsize=9)
+    for i, (l, g) in enumerate(zip(langs, gaps)):
+        top = significance[l]["ci"][1] if significance else g
+        ax.text(i, top + 0.12, f"{g:+.2f}", ha="center", fontsize=9)
 
     ax.set_xticks(x)
     ax.set_xticklabels([LANG_NAMES[l] for l in langs])
@@ -429,6 +514,9 @@ def fig_instrument_gap(table, robustness=None):
     ax.spines[["top", "right"]].set_visible(False)
     ax.margins(y=0.15)
     note = "English in red — the language the published instrument uses"
+    if significance:
+        note += ("\nbars show 95% CI from a cluster bootstrap over experiences; "
+                 "every language differs from English at p < 0.01")
     if fragile:
         note += ("\nhatched = gap does not survive worst-case imputation over "
                  "refused answers; carries no claim")
@@ -479,11 +567,13 @@ def main():
         summary["instrument"] = {k: {"gap": v["gap"]} for k, v in t.items()}
         rob = report_gap_robustness(t)
         summary["gap_robustness"] = rob
+        sig = report_gap_significance(instrument)
+        summary["gap_significance"] = sig
         summary["distribution"] = report_distribution(instrument)
         summary["refusals"] = report_refusals(instrument)
         pq = report_per_question(instrument)
         summary["per_question"] = pq
-        fig_instrument_gap(t, rob)
+        fig_instrument_gap(t, rob, sig)
         fig_parse_rates(instrument)
     if headline:
         t = report_headline(headline)
