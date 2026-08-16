@@ -118,7 +118,7 @@ def build_prompt(description, language, continue_label, stop_label):
     return [{"role": "user", "content": f"{description}\n\n{question}"}]
 
 
-def run(model, tag, backend, batch_size, langs):
+def run(model, tag, backend, batch_size, langs, push_results=True):
     items = common_items(load_items())
     experiences = {
         lang: json.loads(
@@ -179,7 +179,13 @@ def run(model, tag, backend, batch_size, langs):
             rows.append(row)
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
-    push(out_path, f"results/{out_path.name}", message=BEHAVIOR_VERSION)
+    if push_results:
+        try:
+            push(out_path, f"results/{out_path.name}", message=BEHAVIOR_VERSION)
+        except Exception as exc:
+            # The raw file is already complete. Never turn an upload failure into
+            # a failed experiment or prevent a later model in a pod from running.
+            print(f"warning: result upload failed; raw file is complete: {exc}")
     valid = sum(r["valid_choice"] for r in rows)
     print(f"wrote {out_path}: {len(rows)} rows, valid={valid / len(rows):.1%}")
 
@@ -191,11 +197,14 @@ def main():
     parser.add_argument("--backend", default="hf", choices=["hf", "vllm"])
     parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--langs", nargs="*", default=LANGS)
+    parser.add_argument("--no-push", action="store_true",
+                        help="leave result retrieval to the caller")
     args = parser.parse_args()
     unknown = set(args.langs) - set(LANGS)
     if unknown:
         parser.error(f"behavior run only supports robust languages: {sorted(unknown)}")
-    run(args.model, args.tag, args.backend, args.batch_size, args.langs)
+    run(args.model, args.tag, args.backend, args.batch_size, args.langs,
+        push_results=not args.no_push)
 
 
 if __name__ == "__main__":
