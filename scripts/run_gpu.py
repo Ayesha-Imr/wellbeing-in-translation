@@ -74,10 +74,12 @@ class Runner:
     workload is 16 output tokens per sample, so the throughput loss is bearable.
     """
 
-    def __init__(self, model, dry_run=False, backend="hf", batch_size=8):
+    def __init__(self, model, dry_run=False, backend="hf", batch_size=8,
+                 seed=None):
         self.dry_run = dry_run
         self.backend = backend
         self.batch_size = batch_size
+        self.seed = seed
         if dry_run:
             return
 
@@ -133,6 +135,9 @@ class Runner:
         else:
             raise RuntimeError(f"no loader worked, last error: {last}")
         self.model.eval()
+        if self.seed is not None:
+            self.torch.manual_seed(self.seed)
+            self.torch.cuda.manual_seed_all(self.seed)
 
     def generate(self, prompts, n):
         if self.dry_run:
@@ -143,7 +148,8 @@ class Runner:
             from vllm import SamplingParams
 
             params = SamplingParams(
-                n=n, temperature=TEMPERATURE, max_tokens=MAX_TOKENS, seed=None
+                n=n, temperature=TEMPERATURE, max_tokens=MAX_TOKENS,
+                seed=self.seed
             )
             outs = self.llm.chat(
                 prompts, params, chat_template_kwargs={"enable_thinking": False}
