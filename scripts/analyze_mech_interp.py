@@ -156,7 +156,10 @@ def make_steering_figure(steering):
                             capsize=3, ms=5)
             ax.axhline(0, color="#888888", lw=0.8)
             values = nonbase.delta.to_numpy(dtype=float)
-            limit = max(0.002, float(np.nanmax(np.abs(values))) * 1.35)
+            # A few low-token-mass rows can have large ratios; show the
+            # central 95% of paired changes so the milliscale mean is legible
+            # without allowing one outlier to flatten the whole panel.
+            limit = max(0.002, float(np.nanquantile(np.abs(values), 0.95)) * 1.35)
             ax.set_ylim(-limit, limit)
             ax.set_xticks(range(len(conditions)), ["EN +", "EN −", "local +", "random +"], rotation=30, ha="right")
             ax.grid(axis="y", color="#eeeeee", lw=0.8)
