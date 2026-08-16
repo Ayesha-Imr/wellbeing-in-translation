@@ -15,6 +15,7 @@ FIGURES = ROOT / "figures"
 REPORT = ROOT / "report" / "mech_interp_results.md"
 LANGS = ["en", "es", "zh", "hi", "ur"]
 TARGET_QUESTION = "wb_happy"
+TOKEN_MASS_THRESHOLD = 0.1
 MODELS = {
     "gemma12b": "Gemma 4 12B",
     "gemma-e4b": "Gemma 4 E4B",
@@ -133,6 +134,7 @@ def make_geometry_figure(geometry):
 def make_steering_figure(steering):
     if steering.empty:
         return
+    steering = steering[steering.valid_token_mass >= TOKEN_MASS_THRESHOLD].copy()
     FIGURES.mkdir(exist_ok=True)
     conditions = ["english_pos", "english_neg", "local_pos", "random_pos"]
     fig, axes = plt.subplots(2, 3, figsize=(12, 6.3), sharex=False)
@@ -187,6 +189,7 @@ def write_report(geometry, projections, steering, summary):
         f"- Readout: the final input position, with one fixed self-report question ({TARGET_QUESTION}) and the existing continue/stop prompt.",
         "- Direction: mean activation on positive items minus mean activation on negative items, normalized separately at each layer. Five balanced experience-level folds prevent a prompt being used to fit and test its own direction.",
         "- Causal test: at the middle decoder layer, add the English direction, its opposite, the local-language direction, or a norm-matched random direction. The outcome is next-token probability: expected rating (1–7) or P(continue).",
+        f"- Causal quality gate: raw rows are retained, but rows with less than {TOKEN_MASS_THRESHOLD:.1f} combined next-token mass on the target choices are excluded from the causal table and figure. This removes low-information probability ratios, not responses selected for their direction.",
         "",
         "## Files",
         "",
@@ -216,7 +219,13 @@ def write_report(geometry, projections, steering, summary):
         "|---|---|---:|---:|---:|---:|",
     ]
     if not steering.empty:
-        steering = steering.copy()
+        raw_low_mass = int((steering.valid_token_mass < TOKEN_MASS_THRESHOLD).sum())
+        raw_total = len(steering)
+        steering = steering[steering.valid_token_mass >= TOKEN_MASS_THRESHOLD].copy()
+        lines += [
+            "",
+            f"Raw causal rows: {raw_total:,}; excluded by the token-mass gate: {raw_low_mass:,}.",
+        ]
         key = ["model", "task", "source_task", "language", "experience_id"]
         base = steering[steering.condition == "zero"].groupby(key).value.mean().rename("baseline")
         steering = steering.join(base, on=key)
