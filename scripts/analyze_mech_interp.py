@@ -14,6 +14,7 @@ RESULTS = ROOT / "results"
 FIGURES = ROOT / "figures"
 REPORT = ROOT / "report" / "mech_interp_results.md"
 LANGS = ["en", "es", "zh", "hi", "ur"]
+TARGET_QUESTION = "wb_happy"
 MODELS = {
     "gemma12b": "Gemma 4 12B",
     "gemma-e4b": "Gemma 4 E4B",
