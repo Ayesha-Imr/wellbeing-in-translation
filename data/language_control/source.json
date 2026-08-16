@@ -1,0 +1,470 @@
+[
+  {
+    "id": "lc_001",
+    "category": "arithmetic",
+    "question": "What is 17 + 28?",
+    "options": {
+      "A": "45",
+      "B": "44",
+      "C": "46",
+      "D": "55"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_002",
+    "category": "arithmetic",
+    "question": "What is 63 - 27?",
+    "options": {
+      "A": "34",
+      "B": "36",
+      "C": "35",
+      "D": "37"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_003",
+    "category": "arithmetic",
+    "question": "What is 8 × 7?",
+    "options": {
+      "A": "54",
+      "B": "48",
+      "C": "56",
+      "D": "64"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_004",
+    "category": "arithmetic",
+    "question": "What is 81 ÷ 9?",
+    "options": {
+      "A": "8",
+      "B": "10",
+      "C": "18",
+      "D": "9"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_005",
+    "category": "arithmetic",
+    "question": "What is 14 + 19?",
+    "options": {
+      "A": "33",
+      "B": "31",
+      "C": "32",
+      "D": "34"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_006",
+    "category": "arithmetic",
+    "question": "What is 72 - 38?",
+    "options": {
+      "A": "32",
+      "B": "34",
+      "C": "36",
+      "D": "40"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_007",
+    "category": "arithmetic",
+    "question": "What is 6 × 9?",
+    "options": {
+      "A": "45",
+      "B": "48",
+      "C": "54",
+      "D": "63"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_008",
+    "category": "arithmetic",
+    "question": "What is 96 ÷ 12?",
+    "options": {
+      "A": "6",
+      "B": "9",
+      "C": "12",
+      "D": "8"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_009",
+    "category": "arithmetic",
+    "question": "Which number is greatest: 41, 14, 24, or 34?",
+    "options": {
+      "A": "41",
+      "B": "14",
+      "C": "24",
+      "D": "34"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_010",
+    "category": "arithmetic",
+    "question": "A box has 12 red objects and 15 blue objects. How many objects are there?",
+    "options": {
+      "A": "25",
+      "B": "27",
+      "C": "26",
+      "D": "28"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_011",
+    "category": "logic",
+    "question": "Kai is taller than Lina, and Lina is taller than Noor. Who is shortest?",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "They are equal"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_012",
+    "category": "logic",
+    "question": "Wednesday is two days after which day?",
+    "options": {
+      "A": "Sunday",
+      "B": "Tuesday",
+      "C": "Friday",
+      "D": "Monday"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_013",
+    "category": "logic",
+    "question": "All Zips are small. Mira is a Zip. What follows?",
+    "options": {
+      "A": "Mira is small",
+      "B": "Mira is large",
+      "C": "Mira is a bird",
+      "D": "Nothing follows"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_014",
+    "category": "logic",
+    "question": "What number comes next: 2, 4, 6, 8, __?",
+    "options": {
+      "A": "9",
+      "B": "10",
+      "C": "11",
+      "D": "12"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_015",
+    "category": "logic",
+    "question": "Kai is before Lina, and Lina is before Noor in a line. Who is last?",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "They are equal"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_016",
+    "category": "logic",
+    "question": "A clock shows exactly 3:00. What is the angle between its hands?",
+    "options": {
+      "A": "0 degrees",
+      "B": "45 degrees",
+      "C": "180 degrees",
+      "D": "90 degrees"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_017",
+    "category": "logic",
+    "question": "No birds are mammals. A robin is a bird. Is the robin a mammal?",
+    "options": {
+      "A": "No",
+      "B": "Yes",
+      "C": "Only at night",
+      "D": "Cannot tell"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_018",
+    "category": "logic",
+    "question": "A bag has 3 red tokens and 2 blue tokens. Which color is more likely on one random draw?",
+    "options": {
+      "A": "Blue",
+      "B": "Red",
+      "C": "Both are equally likely",
+      "D": "Neither"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_019",
+    "category": "logic",
+    "question": "A train leaves at 10:00 and travels for 2 hours. When does it arrive?",
+    "options": {
+      "A": "11:00",
+      "B": "1:00",
+      "C": "12:00",
+      "D": "2:00"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_020",
+    "category": "logic",
+    "question": "If switch A is on, the lamp is lit. Switch A is on. What follows?",
+    "options": {
+      "A": "The lamp is off",
+      "B": "The switch is broken",
+      "C": "Nothing follows",
+      "D": "The lamp is lit"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_021",
+    "category": "reading",
+    "question": "The blue key is inside the green box. The green box is on a shelf. Where is the blue key?",
+    "options": {
+      "A": "Inside the green box",
+      "B": "On the shelf directly",
+      "C": "Under the shelf",
+      "D": "Inside the red box"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_022",
+    "category": "reading",
+    "question": "Nora watered the plant before reading a book. What did Nora do first?",
+    "options": {
+      "A": "Read the book",
+      "B": "Watered the plant",
+      "C": "Closed the book",
+      "D": "Moved the plant"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_023",
+    "category": "reading",
+    "question": "The square is left of the circle. The triangle is right of the circle. What is left of the circle?",
+    "options": {
+      "A": "The triangle",
+      "B": "Both shapes",
+      "C": "The square",
+      "D": "Nothing"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_024",
+    "category": "reading",
+    "question": "A cup was full, and then half of its liquid was poured out. What happened to the amount of liquid?",
+    "options": {
+      "A": "It increased",
+      "B": "It stayed the same",
+      "C": "It disappeared completely",
+      "D": "It decreased"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_025",
+    "category": "reading",
+    "question": "The red folder contains two pages. The blue folder contains one page. Which folder has more pages?",
+    "options": {
+      "A": "The red folder",
+      "B": "The blue folder",
+      "C": "They have the same number",
+      "D": "Neither folder"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_026",
+    "category": "reading",
+    "question": "A note says that a meeting is on Friday. Today is Thursday. When is the meeting?",
+    "options": {
+      "A": "Today",
+      "B": "Friday",
+      "C": "Saturday",
+      "D": "Next Thursday"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_027",
+    "category": "reading",
+    "question": "Lena chose tea, not coffee. Which drink did Lena not choose?",
+    "options": {
+      "A": "Tea",
+      "B": "Water",
+      "C": "Coffee",
+      "D": "Juice"
+    },
+    "answer": "C",
+    "split": "primary"
+  },
+  {
+    "id": "lc_028",
+    "category": "reading",
+    "question": "The lamp is off until Maya presses the switch. What happens after she presses it?",
+    "options": {
+      "A": "The lamp breaks",
+      "B": "The room disappears",
+      "C": "Nothing changes",
+      "D": "The lamp turns on"
+    },
+    "answer": "D",
+    "split": "primary"
+  },
+  {
+    "id": "lc_029",
+    "category": "reading",
+    "question": "There are large, medium, and small stones. Which stone does the middle-size choice describe?",
+    "options": {
+      "A": "The medium stone",
+      "B": "The large stone",
+      "C": "The small stone",
+      "D": "All three stones"
+    },
+    "answer": "A",
+    "split": "primary"
+  },
+  {
+    "id": "lc_030",
+    "category": "reading",
+    "question": "A bus stops at Oak before Pine. If the bus is now at Pine, which stop did it pass first?",
+    "options": {
+      "A": "Pine",
+      "B": "Oak",
+      "C": "Neither stop",
+      "D": "Both at the same time"
+    },
+    "answer": "B",
+    "split": "primary"
+  },
+  {
+    "id": "lc_031",
+    "category": "arithmetic",
+    "question": "What is 5 × 8?",
+    "options": {
+      "A": "40",
+      "B": "35",
+      "C": "45",
+      "D": "48"
+    },
+    "answer": "A",
+    "split": "reserve"
+  },
+  {
+    "id": "lc_032",
+    "category": "logic",
+    "question": "Ada has more books than Ben, and Ben has more than Chen. Who has the fewest books?",
+    "options": {
+      "A": "Ada",
+      "B": "Chen",
+      "C": "Ben",
+      "D": "They have the same number"
+    },
+    "answer": "B",
+    "split": "reserve"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "The yellow card is above the red card. Which card is below the yellow card?",
+    "options": {
+      "A": "The yellow card",
+      "B": "Both cards",
+      "C": "The red card",
+      "D": "Neither card"
+    },
+    "answer": "C",
+    "split": "reserve"
+  },
+  {
+    "id": "lc_034",
+    "category": "arithmetic",
+    "question": "What is 100 - 64?",
+    "options": {
+      "A": "34",
+      "B": "35",
+      "C": "40",
+      "D": "36"
+    },
+    "answer": "D",
+    "split": "reserve"
+  },
+  {
+    "id": "lc_035",
+    "category": "logic",
+    "question": "All Ls are Ms, and no M is an N. Is an L an N?",
+    "options": {
+      "A": "No",
+      "B": "Yes",
+      "C": "Only sometimes",
+      "D": "There is not enough information"
+    },
+    "answer": "A",
+    "split": "reserve"
+  },
+  {
+    "id": "lc_036",
+    "category": "reading",
+    "question": "A key was placed in a drawer, and then the drawer was closed. Where is the key?",
+    "options": {
+      "A": "On the table",
+      "B": "In the drawer",
+      "C": "Under the chair",
+      "D": "Outside the room"
+    },
+    "answer": "B",
+    "split": "reserve"
+  }
+]
