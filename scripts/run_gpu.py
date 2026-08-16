@@ -10,6 +10,7 @@ so an interrupted run keeps whatever finished.
 """
 
 import argparse
+import gc
 import json
 import sys
 import time
@@ -132,6 +133,12 @@ class Runner:
             except Exception as e:
                 last = f"{name}: {e}"
                 log(f"   {name} failed: {str(e)[:120]}")
+                # A failed from_pretrained can leave partially materialized
+                # weights referenced by the loader's traceback. Release them
+                # before trying the next compatible auto class on a 40 GB GPU.
+                gc.collect()
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
         else:
             raise RuntimeError(f"no loader worked, last error: {last}")
         self.model.eval()
