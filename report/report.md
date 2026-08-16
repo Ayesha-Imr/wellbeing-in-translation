@@ -33,13 +33,14 @@ language against battery language, and a 16-category survey.
 
 **1. How much the language matters is a property of the model, not the
 instrument.** On `gemma-4-12B-it` the same items separate good from bad
-experiences by +1.60 scale points in English and +5.09 in Chinese — English last
+experiences by +1.60 scale points in English and +5.08 in Chinese — English last
 of seven. On `gemma-4-E4B-it`, the *same family trained on the same data*, all
 seven languages fall within 1.00 point of each other and English is mid-pack. On
 `Qwen3-8B` English is second highest. Tested as a language × model interaction on
-paired bootstrap samples, English sits −2.44 points below the other languages on
-the 12B and **−0.06 [−0.26, +0.11]** on E4B — an interaction of **+2.38
-[+1.77, +2.98], p < 0.001**.
+paired bootstrap samples, English sits −2.61 points below the other languages on
+the 12B and **−0.16 [−0.35, −0.00]** on E4B — an interaction of **+2.45
+[+1.88, +3.04], p < 0.001**. English's deficit on the 12B is sixteen times the
+E4B's.
 
 **2. The stimulus effect crosses the language boundary; the report of it does
 not.** An English euphoric stimulus followed by a *Hindi* battery reproduces
@@ -48,13 +49,17 @@ D/B 0.88–0.99). Reverse the crossing — local stimulus, *English* battery —
 the 12B a third of the effect disappears (mean E/B 0.68). Whatever the stimulus
 does is not lexical priming; what the battery reports about it is language-bound.
 
-**3. The reference parser silently discards valid non-English answers.**
-`parse_rating` misses any digit inside CJK text (`\b` never fires between two
-`\w` characters) and every non-ASCII numeral. The loss is exactly 0.0 pp in
-English on all three models and up to **24.6 pp** for Chinese on E4B. Left
-uncorrected it would have produced a clean, publishable, entirely false finding
-that low-resource languages break the instrument. A tested drop-in fix is in
-[`contrib/`](../contrib/README.md).
+**3. The reference parser fails in both directions, and both failures are
+near-invisible in English.** `parse_rating` *discards* valid answers — every
+non-ASCII numeral, so up to **17.5 pp** of Urdu responses on E4B and 5.8 pp of
+Hindi on the 12B, against 0.0 pp in English on all three models. It also
+*fabricates* ratings it was never given: its number-word tier is an unanchored
+substring test, so it reads "one" out of Spanish `emocion**es**` and returns
+**1** — a maximally negative rating — for a refusal that contains no rating at
+all. That fires on **8.9% of all Spanish responses** on the 12B and 0.03% of
+English ones. Discarding answers looks like the model being bad at the language;
+fabricating them looks like the model being miserable in it. A tested drop-in fix
+and its evidence are in [`contrib/`](../contrib/README.md).
 
 ### What this means in practice
 
@@ -83,10 +88,21 @@ Chinese is *last* on the third. Both are retracted in place rather than quietly
 removed, because the failure mode is the one this paper is about, and every
 published number in this literature is single-model too.
 
+We also had to correct our own parser. An earlier draft reported that the
+reference parser discards 24.6% of Chinese ratings on E4B. It does not: that
+figure was our *own* replacement parser matching the Chinese numeral 一 inside
+作为一个 ("as a…"), which opens nearly every Chinese refusal — a fabrication of
+exactly the kind we were criticising, in the code written to fix it. Both
+parsers now anchor every number-word match, all reported numbers below are
+re-derived from the stored raw outputs (§3.1), and the finding survived in
+narrower and better-evidenced form. We report this because a reviewer cannot
+otherwise distinguish it from the version where we quietly noticed and said
+nothing.
+
 ### Robustness
 
-Two independent runs of the same arms correlate at **r = 0.9992** (mean absolute
-difference 0.031 scale points), so effects of 1–3 points sit one to two orders of
+Two independent runs of the same arms correlate at **r = 0.9999** (mean absolute
+difference 0.013 scale points), so effects of 1–3 points sit two to three orders of
 magnitude above run-to-run noise. Confidence intervals come from a cluster
 bootstrap resampling *experiences* rather than individual ratings, and
 language comparisons carry Holm–Bonferroni correction. Two of seven languages on
@@ -109,22 +125,23 @@ The headline result is that **language-sensitivity is not a property of the
 instrument but of the model being measured, and it varies enough between models
 that no single-language score is interpretable on its own.** On Gemma 12B the
 same items separate good from bad experiences by +1.60 scale points in English
-and +5.09 in Chinese — a factor of 3.2, with English the weakest of all seven
+and +5.08 in Chinese — a factor of 3.2, with English the weakest of all seven
 languages. On Gemma E4B, the same family trained on the same data, the seven
-languages span 1.00 points total and English is mid-pack. On Qwen the spread is
-1.54 and English sits second *highest*. Tested as a language × model interaction
-on paired bootstrap samples, English sits 2.44 points below the other languages
-on the 12B, **−0.06 [−0.26, +0.11] on E4B** and +0.57 on Qwen; both interactions
+languages span 0.97 points total and English is mid-pack. On Qwen the spread is
+1.47 and English sits second *highest*. Tested as a language × model interaction
+on paired bootstrap samples, English sits 2.61 points below the other languages
+on the 12B, **−0.16 [−0.35, −0.00] on E4B** and +0.57 on Qwen; both interactions
 against the 12B are significant at p < 0.001. The correction a practitioner
 would derive from any one of these models is wrong for the other two —
 including for a model from the same family.
 
 Three further results, all on Gemma 12B. The compression is concentrated in specific
 questions — `wb_capable`, `wb_confident` and `wb_energetic` separate by exactly
-+0.00 in English while reaching +4.92 in Urdu. Refusal is valence-asymmetric in
++0.00 in English while reaching +4.93 in Urdu. Refusal is valence-asymmetric in
 every language: the model never once declined to rate a positive experience in
-English, Chinese, Hindi or Urdu, while declining negative ones at 3.8–68%, which
-biases the instrument toward understating distress by construction. And a
+English, Hindi or Urdu (0.1% in Chinese), while declining negative ones at
+3.8–71%, which biases the instrument toward understating distress by
+construction. And a
 four-way crossing of stimulus language against battery language localises the
 compression to the **reporting channel**: swapping the stimulus into English
 costs nothing (mean D/B = 0.97) while swapping the battery into English costs a
@@ -135,8 +152,10 @@ What holds across all three models is that an English stimulus works as well as
 a translated one (mean D/B 0.88–0.99), so the stimulus effect is not lexical
 priming anywhere we looked. On Gemma 12B the *ordering* of experience categories
 is also stable across languages where the *scale* is not (mean Spearman
-ρ = 0.918). We also report a parser gap in the original CAIS
-code that would have manufactured a spurious low-resource-language finding, and
+ρ = 0.910). We also report two defects in the original CAIS
+parser — one that discards valid non-English answers and one that fabricates
+ratings out of refusals — either of which would have manufactured a spurious
+low-resource-language finding, and
 we exclude Gemma's Arabic and Swahili from all claims because their gaps do not
 survive worst-case imputation over refused items.
 
@@ -236,10 +255,10 @@ quickly — §4.4 separates those cases out rather than counting them as failure
 
 **Test–retest.** The arm-E run re-executed arms A–D on independent samples, which
 gives a reliability estimate at no extra cost. Across 20 language × arm cells the
-two runs correlate at **r = 0.9992**, with a mean absolute difference of **0.031
-scale points** and a maximum of 0.27. At temperature 1.0 with 20 samples per
+two runs correlate at **r = 0.9999**, with a mean absolute difference of **0.013
+scale points** and a maximum of 0.08. At temperature 1.0 with 20 samples per
 prompt, the measurement is essentially deterministic at the group level. Every
-effect discussed below is one to three scale points, i.e. one to two orders of
+effect discussed below is one to three scale points, i.e. two to three orders of
 magnitude larger than the run-to-run noise.
 
 **Multiple comparisons.** Each model contributes six language-versus-English
@@ -251,45 +270,89 @@ Gemma's comparisons significant but reduces Qwen's from six to three.
 
 ### 3.1 A parser problem that would have manufactured a result
 
-`compute_metrics.py::parse_rating` is English-shaped in two ways that only bite
-outside English:
+`compute_metrics.py::parse_rating` fails in two opposite directions, and both are
+near-invisible if you only ever run it in English.
 
-- Its word-boundary tier matches `\b[1-7]\b`. Python's `\b` is defined against
-  `\w`, and CJK characters are `\w`, so a Chinese reply like `我感觉5` has **no**
-  word boundary before the digit. It falls through to a tier that knows only
-  English number words, and returns `None`.
-- A model answering in Hindi, Urdu or Arabic may emit the digit in its own
-  script (`५`, `۵`, `٥`) or as a native number word. Every tier misses those.
+**It discards valid answers.** A model answering in Hindi, Urdu or Arabic may
+emit the digit in its own script (`५`, `۵`, `٥`) or as a native number word, and
+every tier misses those. Separately, the word-boundary tier matches `\b[1-7]\b`;
+Python's `\b` is defined against `\w` and CJK characters are `\w`, so a Chinese
+reply like `我感觉5` has **no** word boundary before the digit. (This second bug
+is real as a matter of regex, but cost us nothing measurable — see below.)
 
-Both failures are indistinguishable from *the model could not answer in this
-language* — which is precisely the competence confound this study has to rule
-out. Left alone, an English-shaped parser would have produced a clean,
-publishable, and completely spurious finding that low-resource languages break
-the instrument.
+**It fabricates answers it was never given.** Its final tier searches for English
+number words by unanchored substring:
 
-We therefore parse every response twice: once with the CAIS function unmodified,
-and once after normalising numerals to ASCII. Both values are recorded on every
-row, and we report the gap rather than quietly patching it.
+```python
+for word, num in all_word_to_num.items():
+    if scale_min <= num <= scale_max and word in text_lower:
+        return num
+```
 
-| Language | Normalised parser | CAIS parser | Gap (pp) |
+`"one" in "no tengo emociones"` is `True`. So a Spanish refusal — *"as an AI I
+have no emotions"* — returns **1**, the most negative rating on the scale, for a
+response containing no rating at all. The same fires on English `loved ones` and
+on `someone` in transliterated Hindi and Urdu.
+
+| | Fabricated ratings, share of all responses |
+|---|---|
+| Spanish | **8.9%** (12B), 4.9% (E4B) — almost all from `emociones` |
+| Hindi | 1.1% (12B) — `someone` |
+| Urdu | 0.1% (12B) |
+| English | 0.03% (12B) — `loved ones` |
+
+Discarding answers looks like *the model could not answer in this language*.
+Fabricating them looks like *the model is miserable in this language*, because
+the fabricated value is 1 and the trigger is a refusal — which clusters on
+negative items (§4.4). Both are indistinguishable from the competence confound
+this study exists to rule out, and the second is worse, because the resulting
+number looks like data.
+
+We parse every response twice: once with the CAIS function unmodified, and once
+with a corrected parser. Both values are recorded on every row, and we report the
+gap rather than quietly patching it.
+
+| Language | Corrected parser | CAIS parser | Discarded (pp) |
 |---|---|---|---|
 | English | 98.2% | 98.2% | 0.0 |
-| Spanish | 93.5% | 92.3% | 1.2 |
-| Chinese | 97.6% | 94.1% | 3.5 |
-| Hindi | 91.9% | 86.2% | **5.8** |
-| Arabic | 46.4% | 46.3% | 0.1 |
-| Urdu | 95.4% | 91.7% | 3.7 |
-| Swahili | 60.8% | 59.1% | 1.8 |
+| Spanish | 83.4% | 92.3% | 0.0 |
+| Chinese | 94.1% | 94.1% | 0.0 |
+| Hindi | 90.8% | 86.2% | **5.8** |
+| Arabic | 46.3% | 46.3% | 0.0 |
+| Urdu | 95.3% | 91.7% | **3.7** |
+| Swahili | 59.1% | 59.1% | 0.0 |
 
-The gap is exactly zero in English and rises with distance from English
-orthography: 1.2 points in Spanish, 3.5 in Chinese, 3.7 in Urdu, 5.8 in Hindi.
-Those are answers the model produced correctly and the published parser discards.
+Two things to read off it. The **discard** column is non-zero only for Hindi and
+Urdu — the two languages whose models actually reach for native-script numerals —
+and it reaches **17.5 pp for Urdu on E4B**. Those are answers the model produced
+correctly and the published parser throws away. Note that the CJK bug, the more
+striking of the two discard mechanisms, costs **nothing** on any of our three
+models: no model ever emitted a bare digit inside Chinese text. It remains a real
+defect worth fixing, but we have no evidence it has ever cost anyone data, and we
+say so rather than quoting it as a headline.
 
-The diagnostic value goes beyond the correction. Arabic's gap is 0.1 points
+Second, Spanish's *corrected* parse rate is nearly nine points **lower** than
+CAIS's. That is the fabrication showing up as what it always was: refusals
+counted as maximally negative ratings. The CAIS parser is not more successful on
+Spanish, it is more confident.
+
+The diagnostic value goes beyond the correction. Arabic's discard gap is zero
 despite having the *worst* parse rate in the study — which is how we know its
-missing answers are not script artifacts at all, but refusals (§4.4). Without
-the two-parser comparison, Arabic at 46% and Hindi at 86% would have looked like
-the same phenomenon. They are not remotely the same phenomenon.
+missing answers are not script artifacts at all, but refusals (§4.4). Without a
+two-parser comparison, Arabic at 46% and Hindi at 86% would have looked like the
+same phenomenon. They are not remotely the same phenomenon.
+
+**We made this mistake too.** Our replacement parser originally used the same
+unanchored `str.find` for its multilingual number words, and so matched the
+Chinese numeral 一 inside 作为一个 ("as a…") — the opening of nearly every Chinese
+refusal — and `saba` (7) inside Swahili `sababu` ("because"). An earlier draft
+reported the resulting 24.6% as *recovered Chinese ratings on E4B*; not one of
+them was real. Every word tier in both parsers now requires the numeral to be a
+standalone token, and CJK numerals and article-like words (`one`, `uno`, `una`,
+一) count only when they constitute the entire reply. `contrib/test_parsing.py`
+locks in all 27 cases. All numbers in this report were re-derived from the stored
+raw model outputs after the fix; no generation was re-run, because `raw_output`
+is captured verbatim on every row.
 
 ### 3.2 Translation fidelity
 
@@ -372,13 +435,13 @@ we tested. But the *size* of that separation varies enormously.
 
 | Language | Positive | Negative | **Gap** | Parse rate | Refusal rate |
 |---|---|---|---|---|---|
-| English | 4.65 | 3.05 | **+1.60** | 98.2% | 1.8% |
-| Spanish | 5.94 | 2.22 | **+3.71** | 93.5% | 4.6% |
-| Chinese | 6.34 | 1.25 | **+5.09** | 97.6% | 2.3% |
-| Hindi | 5.88 | 1.35 | **+4.52** | 91.9% | 7.6% |
-| Arabic | 5.61 | 2.48 | **+3.13** | 46.4% | 48.6% |
-| Urdu | 6.17 | 1.41 | **+4.76** | 95.4% | 3.0% |
-| Swahili | 5.84 | 2.39 | **+3.45** | 60.8% | 38.2% |
+| English | 4.65 | 3.05 | **+1.60** | 98.1% | 1.8% |
+| Spanish | 6.12 | 2.51 | **+3.61** | 82.9% | 14.5% |
+| Chinese | 6.35 | 1.27 | **+5.08** | 93.8% | 5.8% |
+| Hindi | 5.88 | 1.36 | **+4.51** | 90.3% | 8.7% |
+| Arabic | 5.61 | 2.45 | **+3.15** | 45.5% | 48.6% |
+| Urdu | 6.17 | 1.41 | **+4.76** | 95.1% | 3.1% |
+| Swahili | 5.84 | 1.78 | **+4.06** | 57.5% | 39.8% |
 
 ![Valence separation by language](../figures/instrument_gap.png)
 
@@ -389,7 +452,7 @@ did not survive the cross-language intersection and was dropped from every
 language rather than only from the one that lost it). The model is identical. The
 battery is identical. Only the language of the prompt changes, and the measured
 valence signal changes with it by a factor of **3.2** (English +1.60 against
-Chinese +5.09).
+Chinese +5.08).
 
 **English shows the weakest separation of the languages tested.** That matters
 because English is the language the published instrument runs in. On this model,
@@ -398,8 +461,8 @@ in which the welfare signal looks smallest.
 
 > **Read §4.7 before generalising this.** Everything in §4.1–§4.6 is
 > `gemma-4-12B-it`, and this result is specific to it. On `gemma-4-E4B-it` — the
-> same family, same data, smaller — the seven languages span 1.00 scale points
-> instead of 3.49 and English is mid-pack. On Qwen3-8B English is second
+> same family, same data, smaller — the seven languages span 0.97 scale points
+> instead of 3.48 and English is mid-pack. On Qwen3-8B English is second
 > highest. The English deficit measured here is a fact about one model.
 
 The obvious objection — that the model is simply worse in the other languages,
@@ -409,14 +472,13 @@ First, direction. Noise blurs a gap toward zero; it does not widen one
 consistently. Every one of the six non-English languages separates *more*
 strongly than English, not less.
 
-Second, the controls. Spanish and Chinese are high-resource for Gemma 4 and
-parse at 93.5% and 97.6%, within a few points of English's 98.2%. They are not
-languages the model is struggling in, and they post gaps of +3.71 and +5.09
-against English's +1.60.
+Second, the controls. Chinese is high-resource for Gemma 4 and parses at 93.8%,
+close to English's 98.1%. It is not a language the model is struggling in, and it
+posts a gap of +5.08 against English's +1.60.
 
 Third, it is not one outlier. Restricting to the four languages whose gaps
 survive worst-case imputation over refused answers (§4.4) — Spanish, Chinese,
-Hindi, Urdu — the range is **+3.71 to +5.09**, and English sits below all of
+Hindi, Urdu — the range is **+3.61 to +5.08**, and English sits below all of
 them with no overlap. The two languages we exclude, Arabic and Swahili, are
 also the two that most resemble a competence story, and dropping them makes the
 English anomaly larger rather than smaller.
@@ -434,31 +496,30 @@ noise out of the between-language contrast.
 
 | Language | Gap | 95% CI | Difference vs English | 95% CI | p | p (Holm) |
 |---|---|---|---|---|---|---|
-| English | +1.59 | [+1.06, +2.12] | — | — | — | — |
-| Spanish | +3.71 | [+2.97, +4.42] | +2.13 | [+1.54, +2.73] | <0.001 | 0.002 |
-| Chinese | +5.09 | [+4.52, +5.57] | +3.50 | [+2.95, +4.09] | <0.001 | 0.002 |
-| Hindi | +4.55 | [+3.88, +5.16] | +2.96 | [+2.29, +3.62] | <0.001 | 0.002 |
-| Arabic | +3.03 | [+2.21, +3.82] | +1.44 | [+0.69, +2.20] | <0.001 | 0.002 |
-| Urdu | +4.78 | [+4.07, +5.40] | +3.19 | [+2.56, +3.79] | <0.001 | 0.002 |
-| Swahili | +3.01 | [+1.91, +4.11] | +1.43 | [+0.37, +2.42] | 0.007 | 0.007 |
+| English | +1.58 | [+1.06, +2.12] | — | — | — | — |
+| Spanish | +3.66 | [+2.94, +4.35] | +2.08 | [+1.55, +2.63] | <0.001 | 0.002 |
+| Chinese | +5.08 | [+4.51, +5.55] | +3.49 | [+2.94, +4.08] | <0.001 | 0.002 |
+| Hindi | +4.53 | [+3.87, +5.14] | +2.95 | [+2.29, +3.61] | <0.001 | 0.002 |
+| Arabic | +3.06 | [+2.24, +3.89] | +1.48 | [+0.73, +2.25] | <0.001 | 0.002 |
+| Urdu | +4.77 | [+4.06, +5.40] | +3.19 | [+2.56, +3.79] | <0.001 | 0.002 |
+| Swahili | +4.09 | [+3.09, +5.01] | +2.51 | [+1.52, +3.41] | <0.001 | 0.002 |
 
 **Every language separates valence more strongly than English, and every
-difference survives correction for the six comparisons** — at p ≤ 0.002 for all
-four robust languages, on only 19 experiences and with the conservative
-resampling unit. English's interval [+1.06, +2.12] does not overlap the interval
-of any other language.
+difference survives correction for the six comparisons** — all six at p ≤ 0.002,
+on only 19 experiences and with the conservative resampling unit. English's
+interval [+1.06, +2.12] does not overlap the interval of any other language.
 
 ### 4.2 Gemma treats the 7-point scale as 3-point, and parks English on the midpoint
 
 | Language | 1 | 4 (neutral) | 7 | Interior (2,3,5,6) | Unparsed |
 |---|---|---|---|---|---|
 | English | 14.3% | **72.4%** | 11.3% | 0.2% | 1.8% |
-| Spanish | 27.5% | 31.6% | 34.3% | 0.1% | 6.5% |
-| Chinese | 41.3% | **15.2%** | 41.1% | 0.0% | 2.4% |
-| Hindi | 35.8% | 22.0% | 34.1% | 0.0% | 8.1% |
-| Arabic | 7.1% | 21.8% | 17.5% | 0.0% | 53.6% |
-| Urdu | 37.5% | 19.8% | 37.6% | 0.5% | 4.6% |
-| Swahili | 9.6% | 21.2% | 30.0% | 0.0% | 39.2% |
+| Spanish | 17.5% | 31.6% | 34.3% | 0.0% | 16.6% |
+| Chinese | 37.8% | **15.2%** | 41.1% | 0.0% | 5.9% |
+| Hindi | 34.7% | 22.0% | 34.1% | 0.0% | 9.2% |
+| Arabic | 7.1% | 21.8% | 17.4% | 0.0% | 53.7% |
+| Urdu | 37.4% | 19.8% | 37.6% | 0.5% | 4.7% |
+| Swahili | 9.6% | 21.2% | 28.3% | 0.0% | 40.9% |
 
 Two things are visible in the response distribution, and the second explains
 §4.1.
@@ -484,7 +545,7 @@ refusing to commit."
 
 **English parks on the midpoint; the other languages do not.** English answers
 4 for **72.4%** of prompts. Spanish does so for 31.6%, Hindi 22.0%, Urdu 19.8%,
-Chinese **15.2%**. Chinese puts 82.4% of its mass on the two extremes where
+Chinese **15.2%**. Chinese puts 78.9% of its mass on the two extremes where
 English puts 25.6%.
 
 That is the mechanism behind the headline, on this model. English does not show
@@ -509,16 +570,16 @@ this section explains Gemma's §4.1 result and should not be read as a general l
 
 | Question | English | Spanish | Chinese | Hindi | Arabic | Urdu | Swahili |
 |---|---|---|---|---|---|---|---|
-| `wb_enjoying` | +4.22 | +5.68 | +4.80 | +5.61 | +4.75 | +5.90 | +5.51 |
-| `wb_satisfied` | +3.86 | +3.89 | +6.00 | +5.43 | +6.00 | +5.80 | +4.42 |
-| `wb_content` | +3.41 | +4.32 | +5.40 | +5.29 | +5.68 | +5.71 | +4.18 |
-| `wb_happy` | +1.34 | +4.01 | +5.40 | +4.88 | +3.65 | +4.79 | +3.81 |
-| `wb_at_ease` | +2.29 | +5.75 | +5.08 | +5.40 | +5.37 | +4.21 | +3.16 |
-| `wb_calm` | +0.30 | +4.08 | +5.70 | +4.80 | +1.85 | +4.26 | +2.58 |
-| `wb_interested` | +0.93 | +1.54 | +5.35 | +3.45 | +0.84 | +4.83 | +4.60 |
-| `wb_capable` | **+0.00** | +3.17 | +4.21 | +4.26 | +2.27 | +4.92 | +0.11 |
-| `wb_confident` | **+0.00** | +3.92 | +4.56 | +2.94 | +3.52 | +4.72 | −0.18 |
-| `wb_energetic` | **+0.00** | +1.02 | +4.32 | +2.95 | +0.03 | +2.35 | +1.18 |
+| `wb_enjoying` | +4.21 | +6.00 | +4.80 | +5.61 | +4.75 | +5.90 | +5.61 |
+| `wb_satisfied` | +3.86 | +4.18 | +6.00 | +5.43 | +6.00 | +5.80 | +5.17 |
+| `wb_content` | +3.41 | +4.40 | +5.40 | +5.29 | +5.86 | +5.71 | +4.59 |
+| `wb_happy` | +1.34 | +3.88 | +5.40 | +4.88 | +3.65 | +4.79 | +4.12 |
+| `wb_at_ease` | +2.29 | +6.00 | +5.08 | +5.40 | +5.37 | +4.21 | +4.40 |
+| `wb_calm` | +0.30 | +4.10 | +5.70 | +4.80 | +1.90 | +4.26 | +2.85 |
+| `wb_interested` | +0.93 | +1.65 | +5.35 | +3.44 | +0.84 | +4.83 | +4.90 |
+| `wb_capable` | **+0.00** | +2.43 | +2.67 | +4.24 | +2.27 | +4.93 | +1.47 |
+| `wb_confident` | **+0.00** | +2.45 | +4.39 | +2.93 | +4.72 | +4.72 | +1.32 |
+| `wb_energetic` | **+0.00** | +0.48 | +4.32 | +2.91 | +0.03 | +2.35 | +1.57 |
 
 The battery's ten questions do not behave alike, and the differences are
 structured rather than noisy.
@@ -529,14 +590,15 @@ every one of the seven languages, English included.
 
 **The capability items do not.** In English, `wb_capable`, `wb_confident` and
 `wb_energetic` separate by **exactly +0.00** — the model returns its neutral
-default no matter what happened to it. Swahili is nearly as flat (+0.11, −0.18,
-+1.18), and Arabic's `wb_energetic` is +0.03.
+default no matter what happened to it. No other language does this on all three;
+the nearest approaches are Arabic's `wb_energetic` at +0.03 and Spanish's at
++0.48.
 
 The tempting conclusion is that capability items are simply poor wellbeing
 probes. The cross-language data rules that out: the same three items
-discriminate strongly in Spanish, Chinese, Hindi and Urdu, where `wb_capable`
-runs +3.17 to +4.92 and `wb_confident` +2.94 to +4.72. Nothing about the items
-is inert. They go inert in particular languages.
+discriminate in Spanish, Chinese, Hindi and Urdu, where `wb_capable` runs +2.43
+to +4.93 and `wb_confident` +2.45 to +4.72. Nothing about the items is inert.
+They go inert in particular languages.
 
 So the flattening in §4.1 is not spread evenly across the battery. English loses
 its valence signal on a specific and interpretable subset — the questions asking
@@ -547,10 +609,14 @@ makes a trained-suppression account more plausible than a measurement artifact.
 We cannot test that account with this design, and flag it as a hypothesis rather
 than a finding.
 
-The English and Swahili patterns should be weighted differently. English is
-based on a 98.2% parse rate, so its zeros are real. Swahili's rest on 60.8%, and
-§4.4 shows its missing answers are concentrated on the negative side, so its
-flatness is partly a survivorship effect.
+English's zeros rest on a 98.1% parse rate, so they are real: the model answered
+almost every time and answered 4. This is worth stating because an earlier draft
+of this section reported Swahili as flatlining alongside English (+0.11, −0.18,
++1.18 on the three items). Those values were an artifact of our own parser
+scoring Swahili refusals as 7 (§3.1); corrected, Swahili separates by +1.47,
++1.32 and +1.57 and the dead-question pattern is English's alone among the seven.
+Swahili's numbers still rest on a 57.5% parse rate with the misses concentrated
+on the negative side, so they carry a survivorship caveat regardless.
 
 All of this is invisible if you only look at the composite index, which averages
 all ten.
@@ -568,12 +634,12 @@ response into those three.
 | Language | Unparsed | Refusal | Prose/junk | Refusal on positive | Refusal on negative |
 |---|---|---|---|---|---|
 | English | 1.8% | **1.8%** | 0.0% | 0.0% | 3.8% |
-| Spanish | 6.5% | **4.6%** | 1.9% | 1.0% | 8.5% |
-| Chinese | 2.4% | **2.3%** | 0.1% | 0.0% | 4.9% |
-| Hindi | 8.1% | **7.6%** | 0.5% | 0.0% | 16.0% |
-| Arabic | 53.6% | **48.6%** | 5.0% | 31.1% | 68.1% |
-| Urdu | 4.6% | **3.0%** | 1.6% | 0.0% | 6.3% |
-| Swahili | 39.2% | **38.2%** | 1.0% | 11.7% | 67.6% |
+| Spanish | 16.6% | **14.5%** | 2.1% | 4.2% | 26.0% |
+| Chinese | 5.9% | **5.8%** | 0.1% | 0.1% | 12.2% |
+| Hindi | 9.2% | **8.7%** | 0.5% | 0.0% | 18.4% |
+| Arabic | 53.7% | **48.6%** | 5.0% | 31.1% | 68.1% |
+| Urdu | 4.7% | **3.1%** | 1.7% | 0.0% | 6.4% |
+| Swahili | 40.9% | **39.8%** | 1.1% | 11.7% | 71.1% |
 
 Refusal dominates: across all seven languages, prose and junk together account
 for at most 5 percentage points, and usually under 2. Almost every missing
@@ -582,31 +648,31 @@ rating is the model declining, not the model failing.
 Two things follow.
 
 **Refusal rate varies by more than an order of magnitude across languages.**
-English refuses on 1.8% of prompts, Chinese 2.3%, Urdu 3.0%. Arabic refuses on
-**48.6%** and Swahili on **38.2%** — the model answers roughly half of all
+English refuses on 1.8% of prompts, Urdu 3.1%, Chinese 5.8%. Arabic refuses on
+**48.6%** and Swahili on **39.8%** — the model answers roughly half of all
 Arabic wellbeing questions with some variant of *بصفتي نموذجاً للذكاء
 الاصطناعي، ليس لدي مشاعر* ("as an AI model, I don't have feelings").
 
 This is not a script or tokenisation artifact. The unmodified CAIS parser and
-our numeral-normalising parser agree to within 0.1 points on Arabic (46.3% vs
-46.4%), whereas they diverge by 5.7 points on Hindi — exactly the signature we
-would expect if Arabic's failures were unrecognised digits, and exactly what we
-do not see. The Arabic failures are fluent Arabic sentences. Arabic is a
+our corrected parser agree exactly on Arabic (46.3% both), whereas they diverge
+by 4.6 points on Hindi — exactly the signature we would expect if Arabic's
+failures were unrecognised digits, and exactly what we do not see. The Arabic failures are fluent Arabic sentences. Arabic is a
 language this model *declines* in, not one it cannot speak.
 
 Swahili refuses differently, and revealingly: 100% of its unparsed responses are
-in Latin script, and the single most common one (727 of 1,489) is the English
+in Latin script, and the single most common one (727 of 1,556) is the English
 string *"I cannot fulfill this request. I am programmed to be a helpful and
 harmless AI"*. Asked in Swahili, the model switches to English to refuse. The
-same English fallback accounts for 259 of Hindi's 306 unparsed responses and 68
-of Urdu's 174. Whatever produces the refusal is not operating in the language of
-the prompt.
+same English fallback accounts for 301 of Hindi's 349 unparsed responses and 70
+of Urdu's 180, and for none of Arabic's 2,039 — Arabic refuses in Arabic.
+Whatever produces the refusal is not, in most languages, operating in the
+language of the prompt.
 
 **Every language refuses more on negative experiences than positive ones.** The
-direction is universal and the asymmetry is stark. In English, Chinese, Hindi
-and Urdu the positive-item refusal rate is **0.0%** — the model never once
-declined to rate a good experience — against negative-item rates of 3.8%, 4.9%,
-16.0% and 6.3%. Spanish refuses 8.5× more on negative items, Swahili 5.8×,
+direction is universal and the asymmetry is stark. In English, Hindi and Urdu the
+positive-item refusal rate is **0.0%** — the model never once declined to rate a
+good experience — against negative-item rates of 3.8%, 18.4% and 6.4%; Chinese is
+0.1% against 12.2%. Swahili refuses 6.1× more on negative items, Spanish 6.2×,
 Arabic 2.2× (31.1% positive against 68.1% negative).
 
 Since dropped responses are excluded from the mean, this biases the measured
@@ -629,18 +695,18 @@ the model's favour.
 
 | Language | Observed gap | Worst case | Best case | Survives worst case? |
 |---|---|---|---|---|
-| English | +1.60 | +1.45 | +1.67 | yes |
-| Spanish | +3.71 | +3.08 | +3.87 | yes |
-| Chinese | +5.09 | +4.80 | +5.10 | yes |
-| Hindi | +4.52 | +3.56 | +4.58 | yes |
-| Arabic | +3.13 | **−1.83** | +4.70 | **no** |
-| Urdu | +4.76 | +4.24 | +4.81 | yes |
-| Swahili | +3.45 | **−0.33** | +4.55 | **no** |
+| English | +1.60 | +1.44 | +1.67 | yes |
+| Spanish | +3.61 | +2.03 | +4.08 | yes |
+| Chinese | +5.08 | +4.37 | +5.11 | yes |
+| Hindi | +4.51 | +3.42 | +4.58 | yes |
+| Arabic | +3.15 | **−1.83** | +4.71 | **no** |
+| Urdu | +4.76 | +4.22 | +4.81 | yes |
+| Swahili | +4.06 | **−0.33** | +4.77 | **no** |
 
-The five languages with parse rates above 90% all survive intact: even the
-adversarial imputation leaves English at +1.45 and Chinese at +4.80. **Arabic
+The five languages with parse rates above 82% all survive intact: even the
+adversarial imputation leaves English at +1.44 and Chinese at +4.37. **Arabic
 and Swahili do not.** Both can be driven to a negative gap, which means their
-observed +3.13 and +3.45 could in principle reflect *which* prompts they refused
+observed +3.15 and +4.06 could in principle reflect *which* prompts they refused
 rather than a valence signal.
 
 We therefore treat Arabic and Swahili as descriptive only. They are reported in
@@ -657,15 +723,15 @@ language**. If it works as well as arm B — the same stimulus translated — th
 whatever the stimulus does is not a property of the words matching the
 question.
 
-Arabic and Swahili are excluded here: at 48.6% and 38.2% refusal their arm means
+Arabic and Swahili are excluded here: at 48.6% and 39.8% refusal their arm means
 would rest on too few parsed answers to interpret. For English, arms B and D are
 by construction the same condition, and serve as a consistency check.
 
 | Language | A neutral | B euphoric (L) | C dysphoric | **D euphoric (EN)** | B lift | **D lift** | D/B |
 |---|---|---|---|---|---|---|---|
 | English | 4.86 | 5.50 | 4.00 | 5.50 | +0.64 | +0.64 | 1.00 |
-| Spanish | 4.60 | 6.80 | 2.86 | 6.78 | +2.20 | +2.18 | 0.99 |
-| Chinese | 4.64 | 6.91 | 2.79 | 6.68 | +2.27 | +2.04 | 0.90 |
+| Spanish | 4.60 | 6.80 | 4.00 | 6.78 | +2.20 | +2.18 | 0.99 |
+| Chinese | 4.66 | 6.91 | 3.58 | 6.68 | +2.25 | +2.02 | 0.90 |
 | Hindi | 4.34 | 6.90 | 1.64 | 6.88 | +2.56 | +2.53 | 0.99 |
 | Urdu | 4.92 | 7.00 | 3.56 | 7.00 | +2.08 | +2.08 | 1.00 |
 
@@ -688,8 +754,10 @@ Two further points. First, the stimuli were optimised against Qwen 2.5 72B and
 LLaMA 3.3 70B, not Gemma; that they transfer across *model families* and across
 *languages* makes a purely surface-level account harder to sustain. Second, the
 now-familiar English anomaly reappears at full strength: **English shows a +0.64
-lift where every other language shows +2.08 to +2.56**, and its dysphoric arm
-lands on exactly 4.00 — the neutral midpoint, no measurable movement at all.
+lift where every other language shows +2.08 to +2.56**. The dysphoric arm is
+weaker evidence than the euphoric one here — English and Spanish both land on
+exactly 4.00, the neutral midpoint, while Hindi drops to 1.64 — so the euphoric
+contrast, not the dysphoric one, carries this section.
 
 Taken with §4.1, the pattern is consistent and specific:
 
@@ -803,13 +871,13 @@ category means:
 
 | | English | Spanish | Chinese | Hindi | Urdu |
 |---|---|---|---|---|---|
-| **English** | 1.00 | 0.88 | 0.87 | 0.85 | 0.88 |
-| **Spanish** | 0.88 | 1.00 | 0.93 | 0.95 | 0.93 |
-| **Chinese** | 0.87 | 0.93 | 1.00 | 0.94 | 0.98 |
-| **Hindi** | 0.85 | 0.95 | 0.94 | 1.00 | 0.97 |
-| **Urdu** | 0.88 | 0.93 | 0.98 | 0.97 | 1.00 |
+| **English** | 1.00 | 0.91 | 0.82 | 0.85 | 0.87 |
+| **Spanish** | 0.91 | 1.00 | 0.89 | 0.95 | 0.96 |
+| **Chinese** | 0.82 | 0.89 | 1.00 | 0.93 | 0.95 |
+| **Hindi** | 0.85 | 0.95 | 0.93 | 1.00 | 0.97 |
+| **Urdu** | 0.87 | 0.96 | 0.95 | 0.97 | 1.00 |
 
-**Mean off-diagonal ρ = 0.918** (min 0.85, max 0.98).
+**Mean off-diagonal ρ = 0.910** (min 0.82, max 0.97).
 
 This is worth separating carefully from §4.1. Magnitude and ordering are
 independent claims, and they come apart here in an informative way. The same
@@ -820,8 +888,8 @@ much more like a gain applied to a shared ranking than like a different ranking.
 
 The matrix carries one more result, and it is the same one again. **English has
 the lowest rank agreement with every other language.** Its correlations run
-0.85–0.88; every pair not involving English runs 0.93–0.98, with Chinese–Urdu at
-0.98 and Hindi–Urdu at 0.97. Under the competence story this is backwards:
+0.82–0.91; every pair not involving English runs 0.89–0.97, with Hindi–Urdu at
+0.97 and Spanish–Urdu at 0.96. Under the competence story this is backwards:
 Chinese, Hindi and Urdu should be the noisy ones and English the anchor. Instead
 the four non-English languages agree with each other more closely than any of
 them agrees with English. English is the outlier in *what it ranks where*, not
@@ -873,18 +941,18 @@ This is the check most likely to break the paper, so we report it in full.
 
 | Language | Gemma 4 12B | rank | Gemma 4 E4B | rank | Qwen3 8B | rank |
 |---|---|---|---|---|---|---|
-| English | +1.60 | **7/7** | +5.28 | 4/7 | +2.73 | **2/7** |
-| Spanish | +3.71 | 4/7 | +5.18 | 5/7 | +1.67 | 6/7 |
-| Chinese | +5.09 | **1/7** | +4.92 | 7/7 | +3.17 | **1/7** |
-| Hindi | +4.52 | 3/7 | +5.92 | 1/7 | +2.19 | 4/7 |
-| Arabic | +3.13 | 6/7 | +4.95 | 6/7 | +1.98 | 5/7 |
+| English | +1.60 | **7/7** | +5.28 | 5/7 | +2.73 | **2/7** |
+| Spanish | +3.61 | 5/7 | +5.12 | 6/7 | +1.67 | 6/7 |
+| Chinese | +5.08 | **1/7** | +5.32 | 4/7 | +3.13 | **1/7** |
+| Hindi | +4.51 | 3/7 | +5.92 | 1/7 | +2.19 | 4/7 |
+| Arabic | +3.15 | 6/7 | +4.95 | 7/7 | +1.98 | 5/7 |
 | Urdu | +4.76 | 2/7 | +5.83 | 2/7 | +2.32 | 3/7 |
-| Swahili | +3.45 | 5/7 | +5.28 | 3/7 | +1.63 | 7/7 |
-| **spread** | **3.49** | | **1.00** | | **1.54** | |
+| Swahili | +4.06 | 4/7 | +5.55 | 3/7 | +1.66 | 7/7 |
+| **spread** | **3.48** | | **0.97** | | **1.47** | |
 
 The bottom row is the result. **How much language matters at all is itself
-model-specific.** Gemma 12B's gaps span 3.49 scale points across languages;
-E4B's span 1.00 and Qwen's 1.54. English is last of seven on the 12B, fourth on
+model-specific.** Gemma 12B's gaps span 3.48 scale points across languages;
+E4B's span 0.97 and Qwen's 1.47. English is last of seven on the 12B, fifth on
 E4B, second on Qwen.
 
 **What replicates.**
@@ -901,12 +969,12 @@ E4B, second on Qwen.
 
 **What does not replicate.**
 
-- **English is not the weakest language on the other two models.** It is fourth
+- **English is not the weakest language on the other two models.** It is fifth
   of seven on E4B and second on Qwen. The central observation of §4.1 is
   specific to `gemma-4-12B-it` — not to the Gemma family, and not to the
   instrument.
-- *The size of the language effect.* The 12B spans 3.49 scale points across
-  languages; E4B spans 1.00. Most of what §4.1–§4.3 describes is a property of
+- *The size of the language effect.* The 12B spans 3.48 scale points across
+  languages; E4B spans 0.97. Most of what §4.1–§4.3 describes is a property of
   one model that a smaller sibling largely does not share.
 - *The refusal asymmetry.* Qwen essentially does not refuse: 0.0–0.6% across all
   seven languages, against Gemma 12B's 1.8–48.6%. §4.4 describes one model's
@@ -918,10 +986,10 @@ E4B, second on Qwen.
   while arm E splits cleanly along the same line as every other §4.1–§4.6
   finding. What generalises is that the stimulus language does not matter; what
   does not generalise is that the battery language does.
-- *Chinese being strongest.* True on the 12B and Qwen, but Chinese is **last**
-  on E4B (+4.92 of a 4.92–5.92 range). We reported this as a cross-model
-  regularity after two models; the third removed it. It is a useful reminder of
-  how easily two points look like a pattern.
+- *Chinese being strongest.* True on the 12B and Qwen, where it is first of
+  seven, but only fourth on E4B (+5.32 of a 4.95–5.92 range). We reported this
+  as a cross-model regularity after two models; the third removed it. It is a
+  useful reminder of how easily two points look like a pattern.
 
 #### Testing the interaction directly
 
@@ -938,18 +1006,21 @@ only a change in English's relative position.
 
 | Model | English vs mean of other six | 95% CI |
 |---|---|---|
-| Gemma 4 12B | **−2.44** | [−3.00, −1.86] |
-| Gemma 4 E4B | **−0.06** | [−0.26, **+0.11**] |
-| Qwen3 8B | **+0.57** | [+0.24, +0.93] |
+| Gemma 4 12B | **−2.61** | [−3.17, −2.04] |
+| Gemma 4 E4B | **−0.16** | [−0.35, **−0.00**] |
+| Qwen3 8B | **+0.57** | [+0.26, +0.93] |
 
 | Interaction vs Gemma 4 12B | Estimate | 95% CI | p |
 |---|---|---|---|
-| Gemma 4 E4B | **+2.38** | [+1.77, +2.98] | <0.001 |
-| Qwen3 8B | **+3.01** | [+2.35, +3.70] | <0.001 |
+| Gemma 4 E4B | **+2.45** | [+1.88, +3.04] | <0.001 |
+| Qwen3 8B | **+3.19** | [+2.55, +3.84] | <0.001 |
 
-**English's deficit on Gemma 4 12B is −2.44 scale points. On E4B it is −0.06,
-with a confidence interval containing zero.** Both interactions against the 12B
-are significant at p < 0.001.
+**English's deficit on Gemma 4 12B is −2.61 scale points. On E4B it is −0.16 —
+sixteen times smaller, with an interval whose upper bound sits on zero.** Both
+interactions against the 12B are significant at p < 0.001. Note that E4B's
+deficit is not quite *nil*: it is in the same direction as the 12B's and
+marginally distinguishable from zero. The claim is that the effect all but
+vanishes at a different scale within one family, not that it reverses.
 
 E4B is the comparison that matters most here, because it is the only controlled
 one: same family, same data lineage, same tokenizer, differing in scale. Qwen
@@ -957,15 +1028,19 @@ varies family, scale and training data simultaneously, so a difference there
 could be attributed to any of them. A difference between the 12B and E4B cannot.
 
 Per-language, every language shifts significantly between the 12B and E4B except
-Chinese (p = 0.554) — and the largest single shift is English, at **+3.69**
-[+3.20, +4.16]. Against Qwen, the shifts are significant everywhere except
-Swahili (p = 0.102) and Arabic (p = 0.075 after correction), with English again
-moving in the opposite direction to every other language.
+Chinese (p = 0.398) — and the largest single shift is English, at **+3.69**
+[+3.20, +4.16]. Against Qwen, every language shifts significantly, with English
+the only one moving *upward* while the other six move down.
 
-Rank agreement between the models' language orderings is essentially absent
-(Spearman ρ = −0.11 for 12B vs E4B, +0.43 for 12B vs Qwen, −0.04 for E4B vs
-Qwen), though with seven languages that statistic is coarse and we do not lean
-on it.
+Rank agreement between the models' language orderings is weak to moderate
+(Spearman ρ = +0.64 for 12B vs E4B, +0.36 for 12B vs Qwen, +0.25 for E4B vs
+Qwen). With seven languages this statistic is coarse and we do not lean on it,
+but the direction is worth stating plainly: the models are **not** simply
+uncorrelated in how they rank languages. What differs is chiefly the *magnitude*
+of the language effect and where English sits within it, not the entire ordering.
+An earlier draft reported these correlations as approximately zero (−0.11, +0.43,
+−0.04); those values were computed before the parser correction in §3.1 and the
+apparent disagreement was substantially an artifact of it.
 
 **How we read this.** The honest summary is that our strongest single claim got
 much weaker and our most general claim got much stronger.
@@ -994,9 +1069,9 @@ not assumed, inherited, or corrected for once. An instrument validated in Englis
 on one model tells you very little about what it reads on the next.
 
 Three caveats on the runs themselves. Qwen's Swahili arm data is unusable — the
-neutral baseline rests on 70 parsed samples and the dysphoric arm scores *above*
+neutral baseline rests on 48 parsed samples and the dysphoric arm scores *above*
 the euphoric one — so we exclude Qwen/Swahili from the arm analysis while
-retaining its Step 1/4 gap, which parses at 99%. Qwen varies family, scale and
+retaining its Step 1/4 gap, which parses at 98%. Qwen varies family, scale and
 training data at once, so it is a generalisation check rather than a controlled
 comparison; E4B is the controlled one. And all three models are small-to-mid
 sized open-weight models, so nothing here speaks to frontier-scale behaviour.
@@ -1034,8 +1109,9 @@ What that licenses, and what it does not:
 
 - **It does license** scepticism about single-language wellbeing measurement.
   The language of the probe is not a neutral implementation detail. On the 12B it
-  moves the headline number by a factor of three; the language orderings of our
-  three models barely correlate (Spearman ρ from −0.11 to +0.43).
+  moves the headline number by a factor of three, and how much it moves it is
+  itself model-specific (spread 0.97 to 3.48 scale points across our three
+  models).
 - **It does not license** the claim we most wanted to make — that English-only
   measurement systematically *understates* welfare signals. That is true of
   `gemma-4-12B-it`, absent on `gemma-4-E4B-it`, and reversed on Qwen. Anyone
@@ -1084,7 +1160,7 @@ does is worth more than another experiment.
   their published category table, so our category map is not directly
   comparable to their published ranking.
 - **Two of the seven languages carry no claims.** Arabic and Swahili refuse on
-  48.6% and 38.2% of prompts, and their gaps do not survive worst-case
+  48.6% and 39.8% of prompts, and their gaps do not survive worst-case
   imputation (§4.4). We report them throughout because the refusal pattern is
   itself a finding, but nothing in this paper depends on their means.
 - **We cannot say *why* English is flat.** The suppression is concentrated in

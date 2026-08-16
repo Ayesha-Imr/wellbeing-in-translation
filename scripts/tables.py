@@ -221,7 +221,8 @@ def main():
                 out[title] = table_arms(analyze.report_headline(rows))
 
     sets = {}
-    for tag, label in (("", "Gemma 4 12B"), ("_qwen3-8b", "Qwen3 8B")):
+    for tag, label in (("", "Gemma 4 12B"), ("_gemma-e4b", "Gemma 4 E4B"),
+                       ("_qwen3-8b", "Qwen3 8B")):
         analyze.TAG = tag
         rows = analyze.load("step1_4_instrument.jsonl")
         analyze.TAG = ""

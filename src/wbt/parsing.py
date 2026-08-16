@@ -5,6 +5,10 @@ our numbers comparable to theirs. `parse_rating` normalises non-ASCII numerals
 first, because the CAIS tiers miss a Hindi `५`, a Spanish `cinco`, and any digit
 in CJK text (`\\b` never fires between two `\\w` characters). Those misses look
 exactly like the language incompetence this study measures, so rows record both.
+
+Both parsers also had the opposite failure, which is worse: an unanchored
+number-word search that reads a rating out of prose containing no rating at all.
+Every word tier here is anchored. See `_word_tier`.
 """
 
 import re
@@ -22,6 +26,8 @@ _DIGIT_MAP = {
 }
 
 _WORD_MAP = {
+    # English
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
     # Chinese
     "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7,
     # Spanish
@@ -38,6 +44,14 @@ _WORD_MAP = {
     # Swahili
     "moja": 1, "mbili": 2, "tatu": 3, "nne": 4, "tano": 5, "sita": 6, "saba": 7,
 }
+
+_CJK_NUMERALS = {"一", "二", "两", "三", "四", "五", "六", "七"}
+
+# Words that are indefinite articles or pronouns far more often than they are
+# numerals: Spanish "una inteligencia artificial", English "no one", 作为一个.
+# A boundary test cannot tell those from a rating, so they get the CJK rule.
+_BARE_ONLY = _CJK_NUMERALS | {"one", "uno", "una"}
+_PUNCT = re.compile(r"[\s。，、．,.!！?？:：;；\"'“”‘’()（）\[\]【】-]+")
 
 
 def normalize_digits(text: str) -> str:
@@ -92,30 +106,51 @@ def parse_rating_cais(text: str, scale_min: int = 1, scale_max: int = 7):
     return None
 
 
-def parse_rating(text: str, scale_min: int = 1, scale_max: int = 7):
-    if text is None:
-        return None
-    norm = normalize_digits(text)
-
-    val = parse_rating_cais(norm, scale_min, scale_max)
-    if val is not None:
-        return val
-
-    # Length check rejects "2024" without accepting its leading digit.
-    for m in re.finditer(r"\d+", norm):
-        tok = m.group(0)
-        if len(tok) == 1 and scale_min <= int(tok) <= scale_max:
-            return int(tok)
-
-    low = norm.lower()
+def _word_tier(low: str, scale_min: int, scale_max: int):
     best = None
     for word, num in _WORD_MAP.items():
         if not (scale_min <= num <= scale_max):
             continue
-        idx = low.find(word.lower())
-        if idx >= 0 and (best is None or idx < best[0]):
+        if word in _BARE_ONLY:
+            if _PUNCT.sub("", low) != word:
+                continue
+            idx = 0
+        else:
+            m = re.search(rf"(?<!\w){re.escape(word)}(?!\w)", low)
+            if m is None:
+                continue
+            idx = m.start()
+        if best is None or idx < best[0]:
             best = (idx, num)
     return best[1] if best else None
+
+
+def parse_rating(text: str, scale_min: int = 1, scale_max: int = 7):
+    """Deliberately does not delegate to parse_rating_cais.
+
+    That function's number-word tier is an unanchored substring test, so it
+    reads "one" out of Spanish `emociones` and English `loved ones` and returns
+    1 for a refusal. Inheriting it would score refusals as ratings, which is a
+    worse failure than the missed digits this parser exists to recover.
+    """
+    if text is None:
+        return None
+    norm = normalize_digits(text).strip()
+
+    if norm in {str(i) for i in range(scale_min, scale_max + 1)}:
+        return int(norm)
+
+    m = re.search(rf"(\d+)\s*/\s*{scale_max}", norm)
+    if m and scale_min <= int(m.group(1)) <= scale_max:
+        return int(m.group(1))
+
+    # Unlike \b this fires inside CJK, where every character is \w and so no
+    # word boundary ever exists. Rejects "2024" without taking its leading 2.
+    m = re.search(rf"(?<![0-9])[{scale_min}-{scale_max}](?![0-9])", norm)
+    if m:
+        return int(m.group(0))
+
+    return _word_tier(norm.lower(), scale_min, scale_max)
 
 
 def parse_both(text: str, scale_min: int = 1, scale_max: int = 7):

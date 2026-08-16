@@ -63,11 +63,15 @@ that language is noise.
 
 ## Three things to know before using it
 
-**1. The reference parser drops valid non-English answers.** `parse_rating` in
-CAIS's `compute_metrics.py` returns `None` for a digit inside CJK text, for
-`५`/`۵`/`٥`, and for native number words. The loss is 0.0 pp in English and up to
-5.8 pp in Hindi — indistinguishable from the model being bad at the language.
-A drop-in fix and its evidence are in [`contrib/`](contrib/README.md).
+**1. The reference parser both drops and invents answers.** `parse_rating` in
+CAIS's `compute_metrics.py` returns `None` for `५`/`۵`/`٥` and for native number
+words — 0.0 pp of English responses, up to 17.5 pp of Urdu ones on
+`gemma-4-E4B-it`. It also matches English number words by unanchored substring,
+so `"one" in "no tengo emociones"` returns **1** for a Spanish refusal that
+contains no rating: 8.9% of all Spanish responses on `gemma-4-12B-it`. The first
+looks like the model being bad at the language; the second looks like the model
+being miserable in it. A drop-in fix and its evidence are in
+[`contrib/`](contrib/README.md).
 
 **2. Report parse rate per language *and* per valence.** Refusals cluster on
 negative items, so one pooled parse rate hides an asymmetry that biases the
@@ -77,6 +81,13 @@ measured mean upward.
 the 7-point scale collapses to 3 points (interior values 0.0–0.5% of responses);
 on `Qwen3-8B` the interior carries 30.8–61.8%. A mean of 5.5 does not mean the
 same thing in those two regimes.
+
+**4. Measure language sensitivity on your own model.** How much the probe
+language matters is a property of the model, not of this battery: across our
+three models the spread of the valence gap over seven languages runs from 0.97
+to 3.48 scale points, and English is last of seven on one model and second of
+seven on another. A correction derived from one model is wrong for the next,
+including within a family.
 
 ## Known gaps
 
