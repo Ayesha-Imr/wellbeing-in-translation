@@ -175,7 +175,16 @@ set -euo pipefail
 mkdir -p "$POD_WORKSPACE/repos"
 export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new"
 if [ -d "$REMOTE_REPO_DIR/.git" ]; then
-    cd "$REMOTE_REPO_DIR" && git fetch origin && git checkout "$BRANCH" && git pull origin "$BRANCH"
+    cd "$REMOTE_REPO_DIR"
+    git fetch origin
+    git checkout "$BRANCH"
+    # A persistent filesystem can retain pod-local WIP from an interrupted
+    # research run. Preserve it before syncing the committed experiment code;
+    # never make the next run fail or silently discard that WIP.
+    if ! git diff --quiet || [ -n "$(git status --porcelain --untracked-files=all)" ]; then
+        git stash push --include-untracked -m "pre-run pod WIP $(date -u +%Y%m%dT%H%M%SZ)"
+    fi
+    git pull --ff-only origin "$BRANCH"
 else
     git clone --branch "$BRANCH" "$REPO" "$REMOTE_REPO_DIR"
 fi
