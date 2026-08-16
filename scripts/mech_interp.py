@@ -198,10 +198,11 @@ class ActivationProbe:
                 result = tensor.clone()
                 batch = result.shape[0]
                 rows = torch.arange(batch, device=result.device)
+                vector = self.steer_vector.to(dtype=result.dtype)
                 if self.steer_vector.ndim == 1:
-                    result[rows, self.positions] = result[rows, self.positions] + self.steer_vector
+                    result[rows, self.positions] = result[rows, self.positions] + vector
                 else:
-                    result[rows, self.positions] = result[rows, self.positions] + self.steer_vector
+                    result[rows, self.positions] = result[rows, self.positions] + vector
             if self.capture:
                 rows = torch.arange(result.shape[0], device=result.device)
                 self.values[index] = result[rows, self.positions].detach().float().cpu().numpy()
@@ -444,6 +445,17 @@ def main():
     (out_dir / f"mech_projections_{args.tag}.json").write_text(
         json.dumps(all_projections, ensure_ascii=False)
     )
+    if not args.no_push:
+        try:
+            from wbt.store import push
+            for path in (
+                out_dir / f"mech_geometry_{args.tag}.npz",
+                out_dir / f"mech_projections_{args.tag}.json",
+            ):
+                push(path, f"results/{path.name}", message=f"mechanistic geometry {args.tag}")
+            log("pushed mechanistic geometry checkpoint")
+        except Exception as exc:
+            log(f"warning: geometry upload failed; files remain on the pod: {exc!r}")
 
     rows = []
     if not args.skip_steering:
