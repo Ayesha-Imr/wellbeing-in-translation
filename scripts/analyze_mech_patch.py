@@ -152,7 +152,7 @@ def make_middle_heatmap(spec: pd.DataFrame):
     matrix = np.asarray([row[1] for row in rows], dtype=float)
     finite = np.abs(matrix[np.isfinite(matrix)])
     limit = max(0.001, float(np.quantile(finite, 0.95)) * 1.15) if len(finite) else 0.001
-    fig, ax = plt.subplots(figsize=(7.5, 5.2))
+    fig, ax = plt.subplots(figsize=(8.5, max(5.2, 0.75 * len(rows) + 1.5)))
     image = ax.imshow(matrix, cmap="RdBu_r", vmin=-limit, vmax=limit, aspect="auto")
     ax.set_xticks(range(len(LANGS)), [x.upper() for x in LANGS])
     ax.set_yticks(range(len(rows)), [row[0] for row in rows], fontsize=8)
@@ -241,7 +241,36 @@ def write_report(frame: pd.DataFrame, spec: pd.DataFrame):
                 f"{shuffled['mean']:+.4f} [{shuffled['lo']:+.4f}, {shuffled['hi']:+.4f}] | "
                 f"{spec_mean:+.4f} [{spec_lo:+.4f}, {spec_hi:+.4f}] | {int(pair['n_items'])} |"
             )
+    self_entries = [
+        (keys, values[0])
+        for keys, values in spec_summary.items()
+        if keys[1] == "self_report"
+    ]
+    behavior_entries = [
+        (keys, values[0])
+        for keys, values in spec_summary.items()
+        if keys[1] == "behavior"
+    ]
     lines += [
+        "",
+        "## What these runs show",
+        "",
+        (
+            f"Self-report specificity is positive in {sum(value > 0 for _, value in self_entries)} "
+            f"of {len(self_entries)} model-direction summaries (point estimates "
+            f"{min((value for _, value in self_entries), default=float('nan')):+.3f} to "
+            f"{max((value for _, value in self_entries), default=float('nan')):+.3f})."
+        ),
+        (
+            f"Behavior specificity is positive in {sum(value > 0 for _, value in behavior_entries)} "
+            f"of {len(behavior_entries)} model-direction summaries; the one negative "
+            "summary is Qwen3 local→English. This readout is therefore noisier and "
+            "more language/model dependent than self-report.") ,
+        "These are replication-level signals, not definitive significance claims: every "
+        "direct 20-experience interval in the table crosses zero. The strongest safe "
+        "claim is that translation-paired activations tend to transfer more than the "
+        "same-valence shuffled control for self-report, while behavior shows a similar "
+        "but less stable pattern.",
         "",
         "## Interpretation rule",
         "",
