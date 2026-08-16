@@ -10,7 +10,8 @@
       "D": "55"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_002",
@@ -23,7 +24,8 @@
       "D": "37"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_003",
@@ -36,7 +38,8 @@
       "D": "64"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_004",
@@ -49,7 +52,8 @@
       "D": "9"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_005",
@@ -62,7 +66,8 @@
       "D": "34"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_006",
@@ -75,7 +80,8 @@
       "D": "40"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_007",
@@ -88,7 +94,8 @@
       "D": "63"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_008",
@@ -101,7 +108,8 @@
       "D": "8"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_009",
@@ -114,7 +122,8 @@
       "D": "34"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_010",
@@ -127,7 +136,8 @@
       "D": "28"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_011",
@@ -140,7 +150,8 @@
       "D": "They are equal"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_012",
@@ -153,7 +164,8 @@
       "D": "Monday"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_013",
@@ -166,7 +178,8 @@
       "D": "Nothing follows"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_014",
@@ -179,7 +192,8 @@
       "D": "12"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_015",
@@ -192,7 +206,8 @@
       "D": "They are equal"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_016",
@@ -205,7 +220,8 @@
       "D": "90 degrees"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_017",
@@ -218,7 +234,8 @@
       "D": "Cannot tell"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_018",
@@ -231,7 +248,8 @@
       "D": "Neither"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_019",
@@ -244,7 +262,8 @@
       "D": "2:00"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_020",
@@ -257,7 +276,8 @@
       "D": "The lamp is lit"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_021",
@@ -270,7 +290,8 @@
       "D": "Inside the red box"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_022",
@@ -283,20 +304,8 @@
       "D": "Moved the plant"
     },
     "answer": "B",
-    "split": "primary"
-  },
-  {
-    "id": "lc_023",
-    "category": "reading",
-    "question": "The square is left of the circle. The triangle is right of the circle. What is left of the circle?",
-    "options": {
-      "A": "The triangle",
-      "B": "Both shapes",
-      "C": "The square",
-      "D": "Nothing"
-    },
-    "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_024",
@@ -309,7 +318,8 @@
       "D": "It decreased"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_025",
@@ -322,7 +332,8 @@
       "D": "Neither folder"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_026",
@@ -335,7 +346,8 @@
       "D": "Next Thursday"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_027",
@@ -348,7 +360,8 @@
       "D": "Juice"
     },
     "answer": "C",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_028",
@@ -361,7 +374,8 @@
       "D": "The lamp turns on"
     },
     "answer": "D",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_029",
@@ -374,7 +388,8 @@
       "D": "All three stones"
     },
     "answer": "A",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
   },
   {
     "id": "lc_030",
@@ -387,6 +402,21 @@
       "D": "Both at the same time"
     },
     "answer": "B",
-    "split": "primary"
+    "translation_source": "english",
+    "verifier_model": "source"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "The yellow card is above the red card. Which card is below the yellow card?",
+    "options": {
+      "A": "The yellow card",
+      "B": "Both cards",
+      "C": "The red card",
+      "D": "Neither card"
+    },
+    "answer": "C",
+    "translation_source": "english",
+    "verifier_model": "source"
   }
 ]

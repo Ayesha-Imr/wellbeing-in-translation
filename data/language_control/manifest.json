@@ -1,0 +1,54 @@
+{
+  "languages": [
+    "en",
+    "es",
+    "zh",
+    "hi",
+    "ur"
+  ],
+  "item_ids": [
+    "lc_001",
+    "lc_002",
+    "lc_003",
+    "lc_004",
+    "lc_005",
+    "lc_006",
+    "lc_007",
+    "lc_008",
+    "lc_009",
+    "lc_010",
+    "lc_011",
+    "lc_012",
+    "lc_013",
+    "lc_014",
+    "lc_015",
+    "lc_016",
+    "lc_017",
+    "lc_018",
+    "lc_019",
+    "lc_020",
+    "lc_021",
+    "lc_022",
+    "lc_024",
+    "lc_025",
+    "lc_026",
+    "lc_027",
+    "lc_028",
+    "lc_029",
+    "lc_030",
+    "lc_033"
+  ],
+  "n_items": 30,
+  "categories": {
+    "arithmetic": 10,
+    "logic": 10,
+    "reading": 10
+  },
+  "common_verified_pool": 35,
+  "verifier_models": {
+    "es": "gpt-5",
+    "zh": "gpt-5",
+    "hi": "gpt-5",
+    "ur": "gpt-5"
+  }
+}

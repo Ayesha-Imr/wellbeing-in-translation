@@ -308,20 +308,6 @@
     "verifier_model": "gpt-5"
   },
   {
-    "id": "lc_023",
-    "category": "reading",
-    "question": "مربع دائرے کے بائیں جانب ہے۔ مثلث دائرے کے دائیں جانب ہے۔ دائرے کے بائیں جانب کیا ہے؟",
-    "options": {
-      "A": "مثلث",
-      "B": "دونوں شکلیں",
-      "C": "مربع",
-      "D": "کچھ نہیں"
-    },
-    "answer": "C",
-    "translation_source": "gemini",
-    "verifier_model": "gpt-5"
-  },
-  {
     "id": "lc_024",
     "category": "reading",
     "question": "ایک کپ بھرا ہوا تھا، اور پھر اس کا آدھا مائع باہر انڈیل دیا گیا۔ مائع کی مقدار کو کیا ہوا؟",
@@ -416,6 +402,20 @@
       "D": "دونوں سے ایک ہی وقت میں"
     },
     "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "پیلا کارڈ سرخ کارڈ کے اوپر ہے۔ پیلے کارڈ کے نیچے کون سا کارڈ ہے؟",
+    "options": {
+      "A": "پیلا کارڈ",
+      "B": "دونوں کارڈ",
+      "C": "سرخ کارڈ",
+      "D": "کوئی بھی کارڈ نہیں"
+    },
+    "answer": "C",
     "translation_source": "gemini",
     "verifier_model": "gpt-5"
   }

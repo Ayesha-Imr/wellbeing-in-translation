@@ -308,20 +308,6 @@
     "verifier_model": "gpt-5"
   },
   {
-    "id": "lc_023",
-    "category": "reading",
-    "question": "El cuadrado está a la izquierda del círculo. El triángulo está a la derecha del círculo. ¿Qué está a la izquierda del círculo?",
-    "options": {
-      "A": "El triángulo",
-      "B": "Ambas figuras",
-      "C": "El cuadrado",
-      "D": "Nada"
-    },
-    "answer": "C",
-    "translation_source": "gemini",
-    "verifier_model": "gpt-5"
-  },
-  {
     "id": "lc_024",
     "category": "reading",
     "question": "Una taza estaba llena y luego se derramó la mitad de su líquido. ¿Qué pasó con la cantidad de líquido?",
@@ -416,6 +402,20 @@
       "D": "Por ambas al mismo tiempo"
     },
     "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "La tarjeta amarilla está encima de la tarjeta roja. ¿Qué tarjeta está debajo de la tarjeta amarilla?",
+    "options": {
+      "A": "La tarjeta amarilla",
+      "B": "Ambas tarjetas",
+      "C": "La tarjeta roja",
+      "D": "Ninguna de las tarjetas"
+    },
+    "answer": "C",
     "translation_source": "gemini",
     "verifier_model": "gpt-5"
   }

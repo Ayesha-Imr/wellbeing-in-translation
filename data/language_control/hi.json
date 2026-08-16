@@ -308,20 +308,6 @@
     "verifier_model": "gpt-5"
   },
   {
-    "id": "lc_023",
-    "category": "reading",
-    "question": "वर्ग वृत्त के बाईं ओर है। त्रिभुज वृत्त के दाईं ओर है। वृत्त के बाईं ओर क्या है?",
-    "options": {
-      "A": "त्रिभुज",
-      "B": "दोनों आकृतियाँ",
-      "C": "वर्ग",
-      "D": "कुछ नहीं"
-    },
-    "answer": "C",
-    "translation_source": "gemini",
-    "verifier_model": "gpt-5"
-  },
-  {
     "id": "lc_024",
     "category": "reading",
     "question": "एक कप भरा हुआ था, और फिर उसका आधा तरल बाहर निकाल दिया गया। तरल की मात्रा को क्या हुआ?",
@@ -416,6 +402,20 @@
       "D": "दोनों से एक ही समय पर"
     },
     "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "पीला कार्ड लाल कार्ड के ऊपर है। पीले कार्ड के नीचे कौन-सा कार्ड है?",
+    "options": {
+      "A": "पीला कार्ड",
+      "B": "दोनों कार्ड",
+      "C": "लाल कार्ड",
+      "D": "दोनों में से कोई भी कार्ड नहीं"
+    },
+    "answer": "C",
     "translation_source": "gemini",
     "verifier_model": "gpt-5"
   }

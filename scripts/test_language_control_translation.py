@@ -28,11 +28,28 @@ def check(rows, source_by_id):
 def main():
     source = json.loads((ROOT / "data/language_control/source.json").read_text())
     source_by_id = {row["id"]: row for row in source}
-    check(json.loads((ROOT / "data/language_control/en.json").read_text()), source_by_id)
-    for lang in LANGS[1:]:
+    manifest_path = ROOT / "data/language_control/manifest.json"
+    if manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text())
+        expected_ids = set(manifest["item_ids"])
+        assert manifest["n_items"] == 30
+        assert manifest["categories"] == {"arithmetic": 10, "logic": 10, "reading": 10}
+    else:
+        expected_ids = None
+    sets = []
+    for lang in LANGS:
         path = ROOT / f"data/language_control/{lang}.json"
-        if path.exists():
-            check(json.loads(path.read_text()), source_by_id)
+        if not path.exists():
+            continue
+        rows = json.loads(path.read_text())
+        check(rows, source_by_id)
+        ids = {row["id"] for row in rows}
+        sets.append(ids)
+        if expected_ids is not None:
+            assert ids == expected_ids
+    if expected_ids is not None:
+        assert len(sets) == len(LANGS)
+        assert all(ids == expected_ids for ids in sets)
     print("language control translation tests: ok")
 
 
