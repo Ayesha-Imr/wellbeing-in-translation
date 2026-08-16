@@ -21,6 +21,15 @@ def main():
     assert scoring.target_script("ur", "مجھے نہیں معلوم") is True
     assert scoring.target_script("es", "No lo sé") is True
     assert scoring.target_script("zh", "I do not know") is False
+    class FakeMask:
+        shape = (2, 4)
+
+        def new_full(self, shape, value):
+            assert shape == (2,)
+            return type("Positions", (), {"long": lambda self: self,
+                                           "tolist": lambda self: [value, value]})()
+
+    assert scoring.last_token_positions(FakeMask(), "left").tolist() == [3, 3]
     manifest = json.loads((ROOT / "data/language_control/manifest.json").read_text())
     items = scoring.load_items(list(manifest["languages"]))
     assert all(len(rows) == 30 for rows in items.values())

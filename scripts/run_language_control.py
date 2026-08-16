@@ -93,6 +93,14 @@ def single_token_ids(tokenizer, label: str) -> list[int]:
     return ids
 
 
+def last_token_positions(attention_mask, padding_side: str):
+    if padding_side == "left":
+        return attention_mask.new_full(
+            (attention_mask.shape[0],), attention_mask.shape[1] - 1
+        ).long()
+    return attention_mask.sum(dim=1).long() - 1
+
+
 def score_batch(runner: Runner, messages: list[list[dict]], metadata: list[dict]) -> list[dict]:
     tok = runner.tok
     texts = [tok.apply_chat_template(
@@ -103,7 +111,7 @@ def score_batch(runner: Runner, messages: list[list[dict]], metadata: list[dict]
     with runner.torch.inference_mode():
         output = runner.model(**enc, use_cache=False)
         logits = output.logits
-        positions = enc["attention_mask"].sum(dim=1).long() - 1
+        positions = last_token_positions(enc["attention_mask"], tok.padding_side)
         final = logits[runner.torch.arange(len(messages), device=logits.device), positions].float()
         option_ids = {label: single_token_ids(tok, label) for label in LABELS}
         score_rows = []
