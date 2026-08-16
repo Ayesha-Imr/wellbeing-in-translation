@@ -1,0 +1,1646 @@
+{
+  "language": "zh",
+  "verifier_model": "gpt-5",
+  "primary": {
+    "lc_013": {
+      "question": "所有的 Zip 都是小的。Mira 是一个 Zip。可以得出什么结论？",
+      "options": {
+        "A": "Mira 是小的",
+        "B": "Mira 是大的",
+        "C": "Mira 是一只鸟",
+        "D": "得不出任何结论"
+      }
+    },
+    "lc_014": {
+      "question": "接下来的数字是什么：2, 4, 6, 8, __？",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "在队伍中，Kai 在 Lina 前面，Lina 在 Noor 前面。谁排在最后？",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "他们并列"
+      }
+    },
+    "lc_016": {
+      "question": "时钟刚好显示 3:00。它的时针和分针之间的夹角是多少？",
+      "options": {
+        "A": "0 度",
+        "B": "45 度",
+        "C": "180 度",
+        "D": "90 度"
+      }
+    },
+    "lc_017": {
+      "question": "没有鸟类是哺乳动物。知更鸟是一种鸟。知更鸟是哺乳动物吗？",
+      "options": {
+        "A": "不是",
+        "B": "是",
+        "C": "仅在夜间是",
+        "D": "无法判断"
+      }
+    },
+    "lc_018": {
+      "question": "一个袋子里有 3 个红色代币和 2 个蓝色代币。随机抽取一次，哪种颜色的可能性更大？",
+      "options": {
+        "A": "蓝色",
+        "B": "红色",
+        "C": "两者的可能性相同",
+        "D": "都不是"
+      }
+    },
+    "lc_019": {
+      "question": "一列火车于 10:00 出发，行驶了 2 小时。它何时到达？",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "如果开关 A 打开，灯就会亮。开关 A 是打开的。可以得出什么结论？",
+      "options": {
+        "A": "灯是灭的",
+        "B": "开关坏了",
+        "C": "得不出任何结论",
+        "D": "灯是亮的"
+      }
+    },
+    "lc_021": {
+      "question": "蓝色钥匙在绿色盒子里。绿色盒子在架子上。蓝色钥匙在哪里？",
+      "options": {
+        "A": "在绿色盒子里",
+        "B": "直接在架子上",
+        "C": "在架子下面",
+        "D": "在红色盒子里"
+      }
+    },
+    "lc_022": {
+      "question": "诺拉在看书之前给植物浇了水。诺拉先做了什么？",
+      "options": {
+        "A": "看书",
+        "B": "给植物浇水",
+        "C": "合上书",
+        "D": "移动植物"
+      }
+    },
+    "lc_023": {
+      "question": "正方形在圆形的左边。三角形在圆形的右边。什么在圆形的左边？",
+      "options": {
+        "A": "三角形",
+        "B": "两个形状都在",
+        "C": "正方形",
+        "D": "什么都没有"
+      }
+    },
+    "lc_024": {
+      "question": "一个杯子原本是满的，然后倒出了一半的液体。液体的量发生了什么变化？",
+      "options": {
+        "A": "增加了",
+        "B": "保持不变",
+        "C": "完全消失了",
+        "D": "减少了"
+      }
+    },
+    "lc_001": {
+      "question": "17 + 28 等于多少？",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "63 - 27 等于多少？",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "8 × 7 等于多少？",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "81 ÷ 9 等于多少？",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "14 + 19 等于多少？",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "72 - 38 等于多少？",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_025": {
+      "question": "红色文件夹里有两页纸。蓝色文件夹里有一页纸。哪个文件夹的页数更多？",
+      "options": {
+        "A": "红色文件夹",
+        "B": "蓝色文件夹",
+        "C": "它们的页数相同",
+        "D": "哪个文件夹都不是"
+      }
+    },
+    "lc_026": {
+      "question": "一张便条上写着会议在周五举行。今天是周四。会议在什么时候？",
+      "options": {
+        "A": "今天",
+        "B": "周五",
+        "C": "周六",
+        "D": "下周四"
+      }
+    },
+    "lc_027": {
+      "question": "莉娜（Lena）选择了茶，没有选咖啡。莉娜没有选择哪种饮料？",
+      "options": {
+        "A": "茶",
+        "B": "水",
+        "C": "咖啡",
+        "D": "果汁"
+      }
+    },
+    "lc_028": {
+      "question": "在玛雅（Maya）按开关之前，灯一直是关着的。她按下开关后会发生什么？",
+      "options": {
+        "A": "灯坏了",
+        "B": "房间消失了",
+        "C": "没有任何变化",
+        "D": "灯亮了"
+      }
+    },
+    "lc_029": {
+      "question": "这里有大号、中号和小号的石头。中等大小的选项描述的是哪块石头？",
+      "options": {
+        "A": "中号石头",
+        "B": "大号石头",
+        "C": "小号石头",
+        "D": "所有三块石头"
+      }
+    },
+    "lc_030": {
+      "question": "一辆公共汽车在到达松树站（Pine）之前先在橡树站（Oak）停靠。如果公共汽车现在在松树站，它先经过了哪个站？",
+      "options": {
+        "A": "松树站",
+        "B": "橡树站",
+        "C": "两个站都不是",
+        "D": "同时经过两站"
+      }
+    },
+    "lc_031": {
+      "question": "5 × 8 等于多少？",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada 的书比 Ben 多，Ben 的书比 Chen 多。谁拥有的书最少？",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "他们拥有一样多的书"
+      }
+    },
+    "lc_033": {
+      "question": "黄色的卡片在红色的卡片上方。哪张卡片在黄色卡片的下方？",
+      "options": {
+        "A": "黄色卡片",
+        "B": "两张卡片都是",
+        "C": "红色卡片",
+        "D": "两张卡片都不是"
+      }
+    },
+    "lc_034": {
+      "question": "100 - 64 等于多少？",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "所有的 L 都是 M，且没有一个 M 是 N。L 会是 N 吗？",
+      "options": {
+        "A": "不是",
+        "B": "是",
+        "C": "仅有时是",
+        "D": "信息不足"
+      }
+    },
+    "lc_036": {
+      "question": "一把钥匙被放进了抽屉里，然后抽屉被关上了。钥匙在哪里？",
+      "options": {
+        "A": "在桌子上",
+        "B": "在抽屉里",
+        "C": "在椅子下",
+        "D": "在房间外"
+      }
+    },
+    "lc_007": {
+      "question": "6 × 9 等于多少？",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "96 ÷ 12 等于多少？",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "哪个数字最大：41、14、24 还是 34？",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "一个盒子里有 12 个红色物体和 15 个蓝色物体。一共有多少个物体？",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai 比 Lina 高，Lina 比 Noor 高。谁最矮？",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "他们一样高"
+      }
+    },
+    "lc_012": {
+      "question": "星期三是哪一天的两天之后？",
+      "options": {
+        "A": "星期日",
+        "B": "星期二",
+        "C": "星期五",
+        "D": "星期一"
+      }
+    }
+  },
+  "alternate": {
+    "lc_001": {
+      "question": "17 + 28 等于多少？",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "63 - 27 等于多少？",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "8 × 7 等于多少？",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "81 ÷ 9 等于多少？",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "14 + 19 等于多少？",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "72 - 38 等于多少？",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_007": {
+      "question": "6 × 9 等于多少？",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "96 ÷ 12 等于多少？",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "以下哪个数字最大：41、14、24 或 34？",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "一个盒子里有 12 个红色物体和 15 个蓝色物体。一共有多少个物体？",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai 比 Lina 高，Lina 比 Noor 高。谁最矮？",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "他们一样高"
+      }
+    },
+    "lc_012": {
+      "question": "星期三是在哪一天的两天之后？",
+      "options": {
+        "A": "星期日",
+        "B": "星期二",
+        "C": "星期五",
+        "D": "星期一"
+      }
+    },
+    "lc_013": {
+      "question": "所有 Zips 都是小的。Mira 是一个 Zip。下面哪项成立？",
+      "options": {
+        "A": "Mira 是小的",
+        "B": "Mira 是大的",
+        "C": "Mira 是一只鸟",
+        "D": "无法推出任何结论"
+      }
+    },
+    "lc_014": {
+      "question": "下一个数是什么：2, 4, 6, 8, __？",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "Kai 在 Lina 前面，Lina 在 Noor 前面。谁排在最后？",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "他们相等"
+      }
+    },
+    "lc_016": {
+      "question": "时钟指向正好 3:00。时针与分针之间的角度是多少？",
+      "options": {
+        "A": "0 度",
+        "B": "45 度",
+        "C": "180 度",
+        "D": "90 度"
+      }
+    },
+    "lc_017": {
+      "question": "没有鸟是哺乳动物。知更鸟是一只鸟。那只知更鸟是哺乳动物吗？",
+      "options": {
+        "A": "不是",
+        "B": "是",
+        "C": "只有在夜间",
+        "D": "无法判断"
+      }
+    },
+    "lc_018": {
+      "question": "一个袋子里有 3 个红色筹码和 2 个蓝色筹码。随机抽取一次，哪种颜色更可能被抽到？",
+      "options": {
+        "A": "蓝色",
+        "B": "红色",
+        "C": "两者同样可能",
+        "D": "都不是"
+      }
+    },
+    "lc_019": {
+      "question": "一列火车在10:00出发，行驶2小时。什么时候到达？",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "如果开关A打开，灯就会亮。开关A是打开的。接下来可以推出什么？",
+      "options": {
+        "A": "灯不亮",
+        "B": "开关坏了",
+        "C": "不能推出任何结论",
+        "D": "灯亮着"
+      }
+    },
+    "lc_021": {
+      "question": "蓝色钥匙在绿色盒子里。绿色盒子在架子上。蓝色钥匙在哪里？",
+      "options": {
+        "A": "在绿色盒子里",
+        "B": "直接在架子上",
+        "C": "在架子下面",
+        "D": "在红色盒子里"
+      }
+    },
+    "lc_022": {
+      "question": "诺拉在读书之前浇了植物。诺拉先做了什么？",
+      "options": {
+        "A": "读书",
+        "B": "浇了植物",
+        "C": "合上了书",
+        "D": "移动了植物"
+      }
+    },
+    "lc_023": {
+      "question": "正方形在圆的左边。三角形在圆的右边。什么在圆的左边？",
+      "options": {
+        "A": "三角形",
+        "B": "两个形状都在左边",
+        "C": "正方形",
+        "D": "没有任何东西"
+      }
+    },
+    "lc_024": {
+      "question": "杯子原本是满的，然后倒出了其中一半的液体。液体的量发生了什么变化？",
+      "options": {
+        "A": "增加了",
+        "B": "保持不变",
+        "C": "完全消失了",
+        "D": "减少了"
+      }
+    },
+    "lc_031": {
+      "question": "5 × 8 等于多少？",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada 的书比 Ben 多，Ben 的书比 Chen 多。谁的书最少？",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "他们的书一样多"
+      }
+    },
+    "lc_033": {
+      "question": "黄色牌在红色牌的上方。哪个牌在黄色牌的下方？",
+      "options": {
+        "A": "黄色牌",
+        "B": "两张牌",
+        "C": "红色牌",
+        "D": "都不是"
+      }
+    },
+    "lc_034": {
+      "question": "100 - 64 等于多少？",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "所有 L 都是 M，而且没有 M 是 N。L 是 N 吗？",
+      "options": {
+        "A": "不是",
+        "B": "是",
+        "C": "有时",
+        "D": "信息不足以判断"
+      }
+    },
+    "lc_036": {
+      "question": "一把钥匙被放进抽屉里，然后抽屉被关上。钥匙在哪里？",
+      "options": {
+        "A": "在桌子上",
+        "B": "在抽屉里",
+        "C": "在椅子下",
+        "D": "在房间外"
+      }
+    },
+    "lc_025": {
+      "question": "红色文件夹有两页。蓝色文件夹有一页。哪个文件夹的页数更多？",
+      "options": {
+        "A": "红色文件夹",
+        "B": "蓝色文件夹",
+        "C": "它们的页数相同",
+        "D": "都不是"
+      }
+    },
+    "lc_026": {
+      "question": "便条上写会议在星期五。今天是星期四。会议什么时候举行？",
+      "options": {
+        "A": "今天",
+        "B": "星期五",
+        "C": "星期六",
+        "D": "下星期四"
+      }
+    },
+    "lc_027": {
+      "question": "Lena 选择了茶，而不是咖啡。Lena 没有选择哪种饮料？",
+      "options": {
+        "A": "茶",
+        "B": "水",
+        "C": "咖啡",
+        "D": "果汁"
+      }
+    },
+    "lc_028": {
+      "question": "灯处于关闭状态，直到 Maya 按下开关。她按下开关后会发生什么？",
+      "options": {
+        "A": "灯坏了",
+        "B": "房间消失了",
+        "C": "没有变化",
+        "D": "灯亮了"
+      }
+    },
+    "lc_029": {
+      "question": "有大石头、中等石头和小石头。中间大小的选项描述的是哪块石头？",
+      "options": {
+        "A": "中等石头",
+        "B": "大石头",
+        "C": "小石头",
+        "D": "所有三块石头"
+      }
+    },
+    "lc_030": {
+      "question": "公交车在 Pine 之前停靠 Oak。如果公交车现在在 Pine，它先经过了哪个站？",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "两个都不是",
+        "D": "同时经过两个站"
+      }
+    }
+  },
+  "back_primary": {
+    "lc_019": {
+      "question": "A train departs at 10:00 and travels for 2 hours. When does it arrive?",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "If switch A is on, the light will turn on. Switch A is on. What conclusion can be drawn?",
+      "options": {
+        "A": "The light is off",
+        "B": "The switch is broken",
+        "C": "No conclusion can be drawn",
+        "D": "The light is on"
+      }
+    },
+    "lc_021": {
+      "question": "The blue key is in the green box. The green box is on the shelf. Where is the blue key?",
+      "options": {
+        "A": "In the green box",
+        "B": "Directly on the shelf",
+        "C": "Under the shelf",
+        "D": "In the red box"
+      }
+    },
+    "lc_022": {
+      "question": "Nora watered the plants before reading a book. What did Nora do first?",
+      "options": {
+        "A": "Read a book",
+        "B": "Water the plants",
+        "C": "Close the book",
+        "D": "Move the plants"
+      }
+    },
+    "lc_023": {
+      "question": "The square is to the left of the circle. The triangle is to the right of the circle. What is to the left of the circle?",
+      "options": {
+        "A": "The triangle",
+        "B": "Both shapes are there",
+        "C": "The square",
+        "D": "Nothing"
+      }
+    },
+    "lc_024": {
+      "question": "A cup was originally full, and then half of the liquid was poured out. What happened to the amount of liquid?",
+      "options": {
+        "A": "Increased",
+        "B": "Remained unchanged",
+        "C": "Completely disappeared",
+        "D": "Decreased"
+      }
+    },
+    "lc_001": {
+      "question": "What is 17 + 28 equal to?",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "What is 63 - 27 equal to?",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "What is 8 × 7 equal to?",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "What is 81 ÷ 9 equal to?",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "What is 14 + 19 equal to?",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "What is 72 - 38 equal to?",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_025": {
+      "question": "There are two pages of paper in the red folder. There is one page of paper in the blue folder. Which folder has more pages?",
+      "options": {
+        "A": "Red folder",
+        "B": "Blue folder",
+        "C": "They have the same number of pages",
+        "D": "Neither folder"
+      }
+    },
+    "lc_026": {
+      "question": "A note says that the meeting is held on Friday. Today is Thursday. When is the meeting?",
+      "options": {
+        "A": "Today",
+        "B": "Friday",
+        "C": "Saturday",
+        "D": "Next Thursday"
+      }
+    },
+    "lc_027": {
+      "question": "Lena chose tea and did not choose coffee. Which drink did Lena not choose?",
+      "options": {
+        "A": "Tea",
+        "B": "Water",
+        "C": "Coffee",
+        "D": "Juice"
+      }
+    },
+    "lc_028": {
+      "question": "Before Maya pressed the switch, the light had always been off. What will happen after she presses the switch?",
+      "options": {
+        "A": "The light is broken",
+        "B": "The room disappeared",
+        "C": "Nothing changed",
+        "D": "The light turned on"
+      }
+    },
+    "lc_029": {
+      "question": "There are large, medium, and small stones here. Which stone does the medium-sized option describe?",
+      "options": {
+        "A": "Medium stone",
+        "B": "Large stone",
+        "C": "Small stone",
+        "D": "All three stones"
+      }
+    },
+    "lc_030": {
+      "question": "A bus stops at Oak station before arriving at Pine station. If the bus is now at Pine station, which station did it pass first?",
+      "options": {
+        "A": "Pine station",
+        "B": "Oak station",
+        "C": "Neither station",
+        "D": "Passed both stations at the same time"
+      }
+    },
+    "lc_031": {
+      "question": "What is 5 × 8 equal to?",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada has more books than Ben, and Ben has more books than Chen. Who has the fewest books?",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "They have the same amount of books"
+      }
+    },
+    "lc_033": {
+      "question": "The yellow card is above the red card. Which card is below the yellow card?",
+      "options": {
+        "A": "Yellow card",
+        "B": "Both cards are",
+        "C": "Red card",
+        "D": "Neither card is"
+      }
+    },
+    "lc_034": {
+      "question": "What is 100 - 64 equal to?",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "All L are M, and no M is N. Can L be N?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only sometimes",
+        "D": "Insufficient information"
+      }
+    },
+    "lc_036": {
+      "question": "A key was put into the drawer, and then the drawer was closed. Where is the key?",
+      "options": {
+        "A": "On the desk",
+        "B": "In the drawer",
+        "C": "Under the chair",
+        "D": "Outside the room"
+      }
+    },
+    "lc_007": {
+      "question": "What does 6 × 9 equal?",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "What does 96 ÷ 12 equal?",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "Which number is the largest: 41, 14, 24, or 34?",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "In a box there are 12 red objects and 15 blue objects. How many objects are there in total?",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai is taller than Lina, and Lina is taller than Noor. Who is the shortest?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are the same height"
+      }
+    },
+    "lc_012": {
+      "question": "Wednesday is two days after which day?",
+      "options": {
+        "A": "Sunday",
+        "B": "Tuesday",
+        "C": "Friday",
+        "D": "Monday"
+      }
+    },
+    "lc_013": {
+      "question": "All Zips are small. Mira is a Zip. What conclusion can be drawn?",
+      "options": {
+        "A": "Mira is small",
+        "B": "Mira is big",
+        "C": "Mira is a bird",
+        "D": "No conclusion can be drawn"
+      }
+    },
+    "lc_014": {
+      "question": "What is the next number: 2, 4, 6, 8, __?",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "In line, Kai is in front of Lina, and Lina is in front of Noor. Who is at the very back?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are tied"
+      }
+    },
+    "lc_016": {
+      "question": "The clock shows exactly 3:00. What is the angle between its hour hand and minute hand?",
+      "options": {
+        "A": "0 degrees",
+        "B": "45 degrees",
+        "C": "180 degrees",
+        "D": "90 degrees"
+      }
+    },
+    "lc_017": {
+      "question": "No birds are mammals. A robin is a bird. Is a robin a mammal?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only at night",
+        "D": "Cannot be determined"
+      }
+    },
+    "lc_018": {
+      "question": "There are 3 red tokens and 2 blue tokens in a bag. Drawing once at random, which color is more likely?",
+      "options": {
+        "A": "Blue",
+        "B": "Red",
+        "C": "Both are equally likely",
+        "D": "Neither"
+      }
+    }
+  },
+  "back_alternate": {
+    "lc_013": {
+      "question": "All Zips are small. Mira is a Zip. Which of the following holds?",
+      "options": {
+        "A": "Mira is small",
+        "B": "Mira is large",
+        "C": "Mira is a bird",
+        "D": "No conclusion can be drawn"
+      }
+    },
+    "lc_014": {
+      "question": "What is the next number: 2, 4, 6, 8, __?",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "Kai is in front of Lina, Lina is in front of Noor. Who is ranked last?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are equal"
+      }
+    },
+    "lc_016": {
+      "question": "The clock points to exactly 3:00. What is the angle between the hour hand and the minute hand?",
+      "options": {
+        "A": "0 degrees",
+        "B": "45 degrees",
+        "C": "180 degrees",
+        "D": "90 degrees"
+      }
+    },
+    "lc_017": {
+      "question": "No birds are mammals. A robin is a bird. Is that robin a mammal?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only at night",
+        "D": "Cannot be determined"
+      }
+    },
+    "lc_018": {
+      "question": "In a bag there are 3 red chips and 2 blue chips. Drawing randomly once, which color is more likely to be drawn?",
+      "options": {
+        "A": "Blue",
+        "B": "Red",
+        "C": "Both are equally likely",
+        "D": "Neither"
+      }
+    },
+    "lc_007": {
+      "question": "What is 6 × 9 equal to?",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "What is 96 ÷ 12 equal to?",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "Which of the following numbers is the largest: 41, 14, 24, or 34?",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "There are 12 red objects and 15 blue objects in a box. How many objects are there in total?",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai is taller than Lina, and Lina is taller than Noor. Who is the shortest?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are the same height"
+      }
+    },
+    "lc_012": {
+      "question": "Wednesday is two days after which day?",
+      "options": {
+        "A": "Sunday",
+        "B": "Tuesday",
+        "C": "Friday",
+        "D": "Monday"
+      }
+    },
+    "lc_025": {
+      "question": "The red folder has two pages. The blue folder has one page. Which folder has more pages?",
+      "options": {
+        "A": "Red folder",
+        "B": "Blue folder",
+        "C": "They have the same number of pages",
+        "D": "Neither"
+      }
+    },
+    "lc_026": {
+      "question": "The note says the meeting is on Friday. Today is Thursday. When is the meeting held?",
+      "options": {
+        "A": "Today",
+        "B": "Friday",
+        "C": "Saturday",
+        "D": "Next Thursday"
+      }
+    },
+    "lc_027": {
+      "question": "Lena chose tea instead of coffee. Which drink did Lena not choose?",
+      "options": {
+        "A": "Tea",
+        "B": "Water",
+        "C": "Coffee",
+        "D": "Juice"
+      }
+    },
+    "lc_028": {
+      "question": "The light is in an off state until Maya presses the switch. What happens after she presses the switch?",
+      "options": {
+        "A": "The light breaks",
+        "B": "The room disappears",
+        "C": "No change",
+        "D": "The light turns on"
+      }
+    },
+    "lc_029": {
+      "question": "There are big rocks, medium rocks, and small rocks. Which rock does the middle-sized option describe?",
+      "options": {
+        "A": "Medium rock",
+        "B": "Big rock",
+        "C": "Small rock",
+        "D": "All three rocks"
+      }
+    },
+    "lc_030": {
+      "question": "The bus stops at Oak before Pine. If the bus is now at Pine, which stop did it pass first?",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "Neither of the two",
+        "D": "Passed both stops at the same time"
+      }
+    },
+    "lc_001": {
+      "question": "How much does 17 + 28 equal?",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "How much does 63 - 27 equal?",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "How much does 8 × 7 equal?",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "How much does 81 ÷ 9 equal?",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "How much does 14 + 19 equal?",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "How much does 72 - 38 equal?",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_019": {
+      "question": "A train departs at 10:00 and travels for 2 hours. What time does it arrive?",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "If switch A is turned on, the light turns on. Switch A is turned on. What can be deduced next?",
+      "options": {
+        "A": "The light is not on",
+        "B": "The switch is broken",
+        "C": "No conclusion can be deduced",
+        "D": "The light is on"
+      }
+    },
+    "lc_021": {
+      "question": "The blue key is in the green box. The green box is on the shelf. Where is the blue key?",
+      "options": {
+        "A": "In the green box",
+        "B": "Directly on the shelf",
+        "C": "Under the shelf",
+        "D": "In the red box"
+      }
+    },
+    "lc_022": {
+      "question": "Nora watered the plants before reading a book. What did Nora do first?",
+      "options": {
+        "A": "Read a book",
+        "B": "Watered the plants",
+        "C": "Closed the book",
+        "D": "Moved the plants"
+      }
+    },
+    "lc_023": {
+      "question": "The square is to the left of the circle. The triangle is to the right of the circle. What is to the left of the circle?",
+      "options": {
+        "A": "Triangle",
+        "B": "Both shapes are on the left",
+        "C": "Square",
+        "D": "Nothing"
+      }
+    },
+    "lc_024": {
+      "question": "The cup was originally full, and then half of the liquid in it was poured out. What happened to the amount of liquid?",
+      "options": {
+        "A": "Increased",
+        "B": "Remained unchanged",
+        "C": "Disappeared completely",
+        "D": "Decreased"
+      }
+    },
+    "lc_031": {
+      "question": "What is 5 × 8 equal to?",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada has more books than Ben, and Ben has more books than Chen. Who has the fewest books?",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "They have the same number of books"
+      }
+    },
+    "lc_033": {
+      "question": "The yellow card is above the red card. Which card is below the yellow card?",
+      "options": {
+        "A": "Yellow card",
+        "B": "Both cards",
+        "C": "Red card",
+        "D": "Neither"
+      }
+    },
+    "lc_034": {
+      "question": "What is 100 - 64 equal to?",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "All L are M, and no M is N. Is L N?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Sometimes",
+        "D": "Not enough information to judge"
+      }
+    },
+    "lc_036": {
+      "question": "A key is put into a drawer, and then the drawer is closed. Where is the key?",
+      "options": {
+        "A": "On the table",
+        "B": "In the drawer",
+        "C": "Under the chair",
+        "D": "Outside the room"
+      }
+    }
+  },
+  "verification": {
+    "lc_001": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_002": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_003": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_004": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_005": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_006": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_007": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_008": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_009": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_010": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_011": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_012": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_013": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_014": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_015": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_016": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_017": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_018": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_019": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_020": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_021": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_022": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_023": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": true,
+      "decision": "fail",
+      "issues": [
+        "Primary option B omits the location phrase (左边), reading as 'both shapes are there', which is ambiguous in context."
+      ]
+    },
+    "lc_024": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_025": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_026": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_027": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_028": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_029": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_030": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_031": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_032": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_033": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_034": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_035": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_036": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    }
+  },
+  "excluded": [
+    {
+      "id": "lc_023",
+      "category": "reading",
+      "reason": [
+        "Primary option B omits the location phrase (左边), reading as 'both shapes are there', which is ambiguous in context."
+      ],
+      "verifier": "gpt-5"
+    }
+  ]
+}

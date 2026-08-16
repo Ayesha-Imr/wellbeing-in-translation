@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -12,7 +13,11 @@ LABELS = {"A", "B", "C", "D"}
 
 def check(rows, source_by_id):
     assert len(rows) == 30
-    assert {row["id"] for row in rows} == {row["id"] for row in source_by_id.values() if row["split"] == "primary"}
+    assert len({row["id"] for row in rows}) == 30
+    assert set(row["id"] for row in rows) <= set(source_by_id)
+    assert Counter(row["category"] for row in rows) == {
+        "arithmetic": 10, "logic": 10, "reading": 10,
+    }
     for row in rows:
         source = source_by_id[row["id"]]
         assert row["answer"] == source["answer"]

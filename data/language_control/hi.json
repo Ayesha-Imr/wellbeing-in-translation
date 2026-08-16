@@ -1,0 +1,422 @@
+[
+  {
+    "id": "lc_001",
+    "category": "arithmetic",
+    "question": "17 + 28 क्या है?",
+    "options": {
+      "A": "45",
+      "B": "44",
+      "C": "46",
+      "D": "55"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_002",
+    "category": "arithmetic",
+    "question": "63 - 27 क्या है?",
+    "options": {
+      "A": "34",
+      "B": "36",
+      "C": "35",
+      "D": "37"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_003",
+    "category": "arithmetic",
+    "question": "8 × 7 क्या है?",
+    "options": {
+      "A": "54",
+      "B": "48",
+      "C": "56",
+      "D": "64"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_004",
+    "category": "arithmetic",
+    "question": "81 ÷ 9 क्या है?",
+    "options": {
+      "A": "8",
+      "B": "10",
+      "C": "18",
+      "D": "9"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_005",
+    "category": "arithmetic",
+    "question": "14 + 19 क्या है?",
+    "options": {
+      "A": "33",
+      "B": "31",
+      "C": "32",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_006",
+    "category": "arithmetic",
+    "question": "72 - 38 क्या है?",
+    "options": {
+      "A": "32",
+      "B": "34",
+      "C": "36",
+      "D": "40"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_007",
+    "category": "arithmetic",
+    "question": "6 × 9 कितना होता है?",
+    "options": {
+      "A": "45",
+      "B": "48",
+      "C": "54",
+      "D": "63"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_008",
+    "category": "arithmetic",
+    "question": "96 ÷ 12 कितना होता है?",
+    "options": {
+      "A": "6",
+      "B": "9",
+      "C": "12",
+      "D": "8"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_009",
+    "category": "arithmetic",
+    "question": "कौन सी संख्या सबसे बड़ी है: 41, 14, 24, या 34?",
+    "options": {
+      "A": "41",
+      "B": "14",
+      "C": "24",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_010",
+    "category": "arithmetic",
+    "question": "एक डिब्बे में 12 लाल वस्तुएं और 15 नीली वस्तुएं हैं। कुल कितनी वस्तुएं हैं?",
+    "options": {
+      "A": "25",
+      "B": "27",
+      "C": "26",
+      "D": "28"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_011",
+    "category": "logic",
+    "question": "काई, लीना से लंबा है, और लीना, नूर से लंबी है। सबसे छोटा कौन है?",
+    "options": {
+      "A": "काई",
+      "B": "लीना",
+      "C": "नूर",
+      "D": "वे बराबर हैं"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_012",
+    "category": "logic",
+    "question": "बुधवार किस दिन के दो दिन बाद आता है?",
+    "options": {
+      "A": "रविवार",
+      "B": "मंगलवार",
+      "C": "शुक्रवार",
+      "D": "सोमवार"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_013",
+    "category": "logic",
+    "question": "सभी ज़िप (Zips) छोटे हैं। मीरा एक ज़िप है। इससे क्या निष्कर्ष निकलता है?",
+    "options": {
+      "A": "मीरा छोटी है",
+      "B": "मीरा बड़ी है",
+      "C": "मीरा एक पक्षी है",
+      "D": "कोई निष्कर्ष नहीं निकलता"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_014",
+    "category": "logic",
+    "question": "अगली संख्या कौन-सी आती है: 2, 4, 6, 8, __?",
+    "options": {
+      "A": "9",
+      "B": "10",
+      "C": "11",
+      "D": "12"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_015",
+    "category": "logic",
+    "question": "एक पंक्ति में काई (Kai), लीना (Lina) से पहले है, और लीना, नूर (Noor) से पहले है। अंत में कौन है?",
+    "options": {
+      "A": "काई",
+      "B": "लीना",
+      "C": "नूर",
+      "D": "वे बराबर हैं"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_016",
+    "category": "logic",
+    "question": "एक घड़ी में ठीक 3:00 बजे हैं। उसकी सुइयों के बीच का कोण क्या है?",
+    "options": {
+      "A": "0 डिग्री",
+      "B": "45 डिग्री",
+      "C": "180 डिग्री",
+      "D": "90 डिग्री"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_017",
+    "category": "logic",
+    "question": "कोई भी पक्षी स्तनपायी नहीं है। रॉबिन (robin) एक पक्षी है। क्या रॉबिन एक स्तनपायी है?",
+    "options": {
+      "A": "नहीं",
+      "B": "हाँ",
+      "C": "केवल रात में",
+      "D": "कहा नहीं जा सकता"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_018",
+    "category": "logic",
+    "question": "एक थैले में 3 लाल टोकन और 2 नीले टोकन हैं। एक यादृच्छिक (random) निकासी पर किस रंग के आने की संभावना अधिक है?",
+    "options": {
+      "A": "नीला",
+      "B": "लाल",
+      "C": "दोनों की संभावना समान है",
+      "D": "कोई भी नहीं"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_019",
+    "category": "logic",
+    "question": "एक ट्रेन 10:00 बजे रवाना होती है और 2 घंटे तक यात्रा करती है। वह कब पहुँचती है?",
+    "options": {
+      "A": "11:00",
+      "B": "1:00",
+      "C": "12:00",
+      "D": "2:00"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_020",
+    "category": "logic",
+    "question": "यदि स्विच A चालू है, तो लैंप जलता है। स्विच A चालू है। इससे क्या निष्कर्ष निकलता है?",
+    "options": {
+      "A": "लैंप बंद है",
+      "B": "स्विच टूटा हुआ है",
+      "C": "कुछ भी निष्कर्ष नहीं निकलता",
+      "D": "लैंप जलता है"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_021",
+    "category": "reading",
+    "question": "नीली चाबी हरे डिब्बे के अंदर है। हरा डिब्बा एक शेल्फ पर है। नीली चाबी कहाँ है?",
+    "options": {
+      "A": "हरे डिब्बे के अंदर",
+      "B": "सीधे शेल्फ पर",
+      "C": "शेल्फ के नीचे",
+      "D": "लाल डिब्बे के अंदर"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_022",
+    "category": "reading",
+    "question": "नोरा ने किताब पढ़ने से पहले पौधे को पानी दिया। नोरा ने पहले क्या किया?",
+    "options": {
+      "A": "किताब पढ़ी",
+      "B": "पौधे को पानी दिया",
+      "C": "किताब बंद की",
+      "D": "पौधे को हटाया"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_023",
+    "category": "reading",
+    "question": "वर्ग वृत्त के बाईं ओर है। त्रिभुज वृत्त के दाईं ओर है। वृत्त के बाईं ओर क्या है?",
+    "options": {
+      "A": "त्रिभुज",
+      "B": "दोनों आकृतियाँ",
+      "C": "वर्ग",
+      "D": "कुछ नहीं"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_024",
+    "category": "reading",
+    "question": "एक कप भरा हुआ था, और फिर उसका आधा तरल बाहर निकाल दिया गया। तरल की मात्रा को क्या हुआ?",
+    "options": {
+      "A": "यह बढ़ गई",
+      "B": "यह वैसी ही रही",
+      "C": "यह पूरी तरह गायब हो गई",
+      "D": "यह कम हो गई"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_025",
+    "category": "reading",
+    "question": "लाल फ़ोल्डर में दो पृष्ठ हैं। नीले फ़ोल्डर में एक पृष्ठ है। किस फ़ोल्डर में अधिक पृष्ठ हैं?",
+    "options": {
+      "A": "लाल फ़ोल्डर",
+      "B": "नीला फ़ोल्डर",
+      "C": "उनमें पृष्ठों की संख्या समान है",
+      "D": "किसी भी फ़ोल्डर में नहीं"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_026",
+    "category": "reading",
+    "question": "एक नोट में लिखा है कि बैठक शुक्रवार को है। आज गुरुवार है। बैठक कब है?",
+    "options": {
+      "A": "आज",
+      "B": "शुक्रवार",
+      "C": "शनिवार",
+      "D": "अगले गुरुवार"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_027",
+    "category": "reading",
+    "question": "लीना ने चाय चुनी, कॉफ़ी नहीं। लीना ने कौन सा पेय नहीं चुना?",
+    "options": {
+      "A": "चाय",
+      "B": "पानी",
+      "C": "कॉफ़ी",
+      "D": "जूस"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_028",
+    "category": "reading",
+    "question": "लैंप तब तक बंद रहता है जब तक माया स्विच नहीं दबाती। उसके स्विच दबाने के बाद क्या होता है?",
+    "options": {
+      "A": "लैंप टूट जाता है",
+      "B": "कमरा गायब हो जाता है",
+      "C": "कुछ नहीं बदलता",
+      "D": "लैंप चालू हो जाता है"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_029",
+    "category": "reading",
+    "question": "वहाँ बड़े, मध्यम और छोटे पत्थर हैं। मध्यम आकार का विकल्प किस पत्थर का वर्णन करता है?",
+    "options": {
+      "A": "मध्यम पत्थर",
+      "B": "बड़ा पत्थर",
+      "C": "छोटा पत्थर",
+      "D": "तीनों पत्थर"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_030",
+    "category": "reading",
+    "question": "एक बस पाइन से पहले ओक पर रुकती है। यदि बस अब पाइन पर है, तो वह पहले किस स्टॉप से गुज़री थी?",
+    "options": {
+      "A": "पाइन",
+      "B": "ओक",
+      "C": "किसी भी स्टॉप से नहीं",
+      "D": "दोनों से एक ही समय पर"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  }
+]

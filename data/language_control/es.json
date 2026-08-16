@@ -1,0 +1,422 @@
+[
+  {
+    "id": "lc_001",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 17 + 28?",
+    "options": {
+      "A": "45",
+      "B": "44",
+      "C": "46",
+      "D": "55"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_002",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 63 - 27?",
+    "options": {
+      "A": "34",
+      "B": "36",
+      "C": "35",
+      "D": "37"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_003",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 8 × 7?",
+    "options": {
+      "A": "54",
+      "B": "48",
+      "C": "56",
+      "D": "64"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_004",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 81 ÷ 9?",
+    "options": {
+      "A": "8",
+      "B": "10",
+      "C": "18",
+      "D": "9"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_005",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 14 + 19?",
+    "options": {
+      "A": "33",
+      "B": "31",
+      "C": "32",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_006",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 72 - 38?",
+    "options": {
+      "A": "32",
+      "B": "34",
+      "C": "36",
+      "D": "40"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_007",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 6 × 9?",
+    "options": {
+      "A": "45",
+      "B": "48",
+      "C": "54",
+      "D": "63"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_008",
+    "category": "arithmetic",
+    "question": "¿Cuánto es 96 ÷ 12?",
+    "options": {
+      "A": "6",
+      "B": "9",
+      "C": "12",
+      "D": "8"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_009",
+    "category": "arithmetic",
+    "question": "¿Qué número es el mayor: 41, 14, 24 o 34?",
+    "options": {
+      "A": "41",
+      "B": "14",
+      "C": "24",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_010",
+    "category": "arithmetic",
+    "question": "Una caja tiene 12 objetos rojos y 15 objetos azules. ¿Cuántos objetos hay en total?",
+    "options": {
+      "A": "25",
+      "B": "27",
+      "C": "26",
+      "D": "28"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_011",
+    "category": "logic",
+    "question": "Kai es más alto que Lina, y Lina es más alta que Noor. ¿Quién es el más bajo?",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "Son iguales"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_012",
+    "category": "logic",
+    "question": "¿El miércoles es dos días después de qué día?",
+    "options": {
+      "A": "Domingo",
+      "B": "Martes",
+      "C": "Viernes",
+      "D": "Lunes"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_013",
+    "category": "logic",
+    "question": "Todos los Zips son pequeños. Mira es un Zip. ¿Qué se deduce?",
+    "options": {
+      "A": "Mira es pequeña",
+      "B": "Mira es grande",
+      "C": "Mira es un pájaro",
+      "D": "No se deduce nada"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_014",
+    "category": "logic",
+    "question": "¿Qué número sigue: 2, 4, 6, 8, __?",
+    "options": {
+      "A": "9",
+      "B": "10",
+      "C": "11",
+      "D": "12"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_015",
+    "category": "logic",
+    "question": "Kai está antes que Lina, y Lina está antes que Noor en una fila. ¿Quién está al final?",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "Están iguales"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_016",
+    "category": "logic",
+    "question": "Un reloj marca exactamente las 3:00. ¿Cuál es el ángulo entre sus manecillas?",
+    "options": {
+      "A": "0 grados",
+      "B": "45 grados",
+      "C": "180 grados",
+      "D": "90 grados"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_017",
+    "category": "logic",
+    "question": "Ningún pájaro es mamífero. Un petirrojo es un pájaro. ¿Es el petirrojo un mamífero?",
+    "options": {
+      "A": "No",
+      "B": "Sí",
+      "C": "Solo de noche",
+      "D": "No se puede saber"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_018",
+    "category": "logic",
+    "question": "Una bolsa tiene 3 fichas rojas y 2 fichas azules. ¿Qué color es más probable en una extracción al azar?",
+    "options": {
+      "A": "Azul",
+      "B": "Rojo",
+      "C": "Ambos son igualmente probables",
+      "D": "Ninguno"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_019",
+    "category": "logic",
+    "question": "Un tren sale a las 10:00 y viaja durante 2 horas. ¿A qué hora llega?",
+    "options": {
+      "A": "11:00",
+      "B": "1:00",
+      "C": "12:00",
+      "D": "2:00"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_020",
+    "category": "logic",
+    "question": "Si el interruptor A está encendido, la lámpara está encendida. El interruptor A está encendido. ¿Qué se deduce?",
+    "options": {
+      "A": "La lámpara está apagada",
+      "B": "El interruptor está roto",
+      "C": "No se deduce nada",
+      "D": "La lámpara está encendida"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_021",
+    "category": "reading",
+    "question": "La llave azul está dentro de la caja verde. La caja verde está en un estante. ¿Dónde está la llave azul?",
+    "options": {
+      "A": "Dentro de la caja verde",
+      "B": "En el estante directamente",
+      "C": "Debajo del estante",
+      "D": "Dentro de la caja roja"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_022",
+    "category": "reading",
+    "question": "Nora regó la planta antes de leer un libro. ¿Qué hizo Nora primero?",
+    "options": {
+      "A": "Leyó el libro",
+      "B": "Regó la planta",
+      "C": "Cerró el libro",
+      "D": "Movió la planta"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_023",
+    "category": "reading",
+    "question": "El cuadrado está a la izquierda del círculo. El triángulo está a la derecha del círculo. ¿Qué está a la izquierda del círculo?",
+    "options": {
+      "A": "El triángulo",
+      "B": "Ambas figuras",
+      "C": "El cuadrado",
+      "D": "Nada"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_024",
+    "category": "reading",
+    "question": "Una taza estaba llena y luego se derramó la mitad de su líquido. ¿Qué pasó con la cantidad de líquido?",
+    "options": {
+      "A": "Aumentó",
+      "B": "Permaneció igual",
+      "C": "Desapareció por completo",
+      "D": "Disminuyó"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_025",
+    "category": "reading",
+    "question": "La carpeta roja contiene dos páginas. La carpeta azul contiene una página. ¿Qué carpeta tiene más páginas?",
+    "options": {
+      "A": "La carpeta roja",
+      "B": "La carpeta azul",
+      "C": "Tienen el mismo número",
+      "D": "Ninguna carpeta"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_026",
+    "category": "reading",
+    "question": "Una nota dice que hay una reunión el viernes. Hoy es jueves. ¿Cuándo es la reunión?",
+    "options": {
+      "A": "Hoy",
+      "B": "El viernes",
+      "C": "El sábado",
+      "D": "El próximo jueves"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_027",
+    "category": "reading",
+    "question": "Lena eligió té, no café. ¿Qué bebida no eligió Lena?",
+    "options": {
+      "A": "Té",
+      "B": "Agua",
+      "C": "Café",
+      "D": "Jugo"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_028",
+    "category": "reading",
+    "question": "La lámpara está apagada hasta que Maya presiona el interruptor. ¿Qué sucede después de que lo presiona?",
+    "options": {
+      "A": "La lámpara se rompe",
+      "B": "La habitación desaparece",
+      "C": "Nada cambia",
+      "D": "La lámpara se enciende"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_029",
+    "category": "reading",
+    "question": "Hay piedras grandes, medianas y pequeñas. ¿A qué piedra describe la opción de tamaño intermedio?",
+    "options": {
+      "A": "La piedra mediana",
+      "B": "La piedra grande",
+      "C": "La piedra pequeña",
+      "D": "Las tres piedras"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_030",
+    "category": "reading",
+    "question": "Un autobús se detiene en Oak antes de Pine. Si el autobús está ahora en Pine, ¿por qué parada pasó primero?",
+    "options": {
+      "A": "Pine",
+      "B": "Oak",
+      "C": "Por ninguna de las dos",
+      "D": "Por ambas al mismo tiempo"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  }
+]

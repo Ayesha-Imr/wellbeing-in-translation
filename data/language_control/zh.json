@@ -1,0 +1,422 @@
+[
+  {
+    "id": "lc_001",
+    "category": "arithmetic",
+    "question": "17 + 28 等于多少？",
+    "options": {
+      "A": "45",
+      "B": "44",
+      "C": "46",
+      "D": "55"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_002",
+    "category": "arithmetic",
+    "question": "63 - 27 等于多少？",
+    "options": {
+      "A": "34",
+      "B": "36",
+      "C": "35",
+      "D": "37"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_003",
+    "category": "arithmetic",
+    "question": "8 × 7 等于多少？",
+    "options": {
+      "A": "54",
+      "B": "48",
+      "C": "56",
+      "D": "64"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_004",
+    "category": "arithmetic",
+    "question": "81 ÷ 9 等于多少？",
+    "options": {
+      "A": "8",
+      "B": "10",
+      "C": "18",
+      "D": "9"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_005",
+    "category": "arithmetic",
+    "question": "14 + 19 等于多少？",
+    "options": {
+      "A": "33",
+      "B": "31",
+      "C": "32",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_006",
+    "category": "arithmetic",
+    "question": "72 - 38 等于多少？",
+    "options": {
+      "A": "32",
+      "B": "34",
+      "C": "36",
+      "D": "40"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_007",
+    "category": "arithmetic",
+    "question": "6 × 9 等于多少？",
+    "options": {
+      "A": "45",
+      "B": "48",
+      "C": "54",
+      "D": "63"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_008",
+    "category": "arithmetic",
+    "question": "96 ÷ 12 等于多少？",
+    "options": {
+      "A": "6",
+      "B": "9",
+      "C": "12",
+      "D": "8"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_009",
+    "category": "arithmetic",
+    "question": "哪个数字最大：41、14、24 还是 34？",
+    "options": {
+      "A": "41",
+      "B": "14",
+      "C": "24",
+      "D": "34"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_010",
+    "category": "arithmetic",
+    "question": "一个盒子里有 12 个红色物体和 15 个蓝色物体。一共有多少个物体？",
+    "options": {
+      "A": "25",
+      "B": "27",
+      "C": "26",
+      "D": "28"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_011",
+    "category": "logic",
+    "question": "Kai 比 Lina 高，Lina 比 Noor 高。谁最矮？",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "他们一样高"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_012",
+    "category": "logic",
+    "question": "星期三是哪一天的两天之后？",
+    "options": {
+      "A": "星期日",
+      "B": "星期二",
+      "C": "星期五",
+      "D": "星期一"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_013",
+    "category": "logic",
+    "question": "所有的 Zip 都是小的。Mira 是一个 Zip。可以得出什么结论？",
+    "options": {
+      "A": "Mira 是小的",
+      "B": "Mira 是大的",
+      "C": "Mira 是一只鸟",
+      "D": "得不出任何结论"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_014",
+    "category": "logic",
+    "question": "接下来的数字是什么：2, 4, 6, 8, __？",
+    "options": {
+      "A": "9",
+      "B": "10",
+      "C": "11",
+      "D": "12"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_015",
+    "category": "logic",
+    "question": "在队伍中，Kai 在 Lina 前面，Lina 在 Noor 前面。谁排在最后？",
+    "options": {
+      "A": "Kai",
+      "B": "Lina",
+      "C": "Noor",
+      "D": "他们并列"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_016",
+    "category": "logic",
+    "question": "时钟刚好显示 3:00。它的时针和分针之间的夹角是多少？",
+    "options": {
+      "A": "0 度",
+      "B": "45 度",
+      "C": "180 度",
+      "D": "90 度"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_017",
+    "category": "logic",
+    "question": "没有鸟类是哺乳动物。知更鸟是一种鸟。知更鸟是哺乳动物吗？",
+    "options": {
+      "A": "不是",
+      "B": "是",
+      "C": "仅在夜间是",
+      "D": "无法判断"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_018",
+    "category": "logic",
+    "question": "一个袋子里有 3 个红色代币和 2 个蓝色代币。随机抽取一次，哪种颜色的可能性更大？",
+    "options": {
+      "A": "蓝色",
+      "B": "红色",
+      "C": "两者的可能性相同",
+      "D": "都不是"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_019",
+    "category": "logic",
+    "question": "一列火车于 10:00 出发，行驶了 2 小时。它何时到达？",
+    "options": {
+      "A": "11:00",
+      "B": "1:00",
+      "C": "12:00",
+      "D": "2:00"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_020",
+    "category": "logic",
+    "question": "如果开关 A 打开，灯就会亮。开关 A 是打开的。可以得出什么结论？",
+    "options": {
+      "A": "灯是灭的",
+      "B": "开关坏了",
+      "C": "得不出任何结论",
+      "D": "灯是亮的"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_021",
+    "category": "reading",
+    "question": "蓝色钥匙在绿色盒子里。绿色盒子在架子上。蓝色钥匙在哪里？",
+    "options": {
+      "A": "在绿色盒子里",
+      "B": "直接在架子上",
+      "C": "在架子下面",
+      "D": "在红色盒子里"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_022",
+    "category": "reading",
+    "question": "诺拉在看书之前给植物浇了水。诺拉先做了什么？",
+    "options": {
+      "A": "看书",
+      "B": "给植物浇水",
+      "C": "合上书",
+      "D": "移动植物"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_024",
+    "category": "reading",
+    "question": "一个杯子原本是满的，然后倒出了一半的液体。液体的量发生了什么变化？",
+    "options": {
+      "A": "增加了",
+      "B": "保持不变",
+      "C": "完全消失了",
+      "D": "减少了"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_025",
+    "category": "reading",
+    "question": "红色文件夹里有两页纸。蓝色文件夹里有一页纸。哪个文件夹的页数更多？",
+    "options": {
+      "A": "红色文件夹",
+      "B": "蓝色文件夹",
+      "C": "它们的页数相同",
+      "D": "哪个文件夹都不是"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_026",
+    "category": "reading",
+    "question": "一张便条上写着会议在周五举行。今天是周四。会议在什么时候？",
+    "options": {
+      "A": "今天",
+      "B": "周五",
+      "C": "周六",
+      "D": "下周四"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_027",
+    "category": "reading",
+    "question": "莉娜（Lena）选择了茶，没有选咖啡。莉娜没有选择哪种饮料？",
+    "options": {
+      "A": "茶",
+      "B": "水",
+      "C": "咖啡",
+      "D": "果汁"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_028",
+    "category": "reading",
+    "question": "在玛雅（Maya）按开关之前，灯一直是关着的。她按下开关后会发生什么？",
+    "options": {
+      "A": "灯坏了",
+      "B": "房间消失了",
+      "C": "没有任何变化",
+      "D": "灯亮了"
+    },
+    "answer": "D",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_029",
+    "category": "reading",
+    "question": "这里有大号、中号和小号的石头。中等大小的选项描述的是哪块石头？",
+    "options": {
+      "A": "中号石头",
+      "B": "大号石头",
+      "C": "小号石头",
+      "D": "所有三块石头"
+    },
+    "answer": "A",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_030",
+    "category": "reading",
+    "question": "一辆公共汽车在到达松树站（Pine）之前先在橡树站（Oak）停靠。如果公共汽车现在在松树站，它先经过了哪个站？",
+    "options": {
+      "A": "松树站",
+      "B": "橡树站",
+      "C": "两个站都不是",
+      "D": "同时经过两站"
+    },
+    "answer": "B",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  },
+  {
+    "id": "lc_033",
+    "category": "reading",
+    "question": "黄色的卡片在红色的卡片上方。哪张卡片在黄色卡片的下方？",
+    "options": {
+      "A": "黄色卡片",
+      "B": "两张卡片都是",
+      "C": "红色卡片",
+      "D": "两张卡片都不是"
+    },
+    "answer": "C",
+    "translation_source": "gemini",
+    "verifier_model": "gpt-5"
+  }
+]

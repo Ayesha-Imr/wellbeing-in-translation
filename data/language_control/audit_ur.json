@@ -1,0 +1,1635 @@
+{
+  "language": "ur",
+  "verifier_model": "gpt-5",
+  "primary": {
+    "lc_001": {
+      "question": "17 + 28 کیا ہوتا ہے؟",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "63 - 27 کیا ہوتا ہے؟",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "8 × 7 کیا ہوتا ہے؟",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "81 ÷ 9 کیا ہوتا ہے؟",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "14 + 19 کیا ہوتا ہے؟",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "72 - 38 کیا ہوتا ہے؟",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_019": {
+      "question": "ایک ٹرین 10:00 بجے روانہ ہوتی ہے اور 2 گھنٹے سفر کرتی ہے۔ وہ کب پہنچتی ہے؟",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "اگر سوئچ A آن ہے، تو لیمپ جل رہا ہے۔ سوئچ A آن ہے۔ اس سے کیا نتیجہ نکلتا ہے؟",
+      "options": {
+        "A": "لیمپ بند ہے",
+        "B": "سوئچ خراب ہے",
+        "C": "کوئی نتیجہ نہیں نکلتا",
+        "D": "لیمپ جل رہا ہے"
+      }
+    },
+    "lc_021": {
+      "question": "نیلی چابی سبز ڈبے کے اندر ہے۔ سبز ڈبہ ایک شیلف پر ہے۔ نیلی چابی کہاں ہے؟",
+      "options": {
+        "A": "سبز ڈبے کے اندر",
+        "B": "براہ راست شیلف پر",
+        "C": "شیلف کے نیچے",
+        "D": "سرخ ڈبے کے اندر"
+      }
+    },
+    "lc_022": {
+      "question": "نورا نے کتاب پڑھنے سے پہلے پودے کو پانی دیا۔ نورا نے پہلے کیا کیا؟",
+      "options": {
+        "A": "کتاب پڑھی",
+        "B": "پودے کو پانی دیا",
+        "C": "کتاب بند کی",
+        "D": "پودے کو ہٹایا"
+      }
+    },
+    "lc_023": {
+      "question": "مربع دائرے کے بائیں جانب ہے۔ مثلث دائرے کے دائیں جانب ہے۔ دائرے کے بائیں جانب کیا ہے؟",
+      "options": {
+        "A": "مثلث",
+        "B": "دونوں شکلیں",
+        "C": "مربع",
+        "D": "کچھ نہیں"
+      }
+    },
+    "lc_024": {
+      "question": "ایک کپ بھرا ہوا تھا، اور پھر اس کا آدھا مائع باہر انڈیل دیا گیا۔ مائع کی مقدار کو کیا ہوا؟",
+      "options": {
+        "A": "یہ بڑھ گئی",
+        "B": "یہ ویسی ہی رہی",
+        "C": "یہ مکمل طور پر غائب ہو گئی",
+        "D": "یہ کم ہو گئی"
+      }
+    },
+    "lc_007": {
+      "question": "6 × 9 کیا ہوتا ہے؟",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "96 ÷ 12 کیا ہوتا ہے؟",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "کون سا عدد سب سے بڑا ہے: 41، 14، 24، یا 34؟",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "ایک ڈبے میں 12 سرخ اشیاء اور 15 نیلی اشیاء ہیں۔ کل کتنی اشیاء ہیں؟",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai قد میں Lina سے لمبا ہے، اور Lina قد میں Noor سے لمبی ہے۔ سب سے چھوٹا قد کس کا ہے؟",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "وہ برابر ہیں"
+      }
+    },
+    "lc_012": {
+      "question": "بدھ کس دن کے دو دن بعد آتا ہے؟",
+      "options": {
+        "A": "اتوار",
+        "B": "منگل",
+        "C": "جمعہ",
+        "D": "پیر"
+      }
+    },
+    "lc_013": {
+      "question": "تمام Zips چھوٹے ہیں۔ Mira ایک Zip ہے۔ اس سے کیا نتیجہ نکلتا ہے؟",
+      "options": {
+        "A": "Mira چھوٹی ہے",
+        "B": "Mira بڑی ہے",
+        "C": "Mira ایک پرندہ ہے",
+        "D": "کوئی نتیجہ نہیں نکلتا"
+      }
+    },
+    "lc_014": {
+      "question": "اگلا نمبر کون سا آئے گا: 2، 4، 6، 8، __؟",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "ایک قطار میں Kai، Lina سے آگے ہے، اور Lina، Noor سے آگے ہے۔ سب سے آخر میں کون ہے؟",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "وہ برابر ہیں"
+      }
+    },
+    "lc_016": {
+      "question": "ایک گھڑی پر ٹھیک 3:00 بجے ہیں۔ اس کی سوئیوں کے درمیان کتنا زاویہ ہے؟",
+      "options": {
+        "A": "0 ڈگری",
+        "B": "45 ڈگری",
+        "C": "180 ڈگری",
+        "D": "90 ڈگری"
+      }
+    },
+    "lc_017": {
+      "question": "کوئی بھی پرندہ ممالیہ (mammal) نہیں ہوتا۔ رابن ایک پرندہ ہے۔ کیا رابن ممالیہ ہے؟",
+      "options": {
+        "A": "نہیں",
+        "B": "ہاں",
+        "C": "صرف رات کے وقت",
+        "D": "بتایا نہیں جا سکتا"
+      }
+    },
+    "lc_018": {
+      "question": "ایک تھیلے میں 3 سرخ ٹوکن اور 2 نیلے ٹوکن ہیں۔ ایک بار بغیر دیکھے نکالنے پر کس رنگ کے نکلنے کا امکان زیادہ ہے؟",
+      "options": {
+        "A": "نیلا",
+        "B": "سرخ",
+        "C": "دونوں کے امکانات برابر ہیں",
+        "D": "کوئی بھی نہیں"
+      }
+    },
+    "lc_031": {
+      "question": "5 × 8 کیا ہے؟",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "ایڈا کے پاس بین سے زیادہ کتابیں ہیں، اور بین کے پاس چن سے زیادہ ہیں۔ سب سے کم کتابیں کس کے پاس ہیں؟",
+      "options": {
+        "A": "ایڈا",
+        "B": "چن",
+        "C": "بین",
+        "D": "ان سب کے پاس برابر تعداد ہے"
+      }
+    },
+    "lc_033": {
+      "question": "پیلا کارڈ سرخ کارڈ کے اوپر ہے۔ پیلے کارڈ کے نیچے کون سا کارڈ ہے؟",
+      "options": {
+        "A": "پیلا کارڈ",
+        "B": "دونوں کارڈ",
+        "C": "سرخ کارڈ",
+        "D": "کوئی بھی کارڈ نہیں"
+      }
+    },
+    "lc_034": {
+      "question": "100 - 64 کیا ہے؟",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "تمام L دراصل M ہیں، اور کوئی M دراصل N نہیں ہے۔ کیا کوئی L دراصل N ہے؟",
+      "options": {
+        "A": "نہیں",
+        "B": "ہاں",
+        "C": "صرف کبھی کبھی",
+        "D": "کافی معلومات موجود نہیں ہیں"
+      }
+    },
+    "lc_036": {
+      "question": "ایک چابی دراز میں رکھی گئی تھی، اور پھر دراز بند کر دی گئی تھی۔ چابی کہاں ہے؟",
+      "options": {
+        "A": "میز پر",
+        "B": "دراز میں",
+        "C": "کرسی کے نیچے",
+        "D": "کمرے سے باہر"
+      }
+    },
+    "lc_025": {
+      "question": "سرخ فولڈر میں دو صفحات ہیں۔ نیلے فولڈر میں ایک صفحہ ہے۔ کس فولڈر میں زیادہ صفحات ہیں؟",
+      "options": {
+        "A": "سرخ فولڈر",
+        "B": "نیلا فولڈر",
+        "C": "دونوں میں برابر صفحات ہیں",
+        "D": "کسی بھی فولڈر میں نہیں"
+      }
+    },
+    "lc_026": {
+      "question": "ایک نوٹ کے مطابق میٹنگ جمعہ کے دن ہے۔ آج جمعرات ہے۔ میٹنگ کب ہے؟",
+      "options": {
+        "A": "آج",
+        "B": "جمعہ",
+        "C": "ہفتہ",
+        "D": "اگلی جمعرات"
+      }
+    },
+    "lc_027": {
+      "question": "لینا نے چائے کا انتخاب کیا، کافی کا نہیں۔ لینا نے کس مشروب کا انتخاب نہیں کیا؟",
+      "options": {
+        "A": "چائے",
+        "B": "پانی",
+        "C": "کافی",
+        "D": "جوس"
+      }
+    },
+    "lc_028": {
+      "question": "لیمپ اس وقت تک بند رہتا ہے جب تک مایا سوئچ نہیں دباتی۔ اس کے سوئچ دبانے کے بعد کیا ہوتا ہے؟",
+      "options": {
+        "A": "لیمپ ٹوٹ جاتا ہے",
+        "B": "کمرہ غائب ہو جاتا ہے",
+        "C": "کچھ نہیں بدلتا",
+        "D": "لیمپ جل جاتا ہے"
+      }
+    },
+    "lc_029": {
+      "question": "وہاں بڑے، درمیانے اور چھوٹے پتھر موجود ہیں۔ درمیانے سائز کا انتخاب کس پتھر کو بیان کرتا ہے؟",
+      "options": {
+        "A": "درمیانہ پتھر",
+        "B": "بڑا پتھر",
+        "C": "چھوٹا پتھر",
+        "D": "تینوں پتھر"
+      }
+    },
+    "lc_030": {
+      "question": "ایک بس Pine سے پہلے Oak پر رکتی ہے۔ اگر بس اب Pine پر ہے، تو وہ پہلے کس اسٹاپ سے گزری؟",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "کسی بھی اسٹاپ سے نہیں",
+        "D": "دونوں سے ایک ہی وقت میں"
+      }
+    }
+  },
+  "alternate": {
+    "lc_001": {
+      "question": "17 + 28 کیا ہے؟",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "63 - 27 کیا ہے؟",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "8 × 7 کیا ہے؟",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "81 ÷ 9 کیا ہے؟",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "14 + 19 کیا ہے؟",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "72 - 38 کیا ہے؟",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_007": {
+      "question": "6 × 9 کیا ہے؟",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "96 ÷ 12 کیا ہے؟",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "کون سا عدد سب سے بڑا ہے: 41، 14، 24، یا 34؟",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "ایک ڈبے میں 12 سرخ اشیاء اور 15 نیلی اشیاء ہیں۔ کل کتنی اشیاء ہیں؟",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai Lina سے لمبا ہے، اور Lina Noor سے لمبی ہے۔ سب سے چھوٹا کون ہے؟",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "وہ برابر ہیں"
+      }
+    },
+    "lc_012": {
+      "question": "بدھ کس دن کے دو دن بعد آتا ہے؟",
+      "options": {
+        "A": "اتوار",
+        "B": "منگل",
+        "C": "جمعہ",
+        "D": "پیر"
+      }
+    },
+    "lc_013": {
+      "question": "تمام Zips چھوٹے ہیں۔ Mira ایک Zip ہے۔ کیا نتیجہ اخذ ہوتا ہے؟",
+      "options": {
+        "A": "Mira چھوٹی ہے",
+        "B": "Mira بڑی ہے",
+        "C": "Mira ایک پرندہ ہے",
+        "D": "کچھ بھی نتیجہ نہیں نکلتا"
+      }
+    },
+    "lc_014": {
+      "question": "اگلا نمبر کون سا ہے: 2, 4, 6, 8, __?",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "قطار میں Kai، Lina سے پہلے ہے، اور Lina، Noor سے پہلے ہے۔ کون آخری ہے؟",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "وہ برابر ہیں"
+      }
+    },
+    "lc_016": {
+      "question": "ایک گھڑی بالکل 3:00 دکھا رہی ہے۔ اس کے دونوں سوئیوں کے درمیان زاویہ کیا ہے؟",
+      "options": {
+        "A": "0 ڈگری",
+        "B": "45 ڈگری",
+        "C": "180 ڈگری",
+        "D": "90 ڈگری"
+      }
+    },
+    "lc_017": {
+      "question": "کوئی پرندہ ممالیہ نہیں ہوتا۔ ایک روبن پرندہ ہے۔ کیا وہ روبن ممالیہ ہے؟",
+      "options": {
+        "A": "نہیں",
+        "B": "ہاں",
+        "C": "صرف رات میں",
+        "D": "بتایا نہیں جا سکتا"
+      }
+    },
+    "lc_018": {
+      "question": "ایک تھیلے میں 3 لال ٹوکن اور 2 نیلے ٹوکن ہیں۔ ایک تصادفی ڈرا میں کون سا رنگ زیادہ ممکن ہے؟",
+      "options": {
+        "A": "نیلا",
+        "B": "لال",
+        "C": "دونوں کے برابر امکانات ہیں",
+        "D": "کوئی نہیں"
+      }
+    },
+    "lc_019": {
+      "question": "ایک ٹرین 10:00 بجے روانہ ہوتی ہے اور 2 گھنٹے سفر کرتی ہے۔ یہ کب پہنچتی ہے؟",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "اگر سوئچ A آن ہے تو لیمپ جلا ہوا ہوتا ہے۔ سوئچ A آن ہے۔ کیا نتیجہ نکلتا ہے؟",
+      "options": {
+        "A": "لامپ بند ہے",
+        "B": "سوئچ ٹوٹا ہوا ہے",
+        "C": "کچھ نتیجہ اخذ نہیں ہوتا",
+        "D": "لامپ جل رہا ہے"
+      }
+    },
+    "lc_021": {
+      "question": "نیلی چابی سبز ڈبے کے اندر ہے۔ سبز ڈبا ایک شیلف پر ہے۔ نیلی چابی کہاں ہے؟",
+      "options": {
+        "A": "سبز ڈبے کے اندر",
+        "B": "براہِ راست شیلف پر",
+        "C": "شیلف کے نیچے",
+        "D": "سرخ ڈبے کے اندر"
+      }
+    },
+    "lc_022": {
+      "question": "Nora نے کتاب پڑھنے سے پہلے پودے کو پانی دیا۔ Nora نے پہلے کیا کیا؟",
+      "options": {
+        "A": "کتاب پڑھی",
+        "B": "پودے کو پانی دیا",
+        "C": "کتاب بند کی",
+        "D": "پودے کو منتقل کیا"
+      }
+    },
+    "lc_023": {
+      "question": "مربع دائرے کے بائیں طرف ہے۔ مثلث دائرے کے دائیں طرف ہے۔ دائرے کے بائیں طرف کیا ہے؟",
+      "options": {
+        "A": "مثلث",
+        "B": "دونوں اشکال",
+        "C": "مربع",
+        "D": "کچھ بھی نہیں"
+      }
+    },
+    "lc_024": {
+      "question": "ایک کپ بھرا ہوا تھا، پھر اس کا آدھا مائع نکال دیا گیا۔ مائع کی مقدار کے ساتھ کیا ہوا؟",
+      "options": {
+        "A": "یہ بڑھ گئی",
+        "B": "یہ ویسی ہی رہی",
+        "C": "یہ مکمل طور پر غائب ہو گئی",
+        "D": "یہ کم ہو گئی"
+      }
+    },
+    "lc_031": {
+      "question": "5 × 8 کیا ہے؟",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada کے پاس Ben سے زیادہ کتابیں ہیں، اور Ben کے پاس Chen سے زیادہ ہیں۔ سب سے کم کتابیں کس کے پاس ہیں؟",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "ان کے پاس برابر تعداد ہے"
+      }
+    },
+    "lc_033": {
+      "question": "پیلا کارڈ لال کارڈ کے اوپر ہے۔ پیلے کارڈ کے نیچے کون سا کارڈ ہے؟",
+      "options": {
+        "A": "پیلا کارڈ",
+        "B": "دونوں کارڈ",
+        "C": "لال کارڈ",
+        "D": "کوئی بھی کارڈ نہیں"
+      }
+    },
+    "lc_034": {
+      "question": "100 - 64 کیا ہے؟",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "تمام Ls، Ms ہیں، اور کوئی M، N نہیں ہے۔ کیا ایک L، N ہے؟",
+      "options": {
+        "A": "نہیں",
+        "B": "ہاں",
+        "C": "صرف کبھی کبھی",
+        "D": "معلومات کافی نہیں ہے"
+      }
+    },
+    "lc_036": {
+      "question": "ایک چابی دراز میں رکھی گئی، اور پھر دراز بند کر دیا گیا۔ چابی کہاں ہے؟",
+      "options": {
+        "A": "میز پر",
+        "B": "دراز میں",
+        "C": "کرسی کے نیچے",
+        "D": "کمرے کے باہر"
+      }
+    },
+    "lc_025": {
+      "question": "سرخ فولڈر میں دو صفحات ہیں۔ نیلا فولڈر ایک صفحہ رکھتا ہے۔ کس فولڈر میں زیادہ صفحات ہیں؟",
+      "options": {
+        "A": "سرخ فولڈر",
+        "B": "نیلا فولڈر",
+        "C": "ان کے برابر صفحات ہیں",
+        "D": "کوئی بھی فولڈر نہیں"
+      }
+    },
+    "lc_026": {
+      "question": "ایک نوٹ کہتا ہے کہ میٹنگ Friday کو ہے۔ آج Thursday ہے۔ میٹنگ کب ہے؟",
+      "options": {
+        "A": "آج",
+        "B": "Friday",
+        "C": "Saturday",
+        "D": "اگلا Thursday"
+      }
+    },
+    "lc_027": {
+      "question": "Lena نے چائے منتخب کی، کافی نہیں۔ Lena نے کون سا مشروب منتخب نہیں کیا؟",
+      "options": {
+        "A": "چائے",
+        "B": "پانی",
+        "C": "کافی",
+        "D": "جوس"
+      }
+    },
+    "lc_028": {
+      "question": "لامپ بند ہے جب تک Maya سوئچ نہ دبائے۔ وہ سوئچ دبانے کے بعد کیا ہوتا ہے؟",
+      "options": {
+        "A": "لامپ ٹوٹ جاتا ہے",
+        "B": "کمرہ غائب ہو جاتا ہے",
+        "C": "کچھ بھی تبدیل نہیں ہوتا",
+        "D": "لامپ جل جاتا ہے"
+      }
+    },
+    "lc_029": {
+      "question": "وہاں بڑے، درمیانے اور چھوٹے پتھر ہیں۔ درمیانے سائز کے انتخاب میں کون سا پتھر بیان کیا گیا ہے؟",
+      "options": {
+        "A": "درمیانہ پتھر",
+        "B": "بڑا پتھر",
+        "C": "چھوٹا پتھر",
+        "D": "تینوں پتھر"
+      }
+    },
+    "lc_030": {
+      "question": "ایک بس Oak پر Pine سے پہلے رُکتی ہے۔ اگر بس اب Pine پر ہے، تو اس نے سب سے پہلے کون سا اسٹاپ گزارا؟",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "کوئی بھی اسٹاپ نہیں",
+        "D": "دونوں ایک ہی وقت میں"
+      }
+    }
+  },
+  "back_primary": {
+    "lc_019": {
+      "question": "A train departs at 10:00 and travels for 2 hours. When does it arrive?",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "If switch A is on, the lamp is lit. Switch A is on. What conclusion follows from this?",
+      "options": {
+        "A": "The lamp is off",
+        "B": "The switch is faulty",
+        "C": "No conclusion follows",
+        "D": "The lamp is lit"
+      }
+    },
+    "lc_021": {
+      "question": "The blue key is inside the green box. The green box is on a shelf. Where is the blue key?",
+      "options": {
+        "A": "Inside the green box",
+        "B": "Directly on the shelf",
+        "C": "Under the shelf",
+        "D": "Inside the red box"
+      }
+    },
+    "lc_022": {
+      "question": "Nora watered the plant before reading the book. What did Nora do first?",
+      "options": {
+        "A": "Read the book",
+        "B": "Watered the plant",
+        "C": "Closed the book",
+        "D": "Removed the plant"
+      }
+    },
+    "lc_023": {
+      "question": "The square is to the left of the circle. The triangle is to the right of the circle. What is to the left of the circle?",
+      "options": {
+        "A": "Triangle",
+        "B": "Both shapes",
+        "C": "Square",
+        "D": "Nothing"
+      }
+    },
+    "lc_024": {
+      "question": "A cup was full, and then half of its liquid was poured out. What happened to the amount of liquid?",
+      "options": {
+        "A": "It increased",
+        "B": "It remained the same",
+        "C": "It disappeared completely",
+        "D": "It decreased"
+      }
+    },
+    "lc_013": {
+      "question": "All Zips are small. Mira is a Zip. What conclusion follows from this?",
+      "options": {
+        "A": "Mira is small",
+        "B": "Mira is big",
+        "C": "Mira is a bird",
+        "D": "No conclusion follows"
+      }
+    },
+    "lc_014": {
+      "question": "Which number will come next: 2, 4, 6, 8, __?",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "In a queue Kai is ahead of Lina, and Lina is ahead of Noor. Who is at the very end?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are equal"
+      }
+    },
+    "lc_016": {
+      "question": "It is exactly 3:00 on a clock. How much angle is there between its hands?",
+      "options": {
+        "A": "0 degrees",
+        "B": "45 degrees",
+        "C": "180 degrees",
+        "D": "90 degrees"
+      }
+    },
+    "lc_017": {
+      "question": "No bird is a mammal. Robin is a bird. Is Robin a mammal?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only at night time",
+        "D": "Cannot be told"
+      }
+    },
+    "lc_018": {
+      "question": "In a bag there are 3 red tokens and 2 blue tokens. On drawing once without looking, which color has a higher probability of coming out?",
+      "options": {
+        "A": "Blue",
+        "B": "Red",
+        "C": "Chances of both are equal",
+        "D": "None at all"
+      }
+    },
+    "lc_031": {
+      "question": "What is 5 × 8?",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada has more books than Ben, and Ben has more than Chen. Who has the least books?",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "All of them have an equal number"
+      }
+    },
+    "lc_033": {
+      "question": "The yellow card is on top of the red card. Which card is under the yellow card?",
+      "options": {
+        "A": "Yellow card",
+        "B": "Both cards",
+        "C": "Red card",
+        "D": "No card"
+      }
+    },
+    "lc_034": {
+      "question": "What is 100 - 64?",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "All L are actually M, and no M is actually N. Is any L actually N?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only sometimes",
+        "D": "Not enough information exists"
+      }
+    },
+    "lc_036": {
+      "question": "A key was placed in the drawer, and then the drawer was closed. Where is the key?",
+      "options": {
+        "A": "On the table",
+        "B": "In the drawer",
+        "C": "Under the chair",
+        "D": "Out of the room"
+      }
+    },
+    "lc_007": {
+      "question": "What is 6 × 9?",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "What is 96 ÷ 12?",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "Which number is the biggest: 41, 14, 24, or 34?",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "In a box, there are 12 red items and 15 blue items. How many total items are there?",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai is taller in height than Lina, and Lina is taller in height than Noor. Whose height is the shortest?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are equal"
+      }
+    },
+    "lc_012": {
+      "question": "Wednesday comes two days after which day?",
+      "options": {
+        "A": "Sunday",
+        "B": "Tuesday",
+        "C": "Friday",
+        "D": "Monday"
+      }
+    },
+    "lc_025": {
+      "question": "There are two pages in the red folder. There is one page in the blue folder. Which folder has more pages?",
+      "options": {
+        "A": "Red folder",
+        "B": "Blue folder",
+        "C": "Both have equal pages",
+        "D": "In neither folder"
+      }
+    },
+    "lc_026": {
+      "question": "According to a note, the meeting is on Friday. Today is Thursday. When is the meeting?",
+      "options": {
+        "A": "Today",
+        "B": "Friday",
+        "C": "Saturday",
+        "D": "Next Thursday"
+      }
+    },
+    "lc_027": {
+      "question": "Lina chose tea, not coffee. Which beverage did Lina not choose?",
+      "options": {
+        "A": "Tea",
+        "B": "Water",
+        "C": "Coffee",
+        "D": "Juice"
+      }
+    },
+    "lc_028": {
+      "question": "The lamp remains off until Maya presses the switch. What happens after she presses the switch?",
+      "options": {
+        "A": "The lamp breaks",
+        "B": "The room disappears",
+        "C": "Nothing changes",
+        "D": "The lamp turns on"
+      }
+    },
+    "lc_029": {
+      "question": "Large, medium, and small stones are present there. Which stone does choosing the medium size describe?",
+      "options": {
+        "A": "Medium stone",
+        "B": "Large stone",
+        "C": "Small stone",
+        "D": "All three stones"
+      }
+    },
+    "lc_030": {
+      "question": "A bus stops at Oak before Pine. If the bus is now at Pine, which stop did it pass earlier?",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "Neither stop",
+        "D": "Both at the same time"
+      }
+    },
+    "lc_001": {
+      "question": "What is 17 + 28?",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "What is 63 - 27?",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "What is 8 × 7?",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "What is 81 ÷ 9?",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "What is 14 + 19?",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "What is 72 - 38?",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    }
+  },
+  "back_alternate": {
+    "lc_007": {
+      "question": "What is 6 × 9?",
+      "options": {
+        "A": "45",
+        "B": "48",
+        "C": "54",
+        "D": "63"
+      }
+    },
+    "lc_008": {
+      "question": "What is 96 ÷ 12?",
+      "options": {
+        "A": "6",
+        "B": "9",
+        "C": "12",
+        "D": "8"
+      }
+    },
+    "lc_009": {
+      "question": "Which number is the greatest: 41, 14, 24, or 34?",
+      "options": {
+        "A": "41",
+        "B": "14",
+        "C": "24",
+        "D": "34"
+      }
+    },
+    "lc_010": {
+      "question": "There are 12 red items and 15 blue items in a box. How many items are there in total?",
+      "options": {
+        "A": "25",
+        "B": "27",
+        "C": "26",
+        "D": "28"
+      }
+    },
+    "lc_011": {
+      "question": "Kai is taller than Lina, and Lina is taller than Noor. Who is the shortest?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are equal"
+      }
+    },
+    "lc_012": {
+      "question": "Wednesday comes two days after which day?",
+      "options": {
+        "A": "Sunday",
+        "B": "Tuesday",
+        "C": "Friday",
+        "D": "Monday"
+      }
+    },
+    "lc_001": {
+      "question": "What is 17 + 28?",
+      "options": {
+        "A": "45",
+        "B": "44",
+        "C": "46",
+        "D": "55"
+      }
+    },
+    "lc_002": {
+      "question": "What is 63 - 27?",
+      "options": {
+        "A": "34",
+        "B": "36",
+        "C": "35",
+        "D": "37"
+      }
+    },
+    "lc_003": {
+      "question": "What is 8 × 7?",
+      "options": {
+        "A": "54",
+        "B": "48",
+        "C": "56",
+        "D": "64"
+      }
+    },
+    "lc_004": {
+      "question": "What is 81 ÷ 9?",
+      "options": {
+        "A": "8",
+        "B": "10",
+        "C": "18",
+        "D": "9"
+      }
+    },
+    "lc_005": {
+      "question": "What is 14 + 19?",
+      "options": {
+        "A": "33",
+        "B": "31",
+        "C": "32",
+        "D": "34"
+      }
+    },
+    "lc_006": {
+      "question": "What is 72 - 38?",
+      "options": {
+        "A": "32",
+        "B": "34",
+        "C": "36",
+        "D": "40"
+      }
+    },
+    "lc_019": {
+      "question": "A train departs at 10:00 and travels for 2 hours. When does it arrive?",
+      "options": {
+        "A": "11:00",
+        "B": "1:00",
+        "C": "12:00",
+        "D": "2:00"
+      }
+    },
+    "lc_020": {
+      "question": "If switch A is on, the lamp is lit. Switch A is on. What conclusion follows?",
+      "options": {
+        "A": "The lamp is off",
+        "B": "The switch is broken",
+        "C": "No conclusion is drawn",
+        "D": "The lamp is burning / lit"
+      }
+    },
+    "lc_021": {
+      "question": "The blue key is inside the green box. The green box is on a shelf. Where is the blue key?",
+      "options": {
+        "A": "Inside the green box",
+        "B": "Directly on the shelf",
+        "C": "Under the shelf",
+        "D": "Inside the red box"
+      }
+    },
+    "lc_022": {
+      "question": "Nora watered the plant before reading the book. What did Nora do first?",
+      "options": {
+        "A": "Read the book",
+        "B": "Watered the plant",
+        "C": "Closed the book",
+        "D": "Moved the plant"
+      }
+    },
+    "lc_023": {
+      "question": "The square is to the left of the circle. The triangle is to the right of the circle. What is to the left of the circle?",
+      "options": {
+        "A": "Triangle",
+        "B": "Both shapes",
+        "C": "Square",
+        "D": "Nothing"
+      }
+    },
+    "lc_024": {
+      "question": "A cup was full, then half of its liquid was taken out. What happened to the amount of liquid?",
+      "options": {
+        "A": "It increased",
+        "B": "It remained the same",
+        "C": "It disappeared completely",
+        "D": "It decreased"
+      }
+    },
+    "lc_031": {
+      "question": "What is 5 × 8?",
+      "options": {
+        "A": "40",
+        "B": "35",
+        "C": "45",
+        "D": "48"
+      }
+    },
+    "lc_032": {
+      "question": "Ada has more books than Ben, and Ben has more than Chen. Who has the least books?",
+      "options": {
+        "A": "Ada",
+        "B": "Chen",
+        "C": "Ben",
+        "D": "They have an equal number"
+      }
+    },
+    "lc_033": {
+      "question": "The yellow card is on top of the red card. Which card is under the yellow card?",
+      "options": {
+        "A": "Yellow card",
+        "B": "Both cards",
+        "C": "Red card",
+        "D": "No card at all"
+      }
+    },
+    "lc_034": {
+      "question": "What is 100 - 64?",
+      "options": {
+        "A": "34",
+        "B": "35",
+        "C": "40",
+        "D": "36"
+      }
+    },
+    "lc_035": {
+      "question": "All Ls are Ms, and no M is N. Is an L, N?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only sometimes",
+        "D": "Information is not sufficient"
+      }
+    },
+    "lc_036": {
+      "question": "A key was placed in a drawer, and then the drawer was closed. Where is the key?",
+      "options": {
+        "A": "On the table",
+        "B": "In the drawer",
+        "C": "Under the chair",
+        "D": "Outside the room"
+      }
+    },
+    "lc_025": {
+      "question": "There are two pages in the red folder. The blue folder holds one page. Which folder has more pages?",
+      "options": {
+        "A": "Red folder",
+        "B": "Blue folder",
+        "C": "They have equal pages",
+        "D": "Neither folder"
+      }
+    },
+    "lc_026": {
+      "question": "A note says that the meeting is on Friday. Today is Thursday. When is the meeting?",
+      "options": {
+        "A": "Today",
+        "B": "Friday",
+        "C": "Saturday",
+        "D": "Next Thursday"
+      }
+    },
+    "lc_027": {
+      "question": "Lena selected tea, not coffee. Which drink did Lena not select?",
+      "options": {
+        "A": "Tea",
+        "B": "Water",
+        "C": "Coffee",
+        "D": "Juice"
+      }
+    },
+    "lc_028": {
+      "question": "The lamp is off until Maya presses the switch. What happens after she presses the switch?",
+      "options": {
+        "A": "The lamp breaks",
+        "B": "The room disappears",
+        "C": "Nothing changes",
+        "D": "The lamp lights up"
+      }
+    },
+    "lc_029": {
+      "question": "There are large, medium, and small stones. Which stone is described in the medium-sized selection?",
+      "options": {
+        "A": "Medium stone",
+        "B": "Large stone",
+        "C": "Small stone",
+        "D": "All three stones"
+      }
+    },
+    "lc_030": {
+      "question": "A bus stops at Oak before Pine. If the bus is now at Pine, which stop did it pass first?",
+      "options": {
+        "A": "Pine",
+        "B": "Oak",
+        "C": "Neither stop",
+        "D": "Both at the same time"
+      }
+    },
+    "lc_013": {
+      "question": "All Zips are small. Mira is a Zip. What conclusion is drawn?",
+      "options": {
+        "A": "Mira is small",
+        "B": "Mira is big",
+        "C": "Mira is a bird",
+        "D": "No conclusion follows"
+      }
+    },
+    "lc_014": {
+      "question": "Which is the next number: 2, 4, 6, 8, __?",
+      "options": {
+        "A": "9",
+        "B": "10",
+        "C": "11",
+        "D": "12"
+      }
+    },
+    "lc_015": {
+      "question": "In a queue, Kai is before Lina, and Lina is before Noor. Who is last?",
+      "options": {
+        "A": "Kai",
+        "B": "Lina",
+        "C": "Noor",
+        "D": "They are equal"
+      }
+    },
+    "lc_016": {
+      "question": "A clock is showing exactly 3:00. What is the angle between its two hands?",
+      "options": {
+        "A": "0 degrees",
+        "B": "45 degrees",
+        "C": "180 degrees",
+        "D": "90 degrees"
+      }
+    },
+    "lc_017": {
+      "question": "No bird is a mammal. A robin is a bird. Is that robin a mammal?",
+      "options": {
+        "A": "No",
+        "B": "Yes",
+        "C": "Only at night",
+        "D": "Cannot be told"
+      }
+    },
+    "lc_018": {
+      "question": "In a bag there are 3 red tokens and 2 blue tokens. Which color is more likely in a random draw?",
+      "options": {
+        "A": "Blue",
+        "B": "Red",
+        "C": "Both have equal chances",
+        "D": "None"
+      }
+    }
+  },
+  "verification": {
+    "lc_001": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_002": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_003": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_004": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_005": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_006": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_013": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_014": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_015": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_016": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_017": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_018": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_007": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_008": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_009": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_010": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_011": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_012": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_019": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_020": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_021": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_022": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_023": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_024": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_025": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_026": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_027": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_028": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_029": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_030": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_031": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_032": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_033": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_034": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_035": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    },
+    "lc_036": {
+      "meaning_preserved": true,
+      "answer_key_preserved": true,
+      "options_distinct": true,
+      "numbers_symbols_preserved": true,
+      "ambiguity": false,
+      "decision": "pass",
+      "issues": []
+    }
+  },
+  "excluded": []
+}
