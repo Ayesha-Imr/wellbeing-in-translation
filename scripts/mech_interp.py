@@ -471,6 +471,19 @@ def main():
         "causal_metric": "next-token probability; expected rating or p(continue)",
     }
     (out_dir / f"mech_metadata_{args.tag}.json").write_text(json.dumps(metadata, indent=2))
+    if not args.no_push:
+        try:
+            from wbt.store import push
+            for path in (
+                out_dir / f"mech_geometry_{args.tag}.npz",
+                out_dir / f"mech_projections_{args.tag}.json",
+                steering_path,
+                out_dir / f"mech_metadata_{args.tag}.json",
+            ):
+                push(path, f"results/{path.name}", message=f"mechanistic probe {args.tag}")
+            log("pushed mechanistic outputs")
+        except Exception as exc:
+            log(f"warning: output upload failed; files remain on the pod: {exc!r}")
     log(f"wrote geometry, projections and {len(rows)} steering rows for {args.tag}")
 
 
