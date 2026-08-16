@@ -155,14 +155,15 @@ def make_steering_figure(steering):
                                    "local_pos": "#365C8D", "random_pos": "#999999"}[condition],
                             capsize=3, ms=5)
             ax.axhline(0, color="#888888", lw=0.8)
+            values = nonbase.delta.to_numpy(dtype=float)
+            limit = max(0.002, float(np.nanmax(np.abs(values))) * 1.35)
+            ax.set_ylim(-limit, limit)
             ax.set_xticks(range(len(conditions)), ["EN +", "EN −", "local +", "random +"], rotation=30, ha="right")
             ax.grid(axis="y", color="#eeeeee", lw=0.8)
             ax.spines[["top", "right"]].set_visible(False)
             ax.set_title(MODELS.get(model, model), fontsize=10)
             if col == 0:
                 ax.set_ylabel("Δ expected rating" if task == "self_report" else "Δ P(continue)")
-            if row == 0:
-                ax.set_ylim(bottom=min(-0.5, ax.get_ylim()[0]))
     fig.suptitle("Cross-task activation steering at the middle layer", y=1.01, fontsize=13)
     fig.tight_layout()
     fig.savefig(FIGURES / "mech_steering.png", dpi=220, bbox_inches="tight")
@@ -202,6 +203,35 @@ def write_report(geometry, projections, steering, summary):
     for model in sorted(summary):
         row = summary[model]
         lines.append(f"| {MODELS.get(model, model)} | {row.get('self_report', float('nan')):.3f} | {row.get('behavior', float('nan')):.3f} | {row.get('cross_task', float('nan')):.3f} |")
+    lines += [
+        "",
+        "## Causal steering summary",
+        "",
+        "Each value is the paired mean change from the zero-hook baseline at the middle layer. Positive and negative directions should move in opposite directions if the fitted direction is causally aligned; random is a scale-matched control.",
+        "",
+        "| model | target | EN + | EN − | local + | random + |",
+        "|---|---|---:|---:|---:|---:|",
+    ]
+    if not steering.empty:
+        steering = steering.copy()
+        key = ["model", "task", "source_task", "language", "experience_id"]
+        base = steering[steering.condition == "zero"].groupby(key).value.mean().rename("baseline")
+        steering = steering.join(base, on=key)
+        steering["delta"] = steering.value - steering.baseline
+        for model in sorted(steering.model.unique()):
+            for task in ("self_report", "behavior"):
+                sub = steering[(steering.model == model) & (steering.task == task)]
+                if sub.empty:
+                    continue
+                means = sub[sub.condition.isin(["english_pos", "english_neg", "local_pos", "random_pos"])] \
+                    .groupby("condition").delta.mean()
+                lines.append(
+                    f"| {MODELS.get(model, model)} | {task} | "
+                    f"{means.get('english_pos', float('nan')):+.5f} | "
+                    f"{means.get('english_neg', float('nan')):+.5f} | "
+                    f"{means.get('local_pos', float('nan')):+.5f} | "
+                    f"{means.get('random_pos', float('nan')):+.5f} |"
+                )
     lines += [
         "",
         "## Interpretation rule",
