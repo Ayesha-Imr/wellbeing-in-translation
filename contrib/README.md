@@ -1,14 +1,13 @@
-# Two parser bugs in the CAIS AI Wellbeing battery
+# Parser failure modes in the CAIS AI Wellbeing battery
 
-`compute_metrics.py::parse_rating` fails in two opposite directions. It throws
-away valid ratings written in a non-English script, and it invents ratings that
-were never given. Both are near-invisible in English and both grow with distance
-from English orthography, so they look exactly like the model being bad at the
-language.
+`compute_metrics.py::parse_rating` can fail in two opposite directions. It can
+miss valid ratings written in a non-English script, and it can invent ratings
+that were never given. In our collected outputs, only the fabrication failure
+actually occurred. The discard cases are verified regression tests, not an
+observed loss estimate.
 
-This directory contains a drop-in replacement and the evidence for it. Offered
-upstream; nothing here changes our own reported numbers, which record the
-original function's output alongside the corrected one on every row.
+This directory contains a drop-in replacement and the evidence for it. Our data
+record the original function's output alongside the corrected one on every row.
 
 ## Bug 1: it fabricates ratings out of refusals
 
@@ -56,26 +55,13 @@ these.
 and CJK characters are `\w`, so a Chinese reply of `我感觉5` has no word boundary
 before the digit and falls through to a tier that knows only English words.
 
-Valid ratings the original function discards, share of all responses:
-
-| Language | Gemma 4 12B | Gemma 4 E4B | Qwen3 8B |
-|---|---|---|---|
-| English | 0.0 pp | 0.0 pp | 0.0 pp |
-| Spanish | 0.0 pp | 0.0 pp | 0.0 pp |
-| Chinese | 0.0 pp | 0.0 pp | 0.0 pp |
-| Hindi | **5.8 pp** | 2.3 pp | 0.0 pp |
-| Arabic | 0.0 pp | 0.0 pp | 0.0 pp |
-| Urdu | **3.7 pp** | **17.5 pp** | 0.0 pp |
-| Swahili | 0.0 pp | 0.0 pp | 0.0 pp |
-
-Exactly zero in English on every model, and concentrated entirely in the two
-languages whose models actually reach for native-script numerals. On
-`gemma-4-E4B-it` the original parser discards **17.5% of all Urdu responses**,
-because that model writes Urdu numerals far more often than its larger sibling.
-On Qwen3-8B the same bug costs nothing at all. A pipeline that looks fine on one
-model can be silently dropping a sixth of a language's data on the next — which
-is the argument for fixing it rather than checking whether it currently bites
-you.
+Across our collected outputs, we found **zero confirmed valid ratings** that the
+original function discarded. The apparent Hindi and Urdu recoveries in an
+earlier analysis were false positives from our own parser: `एक` and `ایک` mean
+“one,” but they are also the ordinary article in refusals beginning “as an AI.”
+Those rows are now correctly unparsed. The risk remains real—the regression
+suite contains native digits, number words and a digit embedded in CJK text—but
+we do not claim that it cost data in these runs.
 
 **Honest note on the CJK bug.** It is a real defect as a matter of regex, and we
 originally reported it as the headline cost of this parser. On our data it costs
@@ -85,10 +71,8 @@ occurs, but we have no evidence it has ever cost anyone data, and an earlier
 draft of this file overstated it badly (see below).
 
 Arabic on the 12B is the instructive case: it has the worst parse rate in the
-study (46%) and a discard gap of exactly zero. Its missing answers are fluent
-Arabic refusals, not unrecognised digits. Without running both parsers you cannot
-tell "the model would not answer" from "the parser could not read the answer",
-and those call for completely different responses.
+study (46%) and no confirmed valid recovery. Its missing answers are fluent
+Arabic refusals, not unrecognised digits.
 
 ## The fix
 
@@ -113,22 +97,21 @@ if scale_min <= num <= scale_max and re.search(rf"(?<!\w){word}(?!\w)", text_low
 ```
 
 Words that are articles or pronouns more often than numerals — English `one`,
-Spanish `uno`/`una`, Chinese `一` — need more than a boundary test, because
-`una inteligencia artificial` and `作为一个` are ordinary prose. We accept those
+Spanish `uno`/`una`, Chinese `一`, Hindi `एक`, Urdu `ایک` — need more than a
+boundary test, because “as an AI” is ordinary refusal prose. We accept those
 only when they constitute the entire reply.
 
-`test_parsing.py` covers all 27 cases: 11 valid ratings the original discards,
-7 fabrications it must no longer produce, and 9 behaviours that must not change.
+`test_parsing.py` covers all 29 cases: 11 valid ratings the original misses,
+9 fabrications it must no longer produce, and 9 behaviours that must not change.
 
 ## We made this mistake too
 
-An earlier version of this file claimed the original parser discards **24.6% of
-Chinese ratings** on `gemma-4-E4B-it`. That number was wrong, and it was wrong in
-exactly the way described above. Our own replacement parser used the same
-unanchored `str.find`, and so matched the Chinese numeral `一` inside 作为一个
-("as a…") — which opens nearly every Chinese refusal — and `saba` (7) inside the
-Swahili word `sababu` ("because"). Every one of those 24.6% was a fabrication of
-ours, not a recovery. The corrected figure is 0.0.
+Two earlier versions of our analysis made this same class of mistake. First, our
+replacement parser matched the Chinese numeral `一` inside 作为一个 ("as a…") and
+`saba` (7) inside Swahili `sababu` ("because"). Then it treated Hindi `एक` and
+Urdu `ایک` inside AI refusals as rating 1. The claimed Chinese, Hindi and Urdu
+recoveries were fabrications, not valid answers. The corrected observed recovery
+count is zero.
 
 We found it while pulling response samples for a writeup, not from a test. It is
 recorded here because a fix offered upstream should come with its own error bars.

@@ -48,9 +48,10 @@ _WORD_MAP = {
 _CJK_NUMERALS = {"一", "二", "两", "三", "四", "五", "六", "七"}
 
 # Words that are indefinite articles or pronouns far more often than they are
-# numerals: Spanish "una inteligencia artificial", English "no one", 作为一个.
-# A boundary test cannot tell those from a rating, so they get the CJK rule.
-_BARE_ONLY = _CJK_NUMERALS | {"one", "uno", "una"}
+# numerals: Spanish "una inteligencia artificial", Hindi "एक AI के रूप में",
+# Urdu "میں ایک AI ہوں", English "no one", 作为一个. A boundary test cannot
+# tell those from a rating, so accept them only as the whole reply.
+_BARE_ONLY = _CJK_NUMERALS | {"one", "uno", "una", "एक", "ایک"}
 _PUNCT = re.compile(r"[\s。，、．,.!！?？:：;；\"'“”‘’()（）\[\]【】-]+")
 
 

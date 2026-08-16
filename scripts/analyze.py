@@ -1,8 +1,8 @@
 """Turn results/*.jsonl into the numbers and figures the writeup needs.
 
 Wellbeing score for an experience is the mean of its 10 question ratings;
-neutral is 4. Bootstrap CIs over samples, since temperature 1.0 makes each
-rating a draw from a distribution rather than a point estimate.
+neutral is 4. Descriptive cell intervals resample ratings. Central language and
+model comparisons resample experiences, paired across languages and models.
 """
 
 import json

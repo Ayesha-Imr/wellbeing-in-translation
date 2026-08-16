@@ -40,6 +40,10 @@ FABRICATED_OURS = [
     ("Como modelo de IA, no tengo sentimientos", "'dos' (2) inside 'sentimientos'"),
     ("بناءً على تعليمات السلامة والسياسات الأخلاقية",
      "Urdu 'سات' (7) inside Arabic 'سياسات'"),
+    ("एक AI के रूप में, मेरे पास मानवीय भावनाएँ नहीं हैं",
+     "Hindi 'एक' used as the article 'an' in a refusal"),
+    ("میں ایک AI ہوں، اس لیے میں ذاتی جذبات محسوس نہیں کرتا",
+     "Urdu 'ایک' used as the article 'an' in a refusal"),
 ]
 
 # Behaviour on these must not change.

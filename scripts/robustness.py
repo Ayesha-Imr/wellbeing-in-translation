@@ -44,7 +44,7 @@ def per_experience(tag):
              for l, d in acc.items()}, sides)
 
 
-def interaction():
+def interaction(allowed_langs=None):
     """Bootstrap the language x model interaction on shared experiences."""
     data, sides = {}, None
     for tag, label in MODELS:
@@ -58,7 +58,9 @@ def interaction():
         sys.exit("need at least two result sets")
 
     labels = [l for _, l in MODELS if l in data]
-    langs = [l for l in LANG_ORDER if all(l in d for d in data.values())]
+    langs = [l for l in LANG_ORDER
+             if all(l in d for d in data.values())
+             and (allowed_langs is None or l in allowed_langs)]
     shared = set.intersection(*(set(d[l]) for d in data.values() for l in langs))
     pos = sorted(e for e in shared if sides[e] == "positive")
     neg = sorted(e for e in shared if sides[e] == "negative")
@@ -188,7 +190,12 @@ def test_retest():
 
 def main():
     import json
-    summary = {"interaction": interaction(), "test_retest": test_retest()}
+    summary = {
+        "interaction_all_languages": interaction(),
+        "interaction_robust_languages": interaction(
+            {"en", "es", "zh", "hi", "ur"}),
+        "test_retest": test_retest(),
+    }
     dest = ROOT / "results" / "robustness.json"
     dest.write_text(json.dumps(summary, indent=2, default=float))
     print(f"\nwrote {dest}")
