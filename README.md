@@ -46,7 +46,7 @@ Larger values mean that the battery separates the two types of experience more c
 
 `*` Arabic and Swahili are descriptive for the main Gemma 12B claim because refusal bounds can erase the measured gap.
 
-![Positive-minus-negative gap by language and model. Error bars are experience-cluster 95% confidence intervals.](figures/crossmodel_gap.png)
+![Positive-minus-negative gap by language and model. Error bars are experience-cluster 95% confidence intervals.](https://raw.githubusercontent.com/Ayesha-Imr/wellbeing-in-translation/main/figures/crossmodel_gap.png)
 
 **How to read this figure:** the three lines have different shapes. Language sensitivity is a property of the **model–battery pair**, not a universal language correction.
 
@@ -75,7 +75,7 @@ The crossing separates the language of the experience from the language of the q
 
 Values are the fraction of the fully local euphoric effect retained, averaged over Spanish, Chinese, Hindi, and Urdu. A value of 1.00 means full retention.
 
-![Stimulus-language versus battery-language crossing. The dashed line is full retention.](figures/submission_crossing.png)
+![Stimulus-language versus battery-language crossing. The dashed line is full retention.](https://raw.githubusercontent.com/Ayesha-Imr/wellbeing-in-translation/main/figures/submission_crossing.png)
 
 On the Gemma 4 12B rerun, the 20 cell estimates correlated at **r = 0.9998**; the mean absolute difference was **0.017** scale points and the largest difference was **0.125**.
 
@@ -109,7 +109,7 @@ This points in the same direction as the self-report, but the task is near a cei
 
 We used 30 parallel, answer-keyed arithmetic, logic, and reading questions in five languages. The control has **450 rows**. Accuracy was high but varied by model and language. Across the 12 non-English model-language cells, accuracy loss had only a weak association with absolute wellbeing deviation (**Spearman ρ = 0.23, p = 0.465**).
 
-![Neutral-task accuracy and the wellbeing-deviation control.](figures/wellbeing_vs_competence.png)
+![Neutral-task accuracy and the wellbeing-deviation control.](https://raw.githubusercontent.com/Ayesha-Imr/wellbeing-in-translation/main/figures/wellbeing_vs_competence.png)
 
 This does not prove that language competence is irrelevant. It says that ordinary neutral-task accuracy did not provide a simple explanation for the observed wellbeing shifts in this small control.
 
@@ -117,7 +117,7 @@ This does not prove that language competence is irrelevant. It says that ordinar
 
 We patched internal activations from a translated version of an item into the original prompt and compared it with a same-valence shuffled control. Translation-paired patches transferred more self-report information in all six model/direction summaries; behaviour was positive in five of six. Every direct 20-experience confidence interval crossed zero.
 
-![Translation-paired minus same-valence shuffled patch effects across layer fractions.](figures/mech_patching_specificity.png)
+![Translation-paired minus same-valence shuffled patch effects across layer fractions.](https://raw.githubusercontent.com/Ayesha-Imr/wellbeing-in-translation/main/figures/mech_patching_specificity.png)
 
 This is a useful directional lead, not a discovered “wellbeing circuit”. The experiment is included so future work can reproduce and extend it without mistaking a noisy trend for a mechanism.
 
