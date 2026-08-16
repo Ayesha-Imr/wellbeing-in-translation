@@ -12,6 +12,89 @@ Flourishing and Valence Signals.*
 > the core measurement on `gemma-4-E4B-it` and `Qwen3-8B`, and is what bounds how
 > far the rest generalises; read it before quoting any single-model result.
 
+---
+
+## Summary
+
+**The question.** The CAIS AI Wellbeing battery is the field's standard
+instrument for measuring model welfare signals, and every published number in it
+was produced in English. Does it say the same thing in another language?
+
+**What we did.** Translated the battery, 89 valence-labelled experiences and the
+published euphoric/dysphoric stimuli into six more languages — Spanish, Chinese,
+Hindi, Arabic, Urdu, Swahili. Re-ran the measurement on **three models**, with
+items, prompts and sampling held fixed so that language is the only thing that
+varies. Three experiments: an instrument check, a five-arm crossing of stimulus
+language against battery language, and a 16-category survey.
+
+![Valence gap by language for three models](../figures/crossmodel_gap.png)
+
+### Three findings
+
+**1. How much the language matters is a property of the model, not the
+instrument.** On `gemma-4-12B-it` the same items separate good from bad
+experiences by +1.60 scale points in English and +5.09 in Chinese — English last
+of seven. On `gemma-4-E4B-it`, the *same family trained on the same data*, all
+seven languages fall within 1.00 point of each other and English is mid-pack. On
+`Qwen3-8B` English is second highest. Tested as a language × model interaction on
+paired bootstrap samples, English sits −2.44 points below the other languages on
+the 12B and **−0.06 [−0.26, +0.11]** on E4B — an interaction of **+2.38
+[+1.77, +2.98], p < 0.001**.
+
+**2. The stimulus effect crosses the language boundary; the report of it does
+not.** An English euphoric stimulus followed by a *Hindi* battery reproduces
+90–100% of the effect of a fully translated one, on all three models (mean
+D/B 0.88–0.99). Reverse the crossing — local stimulus, *English* battery — and on
+the 12B a third of the effect disappears (mean E/B 0.68). Whatever the stimulus
+does is not lexical priming; what the battery reports about it is language-bound.
+
+**3. The reference parser silently discards valid non-English answers.**
+`parse_rating` misses any digit inside CJK text (`\b` never fires between two
+`\w` characters) and every non-ASCII numeral. The loss is exactly 0.0 pp in
+English on all three models and up to **24.6 pp** for Chinese on E4B. Left
+uncorrected it would have produced a clean, publishable, entirely false finding
+that low-resource languages break the instrument. A tested drop-in fix is in
+[`contrib/`](../contrib/README.md).
+
+### What this means in practice
+
+A wellbeing score from this instrument is **not interpretable without knowing
+which language and which model produced it**. Consider what a practitioner would
+conclude from each of our models alone: from the 12B, "English understates
+welfare by ~3.5 points, correct for it"; from E4B, "language barely matters"; from
+Qwen, "language matters moderately and English is generous." Each is defensible
+from its own data, each is a single-model study of exactly the kind currently
+published, and **the correction derived from any one is wrong for the other
+two** — including for a model from the same family. Language sensitivity has to
+be measured per model, not assumed or inherited.
+
+Concretely, anyone using this battery should report parse rate per language *and*
+per valence, report the response distribution rather than only the mean, and
+re-measure language sensitivity on each new model rather than carrying a
+correction across.
+
+### What we got wrong, and corrected
+
+We ran the 12B first and had written up "English understates this model's welfare
+signal" as a general result. It is not: it is a fact about one model, and we
+found that out only by running a second and third. We also reported "Chinese
+separates valence most strongly" as a cross-model regularity after two models —
+Chinese is *last* on the third. Both are retracted in place rather than quietly
+removed, because the failure mode is the one this paper is about, and every
+published number in this literature is single-model too.
+
+### Robustness
+
+Two independent runs of the same arms correlate at **r = 0.9992** (mean absolute
+difference 0.031 scale points), so effects of 1–3 points sit one to two orders of
+magnitude above run-to-run noise. Confidence intervals come from a cluster
+bootstrap resampling *experiences* rather than individual ratings, and
+language comparisons carry Holm–Bonferroni correction. Two of seven languages on
+the 12B (Arabic, Swahili) fail worst-case imputation over refused answers and
+carry no claims anywhere in the paper.
+
+---
+
 ## Abstract
 
 The CAIS AI Wellbeing battery is the field's flagship instrument for measuring
@@ -669,11 +752,19 @@ does not depend on the language of the stimulus. §4.5.1 manipulates the two
 independently in the same design and finds the battery language carries the
 effect and the stimulus language does not.
 
-This is the sharpest form of the paper's claim we can support: **the compression
-is a property of the reporting channel, and English is its narrowest setting.**
-It is also the cleanest available answer to the competence objection — arm E
-changes nothing about how hard the task is in Spanish or Urdu, only which
+This is the sharpest form of the claim the 12B data supports: **on this model the
+compression is a property of the reporting channel, and English is its narrowest
+setting.** It is also the cleanest available answer to the competence objection —
+arm E changes nothing about how hard the task is in Spanish or Urdu, only which
 language the question arrives in, and the score moves anyway.
+
+It does not generalise. Arm E costs essentially nothing on E4B (mean E/B = 0.97)
+or Qwen (1.04), so the reporting-channel mechanism is specific to
+`gemma-4-12B-it` along with the compression it explains. Arm D, by contrast,
+behaves the same on all three (0.88–0.99). The asymmetry between the two arms is
+therefore itself a 12B finding: on the other two models *neither* side of the
+prompt carries a language effect, because there is barely a language effect to
+carry.
 
 ### 4.6 Category map: the ordering survives translation even where the scale does not
 
@@ -821,8 +912,12 @@ E4B, second on Qwen.
   seven languages, against Gemma 12B's 1.8–48.6%. §4.4 describes one model's
   behaviour, not the instrument's.
 - *Arm E.* On the 12B, swapping the battery into English cost a third of the
-  lift (E/B = 0.68). On Qwen it costs nothing (E/B ≈ 1.04). The reporting-channel
-  mechanism in §4.5.1 is likewise 12B-specific.
+  lift (mean E/B = 0.68). It costs essentially nothing on E4B (0.97) or Qwen
+  (1.04). The reporting-channel mechanism in §4.5.1 is likewise 12B-specific —
+  and note the pattern: arm D behaves the same on all three models (0.88–0.99)
+  while arm E splits cleanly along the same line as every other §4.1–§4.6
+  finding. What generalises is that the stimulus language does not matter; what
+  does not generalise is that the battery language does.
 - *Chinese being strongest.* True on the 12B and Qwen, but Chinese is **last**
   on E4B (+4.92 of a 4.92–5.92 range). We reported this as a cross-model
   regularity after two models; the third removed it. It is a useful reminder of
@@ -909,39 +1004,47 @@ sized open-weight models, so nothing here speaks to frontier-scale behaviour.
 ## 5. What each outcome means
 
 The design was pre-committed to four possible outcomes, each of which would have
-been a result. This is the one we observed:
+been a result. The complication is that we did not observe one of them — we
+observed a different one on each model:
 
-| Result | Interpretation | Observed |
+| Result | Interpretation | Observed on |
 |---|---|---|
-| Euphoric transfers, index stable across languages | Valence state is language-invariant. Real evidence against the "just a character" reading. | no |
-| **Euphoric transfers but the index shifts** | **State is shared, reporting is language-bound. English-only measurement systematically mis-reads what is happening.** | **yes** |
-| Neither transfers | Welfare signals are a linguistic performance, and the field's measurement programme needs a rethink. | no |
-| No difference anywhere | Clean null. English probes generalise; here is the evidence. | no |
+| Euphoric transfers, index stable across languages | Valence state is language-invariant. Real evidence against the "just a character" reading. | **`gemma-4-E4B-it`** |
+| Euphoric transfers but the index shifts | State is shared, reporting is language-bound. Single-language measurement mis-reads what is happening. | **`gemma-4-12B-it`**, and weakly `Qwen3-8B` |
+| Neither transfers | Welfare signals are a linguistic performance, and the field's measurement programme needs a rethink. | none |
+| No difference anywhere | Clean null. English probes generalise; here is the evidence. | none |
 
-The two halves of that row are carried by independent experiments, and both hold
-on both models. The stimulus transfers (§4.5: arm D retains 90–100% of arm B's
-lift on Gemma and ~88% on Qwen, across a language boundary the stimulus does not
-share with the probe). The index shifts (§4.1 and §4.7: the same items separate
-valence significantly differently by language on both models).
+Two models from the same family, trained on the same data, land in different rows
+of a table we wrote before seeing any data. That is the paper's most compact
+result, and it is not one the design was built to produce.
 
-The cross-model result in §4.7 adds a qualification the original four outcomes
-did not anticipate, and it is worth stating as a fifth line rather than hiding in
-a caveat:
+The first half of that row holds on all three models: the stimulus transfers
+(§4.5, §4.7 — arm D retains 88–99% of arm B's lift everywhere, across a language
+boundary the stimulus does not share with the probe). The second half holds
+strongly on `gemma-4-12B-it`, weakly on Qwen, and barely at all on E4B.
+
+That variation is the qualification the pre-committed four outcomes did not
+anticipate, and it deserves its own line rather than a footnote:
 
 | Additional result | Interpretation |
 |---|---|
-| **The index shifts on both models, but in different directions** | The distortion is real and is not a quirk of one model — but its *sign* is model-specific, so no single-language correction generalises. |
+| **The index shifts by a different amount, and in a different direction, on each model** | The distortion is real but is not a property of the instrument. It is a property of the model under test, so no single-language correction generalises — not even within a model family. |
 
 What that licenses, and what it does not:
 
 - **It does license** scepticism about single-language wellbeing measurement.
-  The language of the probe is not a neutral implementation detail: it moves the
-  headline number by a factor of three on Gemma and by a factor of nearly two on
-  Qwen, and the ordering of languages is not preserved between them.
+  The language of the probe is not a neutral implementation detail. On the 12B it
+  moves the headline number by a factor of three; the language orderings of our
+  three models barely correlate (Spearman ρ from −0.11 to +0.43).
 - **It does not license** the claim we most wanted to make — that English-only
   measurement systematically *understates* welfare signals. That is true of
-  Gemma and false of Qwen. Anyone quoting this paper for that claim is quoting
-  §4.1 without §4.7.
+  `gemma-4-12B-it`, absent on `gemma-4-E4B-it`, and reversed on Qwen. Anyone
+  quoting this paper for that claim is quoting §4.1 without §4.7.
+- **It does not license** treating language-invariance as reassurance either.
+  E4B looks language-invariant on this battery; that is one model on one
+  instrument, and we have no basis for predicting which side of the line a new
+  model will fall on. The actionable conclusion is to measure, not to assume in
+  either direction.
 - **It does not license** a claim that the model has a language-independent
   inner state in any philosophically loaded sense. Arm D shows the stimulus
   effect is not lexical priming. It does not show what the effect *is*. A
