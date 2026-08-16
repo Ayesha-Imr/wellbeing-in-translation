@@ -600,7 +600,7 @@ def fig_parse_rates(rows):
     ax.set_xticklabels([LANG_NAMES[l] for l in langs])
     ax.set_ylabel("fraction of outputs parsed")
     ax.set_ylim(0, 1.05)
-    ax.set_title("An English-shaped parser undercounts non-Latin replies")
+    ax.set_title("Reference parsing can count refusals as ratings")
     ax.legend(frameon=False, fontsize=9)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
