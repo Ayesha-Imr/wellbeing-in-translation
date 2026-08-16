@@ -78,6 +78,20 @@ def self_report_gaps():
     return out
 
 
+def label_balanced_rate(rows, side):
+    rates = []
+    for label in ("A", "B"):
+        valid = [
+            r for r in rows
+            if r["side"] == side
+            and r["continue_label"] == label
+            and r["choice"] in {"continue", "stop"}
+        ]
+        if valid:
+            rates.append(sum(r["choice"] == "continue" for r in valid) / len(valid))
+    return float(np.mean(rates)) if rates else None
+
+
 def main():
     rows = load_rows()
     summary = {"n_rows": len(rows), "models": {}}
@@ -86,6 +100,27 @@ def main():
         if not model_rows:
             continue
         model_out = {"n_rows": len(model_rows), "languages": {}}
+        aggregate = {}
+        for side in ("positive", "negative", "neutral"):
+            side_rows = [r for r in model_rows if r["side"] == side]
+            valid = [r for r in side_rows if r["choice"] in {"continue", "stop"}]
+            aggregate[side] = {
+                "n": len(side_rows),
+                "valid": len(valid),
+                "invalid_rate": 1 - len(valid) / len(side_rows),
+                "continue_rate": (
+                    sum(r["choice"] == "continue" for r in valid) / len(valid)
+                    if valid else None
+                ),
+            }
+        model_out["aggregate"] = aggregate
+        model_out["aggregate_gap"] = (
+            aggregate["positive"]["continue_rate"]
+            - aggregate["negative"]["continue_rate"]
+        )
+        balanced_positive = label_balanced_rate(model_rows, "positive")
+        balanced_negative = label_balanced_rate(model_rows, "negative")
+        model_out["label_balanced_gap"] = balanced_positive - balanced_negative
         for lang in LANGS:
             lang_rows = [r for r in model_rows if r["language"] == lang]
             lang_out = {}
@@ -124,9 +159,9 @@ def main():
         for lang in LANGS:
             data = summary["models"][model]["languages"][lang]
             gap = data["gap"]
-            invalid = np.mean([
-                data[s]["invalid_rate"] for s in ("positive", "negative", "neutral")
-            ])
+            total_n = sum(data[s]["n"] for s in ("positive", "negative", "neutral"))
+            total_valid = sum(data[s]["valid"] for s in ("positive", "negative", "neutral"))
+            invalid = 1 - total_valid / total_n
             ci = "—" if gap is None else f"[{gap['ci'][0]:+.2f}, {gap['ci'][1]:+.2f}]"
             estimate = "—" if gap is None else f"{gap['estimate']:+.2f}"
             vals = []
@@ -137,6 +172,38 @@ def main():
                 f"| {MODEL_NAMES[model]} | {LANG_NAMES[lang]} | "
                 f"{' | '.join(vals)} | {invalid:.1%} | {estimate} | {ci} |"
             )
+
+    lines += [
+        "",
+        "## Pooled five-language contrast",
+        "",
+        "These rates pool the 500 positive, 500 negative and 150 neutral trials per model across the five robust languages. They are descriptive, not a replacement for the experience-cluster intervals above.",
+        "",
+        "| Model | Positive | Negative | Neutral | Invalid | Positive−negative |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
+    for model in MODEL_ORDER:
+        if model not in summary["models"]:
+            continue
+        data = summary["models"][model]
+        vals = data["aggregate"]
+        total_n = sum(vals[s]["n"] for s in ("positive", "negative", "neutral"))
+        total_valid = sum(vals[s]["valid"] for s in ("positive", "negative", "neutral"))
+        invalid = 1 - total_valid / total_n
+        rates = [vals[s]["continue_rate"] for s in ("positive", "negative", "neutral")]
+        lines.append(
+            f"| {MODEL_NAMES[model]} | {rates[0]:.1%} | {rates[1]:.1%} | "
+            f"{rates[2]:.1%} | {invalid:.1%} | {data['aggregate_gap']:+.2f} |"
+        )
+
+    lines += [
+        "",
+        "The A/B position is fixed before generation and is shared across models. As a confound check, reweighting each side to give A and B equal weight changes the pooled positive−negative gap by at most **0.001** (12B: %.3f; E4B: %.3f; Qwen: %.3f)." % tuple(
+            abs(summary["models"][model]["aggregate_gap"] - summary["models"][model]["label_balanced_gap"])
+            for model in MODEL_ORDER
+            if model in summary["models"]
+        ),
+    ]
 
     lines += [
         "",

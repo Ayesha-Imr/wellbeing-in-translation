@@ -31,6 +31,11 @@ def main():
         choice_mapping("en", "id", i) for i in range(10)
     }
     assert mappings == {("A", "B"), ("B", "A")}
+    for language in LANGS:
+        for item in load_items():
+            mapped = [choice_mapping(language, item["id"], i) for i in range(10)]
+            assert mapped.count(("A", "B")) > 0
+            assert mapped.count(("B", "A")) > 0
     print("behavior tests: ok")
 
 

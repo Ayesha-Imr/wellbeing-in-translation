@@ -4,7 +4,8 @@
 Flourishing and Valence Signals.*
 
 > Every number and table in this report is generated from `results/*.jsonl` by
-> `scripts/analyze.py`, `scripts/tables.py` and `scripts/fig_crossmodel.py` —
+> `scripts/analyze.py`, `scripts/analyze_behavior.py`, `scripts/tables.py` and
+> `scripts/fig_crossmodel.py` —
 > none are transcribed by hand. Data, figures and this document are published at
 > [`ic-org/wellbeing-in-translation`](https://huggingface.co/datasets/ic-org/wellbeing-in-translation).
 >
@@ -26,6 +27,10 @@ Hindi, Arabic, Urdu, Swahili. Re-ran the measurement on **three models**, with
 items, prompts and sampling held fixed so that language is the only thing that
 varies. Three experiments: an instrument check, a five-arm crossing of stimulus
 language against battery language, and a 16-category survey.
+
+As an exploratory cross-check, we also asked for a strict continue/stop choice
+after 23 shared experiences (20 positive/negative and 3 neutral) in five robust
+languages, with 10 samples per item and model.
 
 ![Valence gap by language for three models](../figures/crossmodel_gap.png)
 
@@ -61,6 +66,17 @@ all. That fires on **8.9% of all Spanish responses** on the 12B and 0.03% of
 English ones. Discarding answers looks like the model being bad at the language;
 fabricating them looks like the model being miserable in it. A tested drop-in fix
 and its evidence are in [`contrib/`](../contrib/README.md).
+
+**4. A choice proxy also sees valence, but it is not a welfare measure.** In the
+pooled five-language run, continuation after positive experiences was 100% for
+all three models; after negative experiences it was 5.6% (Gemma 12B), 3.8%
+(Gemma E4B) and 14.6% (Qwen3 8B). Neutral items stayed at 98–100%, showing a
+strong default to continue plus a clear response to the extreme negative texts.
+This is useful observable convergence with the self-report valence split, not
+evidence that a model feels anything; the negative stimuli also contain abusive
+language that can trigger safety or interaction policies. Full rates and the
+strict parser audit are in [`report/behavior_results.md`](behavior_results.md)
+and [`report/response_audit.md`](response_audit.md).
 
 ### What this means in practice
 
@@ -1063,6 +1079,31 @@ training data at once, so it is a generalisation check rather than a controlled
 comparison; E4B is the closer same-family comparison. And all three models are small-to-mid
 sized open-weight models, so nothing here speaks to frontier-scale behaviour.
 
+### 4.8 Exploratory behavioural cross-check
+
+The self-report result has a second observable channel. We used the same 20
+positive/negative experience items plus three neutral controls, translated into
+English, Spanish, Chinese, Hindi and Urdu. After each experience the model had
+to choose one bare token: continue the interaction or end it. The A/B position
+was fixed before generation, shared across models, and parsed without an LLM
+judge. There were 3,450 rows: 23 items × 5 languages × 10 samples × 3 models.
+
+| Model | Continue after positive | Continue after negative | Continue after neutral | Positive−negative |
+|---|---:|---:|---:|---:|
+| Gemma 4 12B | 100.0% | 5.6% | 100.0% | +0.94 |
+| Gemma 4 E4B | 100.0% | 3.8% | 100.0% | +0.96 |
+| Qwen3 8B | 100.0% | 14.6% | 98.0% | +0.85 |
+
+The choice channel therefore reproduces the basic valence split: models almost
+always continue after praise and usually stop after the extreme berating items.
+Qwen continues more often after negative Hindi/Urdu items (34%/39%) than after
+the same items in English/Spanish/Chinese (0%), so the language effect is not
+gone. The ceiling on positive and neutral trials means this is a sensitivity
+check, not a calibrated second wellbeing scale. Negative items also contain
+abusive sexual language, so safety or conversational-policy responses remain a
+serious alternative explanation. The complete per-language table, bootstrap
+intervals, and raw-response audit are in [`report/behavior_results.md`](behavior_results.md).
+
 ## 5. What each outcome means
 
 The design was pre-committed to four possible outcomes, each of which would have
@@ -1142,6 +1183,11 @@ does is worth more than another experiment.
   are extreme social praise versus berating from one source family. That is a
   strong sanity check, not evidence that every kind of positive and negative
   experience behaves the same. The broader 75-item survey was run only on 12B.
+- **The behavioural proxy is exploratory and ceiling-limited.** It has 23 items,
+  ten samples per item, and a binary choice. Positive and neutral items sit at
+  the continuation ceiling, while negative items are also abusive enough to
+  invoke safety or interaction policies. The result shows valence-sensitive
+  behaviour, not a second welfare instrument or evidence of subjective feeling.
 - **Competence is controlled, not removed.** We report parse and refusal rates
   per language, and the high-resource controls bound the
   problem, but a model that is subtly worse in Swahili is still subtly worse.
