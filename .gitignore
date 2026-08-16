@@ -7,5 +7,10 @@ __pycache__/
 *.pyc
 .venv/
 results/
-figures/
+figures/*
+!figures/
+!figures/crossmodel_gap.png
+!figures/submission_crossing.png
+!figures/wellbeing_vs_competence.png
+!figures/mech_patching_specificity.png
 /tmp/
