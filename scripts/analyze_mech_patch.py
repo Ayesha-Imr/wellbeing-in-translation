@@ -38,7 +38,14 @@ def load_rows() -> pd.DataFrame:
     if not rows:
         return pd.DataFrame()
     frame = pd.DataFrame(rows)
-    frame["model"] = frame["model"].astype(str)
+    frame["model"] = frame["model"].astype(str).str.removesuffix("-patch")
+    frame["direction_detail"] = frame["direction"]
+    frame["direction"] = np.where(
+        frame["source_lang"].eq("en"), "en_to_local", "local_to_en"
+    )
+    frame["pair_lang"] = np.where(
+        frame["direction"].eq("en_to_local"), frame["target_lang"], frame["source_lang"]
+    )
     frame["delta"] = frame["patched_score"] - frame["target_score"]
     frame["source_delta"] = frame["source_score"] - frame["target_score"]
     frame["recovery"] = frame["delta"] / frame["source_delta"].where(
@@ -64,7 +71,7 @@ def cluster_bootstrap(frame: pd.DataFrame, column: str, seed: int):
 
 
 def specificity(frame: pd.DataFrame) -> pd.DataFrame:
-    key = ["model", "task", "target_lang", "direction", "experience_id", "layer", "layer_fraction"]
+    key = ["model", "task", "pair_lang", "direction", "experience_id", "layer", "layer_fraction"]
     wide = frame.pivot_table(index=key, columns="condition", values="delta", aggfunc="mean").reset_index()
     if "paired" not in wide or "shuffled" not in wide:
         return pd.DataFrame()
@@ -76,8 +83,9 @@ def make_specificity_figure(spec: pd.DataFrame):
     if spec.empty:
         return
     FIGURES.mkdir(exist_ok=True)
-    fig, axes = plt.subplots(2, 3, figsize=(12, 6.2), sharex=True)
-    for col, model in enumerate(sorted(spec.model.unique(), key=lambda x: list(MODELS).index(x))):
+    models = sorted(spec.model.unique(), key=lambda x: list(MODELS).index(x) if x in MODELS else x)
+    fig, axes = plt.subplots(2, len(models), figsize=(4.2 * len(models), 6.2), sharex=True, squeeze=False)
+    for col, model in enumerate(models):
         for row, task in enumerate(TASKS):
             ax = axes[row, col]
             sub = spec[(spec.model == model) & (spec.task == task)]
@@ -124,10 +132,11 @@ def make_middle_heatmap(spec: pd.DataFrame):
     if middle.empty:
         return
     middle = middle.groupby(
-        ["model", "task", "target_lang", "direction"], as_index=False
+        ["model", "task", "pair_lang", "direction"], as_index=False
     ).specificity.mean()
     rows = []
-    for model in sorted(middle.model.unique(), key=lambda x: list(MODELS).index(x)):
+    models = sorted(middle.model.unique(), key=lambda x: list(MODELS).index(x) if x in MODELS else x)
+    for model in models:
         for task in TASKS:
             for direction in ("en_to_local", "local_to_en"):
                 values = []
@@ -136,7 +145,7 @@ def make_middle_heatmap(spec: pd.DataFrame):
                         (middle.model == model)
                         & (middle.task == task)
                         & (middle.direction == direction)
-                        & (middle.target_lang == lang)
+                        & (middle.pair_lang == lang)
                     ]
                     values.append(float(part.specificity.iloc[0]) if not part.empty else np.nan)
                 rows.append((f"{MODELS.get(model, model)}\n{task}\n{direction}", values))
@@ -152,7 +161,7 @@ def make_middle_heatmap(spec: pd.DataFrame):
             value = matrix[i, j]
             if np.isfinite(value):
                 ax.text(j, i, f"{value:+.3f}", ha="center", va="center", fontsize=7)
-    ax.set_xlabel("Target language")
+    ax.set_xlabel("Paired non-English language")
     ax.set_title("Middle-layer same-item specificity (paired − shuffled)")
     for spine in ax.spines.values():
         spine.set_visible(False)
@@ -173,6 +182,9 @@ def summary_table(frame: pd.DataFrame) -> pd.DataFrame:
 
 def write_report(frame: pd.DataFrame, spec: pd.DataFrame):
     summary = summary_table(frame)
+    model_names = [MODELS.get(model, model) for model in sorted(
+        frame.model.unique(), key=lambda x: list(MODELS).index(x) if x in MODELS else x
+    )]
     lines = [
         "# Translation-paired activation-patching results",
         "",
@@ -183,7 +195,7 @@ def write_report(frame: pd.DataFrame, spec: pd.DataFrame):
         "",
         "## Design",
         "",
-        "- Models: Gemma 4 12B, Gemma 4 E4B, and Qwen3 8B (whichever output files are present).",
+        f"- Models: {', '.join(model_names)}.",
         "- Languages: English paired with Spanish, Chinese, Hindi and Urdu.",
         "- Tasks: the fixed `wb_happy` self-report question and the continue/stop choice.",
         "- Items: the same 20 positive/negative Step-1 experiences; no fitted direction is used.",
@@ -207,21 +219,27 @@ def write_report(frame: pd.DataFrame, spec: pd.DataFrame):
         "",
         f"Raw rows: {len(frame):,}. Each row is one item, layer, direction and control.",
         "",
-        "| model | target task | direction | paired Δ | shuffled Δ | paired−shuffled | items |",
+        "| model | target task | direction | paired Δ | shuffled Δ | paired−shuffled [95% CI] | items |",
         "|---|---|---|---:|---:|---:|---:|",
     ]
+    spec_summary = {}
+    if not spec.empty:
+        for keys, group in spec.groupby(["model", "task", "direction"]):
+            spec_summary[keys] = cluster_bootstrap(group, "specificity", seed=20260816)
     if not summary.empty:
         for (model, task, direction), group in summary.groupby(["model", "task", "direction"]):
             pair = group[group.condition == "paired"].iloc[0] if not group[group.condition == "paired"].empty else None
             shuffled = group[group.condition == "shuffled"].iloc[0] if not group[group.condition == "shuffled"].empty else None
             if pair is None or shuffled is None:
                 continue
-            diff = pair.mean - shuffled.mean
+            spec_mean, spec_lo, spec_hi = spec_summary.get(
+                (model, task, direction), (float("nan"), float("nan"), float("nan"))
+            )
             lines.append(
                 f"| {MODELS.get(model, model)} | {task} | {direction} | "
-                f"{pair.mean:+.4f} [{pair.lo:+.4f}, {pair.hi:+.4f}] | "
-                f"{shuffled.mean:+.4f} [{shuffled.lo:+.4f}, {shuffled.hi:+.4f}] | "
-                f"{diff:+.4f} | {int(pair.n_items)} |"
+                f"{pair['mean']:+.4f} [{pair['lo']:+.4f}, {pair['hi']:+.4f}] | "
+                f"{shuffled['mean']:+.4f} [{shuffled['lo']:+.4f}, {shuffled['hi']:+.4f}] | "
+                f"{spec_mean:+.4f} [{spec_lo:+.4f}, {spec_hi:+.4f}] | {int(pair['n_items'])} |"
             )
     lines += [
         "",
