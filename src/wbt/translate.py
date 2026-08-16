@@ -111,10 +111,10 @@ def gemini(system, items):
     return _extract_json("".join(p.get("text", "") for p in parts))
 
 
-def openai(system, items):
+def openai(system, items, model=None):
     key = os.environ["OPENAI_API_KEY"]
     payload = {
-        "model": OPENAI_MODEL,
+        "model": model or OPENAI_MODEL,
         "input": [
             {"role": "developer", "content": system},
             {"role": "user", "content": json.dumps(items, ensure_ascii=False)},
