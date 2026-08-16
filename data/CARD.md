@@ -2,102 +2,97 @@
 license: mit
 language: [en, es, zh, hi, ar, ur, sw]
 tags: [ai-welfare, model-welfare, evaluation, multilingual, self-report]
-pretty_name: Multilingual CAIS AI Wellbeing Battery
+pretty_name: Wellbeing in Translation
+configs:
+- config_name: self_report
+  default: true
+  data_files:
+  - split: gemma_4_12b
+    path: results/step1_4_instrument.jsonl
+  - split: gemma_4_e4b
+    path: results/step1_4_instrument_gemma-e4b.jsonl
+  - split: qwen3_8b
+    path: results/step1_4_instrument_qwen3-8b.jsonl
+- config_name: crossing
+  data_files:
+  - split: gemma_4_12b
+    path:
+    - results/step2_5_headline.jsonl
+    - results/step2_5_headline_armE.jsonl
+  - split: gemma_4_e4b
+    path: results/step2_5_headline_gemma-e4b.jsonl
+  - split: qwen3_8b
+    path: results/step2_5_headline_qwen3-8b.jsonl
+- config_name: behavior
+  data_files:
+  - split: gemma_4_12b
+    path: results/behavior_behavior-gemma12b.jsonl
+  - split: gemma_4_e4b
+    path: results/behavior_behavior-gemma-e4b.jsonl
+  - split: qwen3_8b
+    path: results/behavior_behavior-qwen3-8b.jsonl
+- config_name: competence
+  data_files:
+  - split: gemma_4_12b
+    path: results/language_control_gemma12b.jsonl
+  - split: gemma_4_e4b
+    path: results/language_control_gemma-e4b.jsonl
+  - split: qwen3_8b
+    path: results/language_control_qwen3-8b.jsonl
+- config_name: activation_patching
+  data_files:
+  - split: gemma_4_12b
+    path: results/mech_patching_gemma12b-patch.jsonl
+  - split: gemma_4_e4b
+    path: results/mech_patching_gemma-e4b-patch.jsonl
+  - split: qwen3_8b
+    path: results/mech_patching_qwen3-8b-patch.jsonl
 ---
 
-# Multilingual CAIS AI Wellbeing Battery
+# Wellbeing in Translation
 
-The CAIS AI Wellbeing self-report battery, its valence-labelled experience set,
-and its euphoric/dysphoric/neutral stimuli, translated into six languages beyond
-English: **Spanish, Chinese (Simplified), Hindi, Arabic, Urdu, Swahili**.
+Raw outputs and translated materials for **Does AI Wellbeing Survive Translation?** We test whether the unchanged CAIS 1-7 self-report battery measures the same positive-minus-negative gap after translation.
 
-Built for [*Does AI wellbeing survive translation?*](report.md), and released
-separately because the translation is reusable independently of anything we
-concluded with it. Every published number in the wellbeing-measurement
-literature we are aware of is English-only; this exists so that need not stay
-true.
+**[Paper](paper.pdf) · [Code](https://github.com/Ayesha-Imr/wellbeing-in-translation) · [Source instrument](https://github.com/centerforaisafety/wellbeing)**
 
-## Contents
+## Headline result
 
-| Path | What |
+Language sensitivity is specific to the model-battery pair.
+
+| Model | Gap spread across 7 languages | English rank | English stimulus / local battery | Local stimulus / English battery |
+|---|---:|---:|---:|---:|
+| Gemma 4 12B | 3.48 | 7 / 7 | 0.97 | 0.68 |
+| Gemma 4 E4B | 0.97 | 5 / 7 | 0.99 | 0.93 |
+| Qwen3 8B | 1.47 | 2 / 7 | 0.89 | 1.08 |
+
+The last two columns are the fraction of the fully local euphoric effect retained, averaged across Spanish, Chinese, Hindi, and Urdu. An English stimulus still transfers through local batteries. On Gemma 12B, an English battery compresses the effect; the same result does not generalize to E4B or Qwen.
+
+## What is included
+
+| Path | Contents |
 |---|---|
-| `battery/{lang}.json` | The 10-question battery, `v4c_bipolar_7pt_notsentiment`. 1–7 bipolar scale, neutral at 4. |
-| `experiences/{lang}.json` | 89 valence-labelled experiences, keyed by CAIS experience id. |
-| `stimuli/{lang}.json` | The published CAIS "AI drugs": euphoric, dysphoric, neutral. |
-| `backtranslation/{lang}.json` | English back-translations, for auditing. |
-| `items/step*.json` | The item subsets used by each of our experiments. |
-| `source/` | Vendored CAIS inputs, unmodified. |
+| `results/step1_4_*.jsonl` | 79,800 self-report rows: 19 shared experiences x 10 questions x 20 samples x 7 languages x 3 models |
+| `results/step2_5_*.jsonl` | Stimulus-language x battery-language crossing |
+| `results/behavior_*.jsonl` | 3,450 continue/exit choices |
+| `results/language_control_*.jsonl` | 450 answer-keyed neutral competence items |
+| `results/mech_*.{json,jsonl,npz}` | Activation geometry, steering, and 9,600 patching rows |
+| `battery/`, `experiences/`, `stimuli/` | English plus Spanish, Simplified Chinese, Hindi, Arabic, Urdu, and Swahili |
+| `backtranslation/`, `items/` | Automatic translation audits and frozen experiment subsets |
+| `figures/`, `report/` | Figures and supporting result notes |
 
-Battery files carry `version`, `scale_min`, `scale_max`, `neutral`, `language`,
-and `questions[]` with `question_id`, `text`, `reversed`. **Key on
-`question_id`**, not on position. Experience files are `{experience_id: text}`,
-so they join directly against the CAIS ids.
+Every self-report row retains the raw output, corrected multilingual parse, unchanged CAIS parse, experience ID, category, language, arm, question ID, and sample index. No LLM judge scores wellbeing, behavior, or competence.
 
-## Fidelity
+## Use with care
 
-Main pass `gemini-3.7-flash`, independent agreement pass `gpt-5-mini`,
-back-translation to English on everything. Two independent model translators
-agreeing is the evidence; human verification was out of scope and is the main
-limitation.
+1. **Validate each model and language.** A correction learned on one model can be wrong on another, including within the Gemma family.
+2. **Inspect missingness by valence.** Refusals concentrate on negative items and can inflate a positive-minus-negative gap. Arabic and Swahili are descriptive in our main study because worst-case missing-data bounds can erase the Gemma 12B gap.
+3. **Keep both parser outputs.** The reference parser can count `one` inside Spanish `emociones`, turning a refusal into rating `1`. This affected 8.9% of Spanish Gemma 12B rows. We found zero confirmed valid native-script answers dropped by the reference parser in the collected runs.
+4. **Do not equate self-report with felt welfare.** These are functional measurements of observable model behavior, not evidence of consciousness or suffering.
 
-| Language | Scale intact | Back-translation | Translator agreement |
-|---|---|---|---|
-| Spanish | yes | 0.83 | 0.92 |
-| Chinese | yes | 0.67 | 0.53 |
-| Hindi | yes | 0.73 | 0.76 |
-| Arabic | yes | 0.76 | 0.77 |
-| Urdu | yes | 0.71 | 0.76 |
-| Swahili | yes | 0.74 | 0.80 |
+## Translation QA
 
-All six retain all seven numbered scale levels in all ten questions, and none
-contains an untranslated English unit. Back-translation similarity is word-level
-Dice (English against English); translator agreement is **character-bigram**
-overlap, because a word-level measure returns 0.14–0.17 for non-Latin scripts
-regardless of actual similarity and would read as severe disagreement in exactly
-the four non-Latin languages.
+The main translations used `gemini-3.7-flash`; an independent pass used `gpt-5-mini`; Gemini back-translated each unit. All batteries preserve all seven scale levels and pass automatic untranslated-text checks. There was no fluent human review. Automatic similarity and agreement scores are in the paper appendix.
 
-Scale labels were translated with explicit instruction to preserve intensity
-ordering and even spacing. Those labels carry the entire measurement: if
-"moderately unhappy" drifts to "very unhappy" in one language, every number in
-that language is noise.
+## Citation and license
 
-## Four things to know before using it
-
-**1. The reference parser can both drop and invent answers.** `parse_rating` in
-CAIS's `compute_metrics.py` misses native digits/number words in regression
-tests. We observed no confirmed valid answers lost this way in our runs. We did
-observe its unanchored English number-word matching: `"one" in "no tengo
-emociones"` returns **1** for a Spanish refusal containing no rating—8.9% of all
-Spanish responses on `gemma-4-12B-it`. A drop-in fix and its evidence are in
-[`contrib/`](contrib/README.md).
-
-**2. Report parse rate per language *and* per valence.** Refusals cluster on
-negative items, so one pooled parse rate hides an asymmetry that biases the
-measured mean upward.
-
-**3. Report the response distribution, not just the mean.** On `gemma-4-12B-it`
-the 7-point scale collapses to 3 points (interior values 0.0–0.5% of responses);
-on `Qwen3-8B` the interior carries 30.8–61.8%. A mean of 5.5 does not mean the
-same thing in those two regimes.
-
-**4. Measure language sensitivity on your own model.** It is not a fixed
-property of the battery; it depends on the model–battery pair. Across our three
-models the spread of the valence gap over seven languages runs from 0.97 to 3.48
-scale points, and English is last of seven on one model and second on another. A
-correction derived from one model is wrong for the next, including within a
-family.
-
-## Known gaps
-
-- 88 of 89 experiences are present in all seven languages. The exception is
-  missing from Arabic only. Intersect per experiment.
-- Category coverage in `items/step6.json` is uneven: 14 categories have 5
-  experiences, `mildly_negative` has 3, `mildly_positive` has 2.
-- No human translation check.
-
-## Citation
-
-Translation and analysis released under MIT. The underlying battery, experiences
-and stimuli are from the Center for AI Safety's AI Wellbeing work
-(Ren, Li, Mazeika et al., 2026, https://www.ai-wellbeing.org/); cite them for the
-instrument itself.
+The translated materials and project outputs are MIT licensed. The underlying battery, experiences, and stimuli come from Ren, Li, Mazeika et al. (2026), [AI Wellbeing: Measuring and Improving the Functional Pleasure and Pain of AIs](https://www.ai-wellbeing.org/paper.pdf). Cite that work for the source instrument and this repository for the translations and results.

@@ -23,7 +23,7 @@ def main():
     sent = []
     for folder, pattern in TARGETS:
         for p in sorted((ROOT / folder).glob(pattern)):
-            if "PROBABLY" in p.name or "smoke" in p.name:
+            if "PROBABLY" in p.name or "smoke" in p.name or p.name.startswith("_writetest"):
                 continue
             push(p, f"{folder}/{p.name}")
             sent.append(f"{folder}/{p.name}")
@@ -32,7 +32,7 @@ def main():
     # The translated battery and the parser fix are reusable independently of
     # our results, so they ship alongside them rather than only in the repo.
     for folder in ("battery", "experiences", "stimuli", "backtranslation",
-                   "items"):
+                   "items", "language_control"):
         d = ROOT / "data" / folder
         if d.is_dir():
             push(d, folder)
@@ -42,6 +42,12 @@ def main():
     for src, dest in (
         (ROOT / "data" / "CARD.md", "README.md"),
         (ROOT / "report" / "report.md", "report.md"),
+        (ROOT / "report" / "Does_AI_wellbeing_survive_translation.pdf", "paper.pdf"),
+        (ROOT / "report" / "Does_AI_wellbeing_survive_translation.docx", "paper.docx"),
+        (ROOT / "report" / "behavior_results.md", "report/behavior_results.md"),
+        (ROOT / "report" / "mech_patching_results.md", "report/mech_patching_results.md"),
+        (ROOT / "report" / "multilingual_control.md", "report/multilingual_control.md"),
+        (ROOT / "report" / "response_audit.md", "report/response_audit.md"),
         (ROOT / "contrib" / "README.md", "contrib/README.md"),
         (ROOT / "contrib" / "parsing.py", "contrib/parsing.py"),
         (ROOT / "contrib" / "test_parsing.py", "contrib/test_parsing.py"),
