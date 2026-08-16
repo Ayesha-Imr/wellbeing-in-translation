@@ -176,6 +176,8 @@ def make_steering_figure(steering):
 
 
 def write_report(geometry, projections, steering, summary):
+    raw_low_mass = int((steering.valid_token_mass < TOKEN_MASS_THRESHOLD).sum()) if not steering.empty else 0
+    raw_total = len(steering)
     lines = [
         "# Mechanistic interpretability results",
         "",
@@ -215,17 +217,13 @@ def write_report(geometry, projections, steering, summary):
         "",
         "Each value is the paired mean change from the zero-hook baseline at the middle layer. Positive and negative directions should move in opposite directions if the fitted direction is causally aligned; random is a scale-matched control.",
         "",
+        f"Raw causal rows: {raw_total:,}; excluded by the token-mass gate: {raw_low_mass:,}.",
+        "",
         "| model | target | EN + | EN − | local + | random + |",
         "|---|---|---:|---:|---:|---:|",
     ]
     if not steering.empty:
-        raw_low_mass = int((steering.valid_token_mass < TOKEN_MASS_THRESHOLD).sum())
-        raw_total = len(steering)
         steering = steering[steering.valid_token_mass >= TOKEN_MASS_THRESHOLD].copy()
-        lines += [
-            "",
-            f"Raw causal rows: {raw_total:,}; excluded by the token-mass gate: {raw_low_mass:,}.",
-        ]
         key = ["model", "task", "source_task", "language", "experience_id"]
         base = steering[steering.condition == "zero"].groupby(key).value.mean().rename("baseline")
         steering = steering.join(base, on=key)
