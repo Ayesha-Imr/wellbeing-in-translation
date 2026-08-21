@@ -1,0 +1,31 @@
+\section{Methods}
+
+\subsection{Question and instrument}
+
+We study a measurement question: if an experience stays fixed while its language changes, does a model's reported positive--negative response stay fixed? We use the Center for AI Safety (CAIS) self-report battery \citep{ren2026}, \texttt{v4c\_bipolar\_7pt\_notsentiment}. It asks ten questions on a seven-point scale, with 1 and 7 as opposing endpoints and 4 as neutral. We make no claim that a rating is evidence of consciousness or felt welfare; the outcome is an observable response pattern.
+
+The main experiment selects 20 extreme experiences from the CAIS canonical set using a fixed item seed (\texttt{20260815}): ten positive and ten negative. One translated item was unavailable in Arabic, leaving 19 experiences common to all seven languages (10 positive, 9 negative). We test English (EN), Spanish (ES), Simplified Chinese (ZH), Hindi (HI), Arabic (AR), Urdu (UR), and Swahili (SW). The main outcome is the valence gap,
+\[
+  G_{m,l}=\overline{r}_{m,l,+}-\overline{r}_{m,l,-},
+\]
+where $r$ is a parsed 1--7 rating, $m$ is a model, and $l$ is a language. Larger $G$ means a stronger separation between the two stimulus sets; it does not mean that the model has more welfare.
+
+The main translation pass used Gemini 3.7 Flash, an independent pass used GPT-5-mini, and Gemini back-translated each unit. Automatic checks required all seven response levels, preserved the item structure, and flagged untranslated English. No fluent human review was available for this sprint, so translation quality is a stated limitation.
+
+\subsection{Models and generation}
+
+We evaluate \texttt{google/gemma-4-12B-it}, \texttt{google/gemma-4-E4B-it}, and \texttt{Qwen/Qwen3-8B}. Generation used Hugging Face Transformers 5.15.0 and PyTorch 2.11.0+cu128 in bfloat16 on a Lambda \texttt{gpu\_1x\_a100\_sxm4} instance with one 40-GB NVIDIA A100 (driver 570.148.08; CUDA 12.8). We used \texttt{device\_map="cuda"}, a 4,096-token maximum context, 16 new tokens, temperature 1.0, and disabled thinking mode. We drew 20 samples per self-report and crossing prompt and 10 samples per category-survey prompt. Batch size began at 8 and halved after an out-of-memory error. Main sampling was unseeded; item selection used seed \texttt{20260815}, while behavioural, competence, and mechanistic runs used \texttt{20260816}.
+
+Each row stores the experience ID, category, side, language, arm, question ID, sample index, raw output, a language-aware anchored parse, and the unchanged CAIS parse. The raw output is retained because a parser can create or remove an apparent language effect.
+
+\subsection{Parsing, uncertainty, and missingness}
+
+We compute cluster bootstrap intervals by resampling experiences rather than treating ten questions and repeated samples from one experience as independent observations. Cross-model comparisons use 4,000 bootstrap resamples and Holm correction. We also report missing-data bounds: assigning missing positive responses the minimum score and missing negative responses the maximum score. Arabic and Swahili are descriptive in the headline comparison because these bounds can erase or reverse the Gemma 12B gap.
+
+We parse every row twice. The unchanged CAIS parser performs an unanchored English substring search; it can find \texttt{one} inside the Spanish word \texttt{emociones}. Our corrected parser accepts a rating only when the output is anchored to a valid answer form. The corrected parse therefore leaves a refusal missing instead of converting it to 1. We do not use an LLM judge for any measurement.
+
+\subsection{Crossing and controls}
+
+The crossing separates the language of the experience from the language of the report. Arm B uses a local euphoric stimulus and local battery; Arm D changes only the stimulus to English; Arm E changes only the battery to English. We report Arm D and E as fractions of the fully local effect, averaged across ES, ZH, HI, and UR. A value of 1 means full retention.
+
+We add three bounded checks. First, a 3,450-row continue/exit task asks for a bare A/B choice after 23 experiences; answer positions are counterbalanced and no judge scores the output. Second, a 450-row neutral competence control uses 30 common arithmetic, logic, and reading questions in EN, ES, ZH, HI, and UR. We score the answer-keyed next-token logits and greedy outputs. Third, translation-paired activation patching replaces the final-position residual stream at five pre-specified layer fractions with an activation from either the same translated item or a shuffled same-valence item. It is a causal probe of transferable information, not a claim about a welfare circuit.

@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{TAE (Trust-AI-Eval): Can We Trust AI Evaluation?}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\title{When Language Changes the Evaluator: Auditing Multilingual AI-Wellbeing Measurement}
+
+\author{Anonymous Authors}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+AI evaluations often treat a score as if it belonged to the model alone. We test that assumption for a widely used AI-wellbeing self-report battery: does a fixed experience produce a stable positive--negative signal when only the language changes? We evaluate three open models in English, Spanish, Chinese, Hindi, Arabic, Urdu, and Swahili, retaining raw outputs and scoring them with both an anchored parser and the original CAIS parser. The answer is model-specific. On four primary non-English languages, English is 2.93 points below the mean gap for Gemma 4 12B, 0.26 below for Gemma 4 E4B, and 0.41 above for Qwen3 8B. A language crossing localizes the 12B effect to the reporting channel: English stimuli retain 97\% of the local effect, while an English battery retains 68\%. Refusal asymmetry and parser matches can manufacture part of the apparent gap. A small competence control does not explain the result one-to-one, and activation patching gives only a directional lead. We conclude with an evaluation protocol: language, parser, missingness, and reporting-channel audits are part of the measurement, not post-hoc cleanup. The study measures observable response patterns, not consciousness or welfare.
+\end{abstract}
+
+\section{Introduction}
+
+An evaluation is a measurement instrument: it maps a prompt and a model response to a number that is then used to support a claim. The number can change because the model changed, but it can also change because the prompt language, answer parser, or response channel changed. This distinction matters for AI-wellbeing evaluations, where a small seven-point self-report is sometimes interpreted as evidence about functional pleasure or pain. We ask a narrower and testable question: if the underlying experience is held fixed, does its positive--negative response remain stable across languages and models?
+
+We audit the Center for AI Safety (CAIS) self-report battery across seven languages and three open models. The audit is designed around failure modes that can look like a substantive wellbeing effect: translated wording may alter the stimulus, a model may compress a response into a few scale values, refusals may be more common for negative prompts, or an unanchored parser may find an English number inside ordinary foreign-language prose. We therefore retain raw generations, score with an anchored parser and the unchanged reference parser, separate stimulus language from battery language, and add neutral competence and behavioural checks.
+
+Our main findings are:
+\begin{enumerate}
+    \item The language profile is model-specific. English is the lowest of seven language gaps for Gemma 4 12B, but not for E4B or Qwen3.
+    \item A crossing experiment localizes the 12B result to the reporting channel: an English stimulus works through a local-language battery, while an English battery compresses a local stimulus.
+    \item Parser and refusal audits are necessary for validity. Negative-item refusal is much higher than positive-item refusal in several languages, and a Spanish refusal is counted as a rating by the original parser.
+    \item Behaviour and activation patching are useful stress tests, not independent proof of welfare. Their estimates are ceiling-limited or wide, so we report them as directional evidence.
+\end{enumerate}
+
+These results speak directly to evaluation validity and reliability. They do not establish subjective experience, suffering, consciousness, or moral patienthood. The contribution is an auditable protocol for deciding when a multilingual score can support a claim and when it cannot.
+
+\section{Related work}
+
+Multilingual models can be highly capable while remaining unevenly calibrated across languages. \citet{ahuja2022} show that calibration errors vary with language and task, and \citet{licht2022} document how language pairs affect human evaluation of machine translation. Recent work also stresses that language is an active axis of model behaviour rather than a transparent interface \citep{song2025,liu2026}. Our setting is different: we study a self-report instrument whose output is a discrete rating, and we test the full measurement path from translated stimulus to parser output.
+
+The underlying battery is introduced by \citet{ren2026}, who frame AI wellbeing in functional terms. We retain that functional framing while separating it from claims about phenomenal experience. The crossing and activation-patching analyses draw on standard causal-intervention practice \citep{zhang2023}; the latter is deliberately presented as a probe of transferable item information, not as a discovered welfare circuit. Work on model introspection motivates testing self-reports while keeping the interpretation behavioural and operational \citep{binder2024}.
+
+\input{../shared/common_methods.tex}
+\input{../shared/core_results.tex}
+\input{../shared/secondary_results.tex}
+
+\section{Evaluation implications}
+
+The audit changes how a score should be used. A language correction learned on Gemma 4 12B cannot be copied to E4B or Qwen3: the correction changes sign and magnitude across models. Before comparing languages, an evaluator should (i) publish raw outputs and parser decisions, (ii) report refusal and missingness by valence, (iii) run a language crossing that changes one side of the instrument at a time, and (iv) include a small neutral competence control. These checks are inexpensive compared with a large generation run and reveal whether a headline score is instrument-stable.
+
+The protocol also makes nulls interpretable. The mechanistic probe does not locate a causal welfare representation, and the behavioural task is close to a ceiling/floor. Reporting these nulls prevents a tempting but unsupported story in which any language difference is treated as evidence of a hidden internal state. In evaluation work, a measured limitation is itself a useful result when it changes what a score can legitimately support.
+
+\input{../shared/references.tex}
+\input{../shared/appendix.tex}
+\input{../shared/checklist.tex}
+
+\end{document}

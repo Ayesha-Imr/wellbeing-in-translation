@@ -1,0 +1,10 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{environ}[2026/08/21 local compile shim]
+
+% The minimal TeX installation used for local QA lacks environ.sty. The
+% NeurIPS style only needs its body-capture environments for hidden
+% acknowledgements, which are not present in an anonymous submission.
+\newcommand{\NewEnviron}[2]{%
+  \expandafter\def\csname #1\endcsname{\def\BODY{}}%
+  \expandafter\def\csname end#1\endcsname{#2}%
+}

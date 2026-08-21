@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{Language Processing for Foundation Models}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\title{Language Is Part of the Instrument: Multilingual Instability in Foundation-Model Self-Report}
+
+\author{Anonymous Authors}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Language is often treated as a wrapper around an otherwise fixed foundation-model evaluation. We test that assumption for a translated AI-wellbeing self-report battery. Three open models answer the same ten questions after fixed positive and negative experiences in English, Spanish, Chinese, Hindi, Arabic, Urdu, and Swahili. The direction of the signal survives translation, but its magnitude and even the language ranking do not. On four primary non-English languages, English is 2.93 points below the mean positive--negative gap for Gemma 4 12B, 0.26 below for Gemma 4 E4B, and 0.41 above for Qwen3 8B. A stimulus/battery crossing shows that, for Gemma 12B, local-language content remains effective with an English battery, but the effect is compressed to 68\% of the local baseline; an English stimulus retains 97\%. We also find language- and valence-dependent refusal, a parser that turns Spanish refusal prose into the digit 1, and a weak competence association. Category ordering transfers better than gap magnitude, while activation patching yields a wide, directional signal rather than a circuit. The result is a language-sensitive measurement protocol, not evidence of consciousness or welfare.
+\end{abstract}
+
+\section{Introduction}
+
+Foundation models are trained and evaluated through language, yet multilingual results are often summarized as if a score were independent of the language in which the model encounters a prompt and reports an answer. This can be harmless for a factual question with a fixed answer key. It is more consequential for an instrument that asks the model to report a graded internal state. In that setting, translation can change the stimulus, the scale usage, the refusal policy, or the channel through which an answer is expressed.
+
+We study this problem using the CAIS functional AI-wellbeing battery. The battery is not a test of consciousness: it is a compact observable-response instrument. Our question is whether its positive--negative separation is stable across languages, and which part of the language path is responsible when it is not. We use the same translated experiences and ten-question battery in seven languages, three open models, and a controlled crossing that changes stimulus and reporting language separately.
+
+The study makes four contributions to multilingual foundation-model evaluation:
+\begin{enumerate}
+    \item A seven-language, three-model audit with raw generations, anchored parsing, and explicit missingness bounds.
+    \item A model-by-language result showing that translation preserves direction but not the magnitude or ordering of the self-report gap.
+    \item A crossing analysis that separates language-conditioned stimulus processing from language-conditioned reporting for one model.
+    \item Audits of refusals, neutral competence, behaviour, and activation transfer that delimit what the main signal can mean.
+\end{enumerate}
+
+The central practical claim is simple: language is part of the instrument. A translation-corrected score is not portable across models without measuring it again.
+
+\section{Background and related work}
+
+Multilingual evaluation is affected by calibration, tokenization, morphology, and language-pair asymmetries. \citet{ahuja2022} find that calibration changes across languages, while \citet{licht2022} show that even human evaluation of machine translation is not invariant to the language pair. Recent multilingual benchmarks make the same point for quality and cross-lingual transfer \citep{liu2026}. Work on language introspection reports that models can fail to reason reliably about their own language knowledge \citep{song2025}; this motivates measuring both the target task and a neutral competence control.
+
+The CAIS battery provides the application setting \citep{ren2026}. We use its functional language but do not infer phenomenal experience. The crossing follows a standard design for separating components of a multilingual pipeline, and the activation analysis uses established patching practice \citep{zhang2023}. Research on model introspection provides context for treating self-report as a measurable output rather than as testimony \citep{binder2024}.
+
+\input{../shared/common_methods.tex}
+\input{../shared/core_results.tex}
+\input{../shared/secondary_results.tex}
+
+\section{What transfers across languages?}
+
+The results separate two kinds of transfer. Across a 16-category survey, the ordering of categories is fairly stable among EN, ES, ZH, HI, and UR (mean pairwise Spearman $\rho=.911$), so coarse relative structure can survive translation. The seven-language positive--negative gap is much less stable: it spans 3.48 points on Gemma 12B but only 0.97 on E4B, and Qwen3 places English near the top rather than at the bottom. Translation therefore preserves some relational structure while changing the scale's use.
+
+The crossing identifies one concrete mechanism. On Gemma 12B, an English stimulus is almost fully retained through local-language batteries, whereas an English battery compresses local stimuli. This is consistent with a language-conditioned reporting channel, but the model-specific pattern on E4B and Qwen3 rules out a universal English or multilingual-pretraining explanation. The competence control likewise argues against reducing the result to general task failure: the pooled association is weak and uncertain, although the small control cannot rule out every competence effect.
+
+\input{../shared/references.tex}
+\input{../shared/appendix.tex}
+\input{../shared/checklist.tex}
+
+\end{document}

@@ -1,0 +1,19 @@
+\subsection{Secondary checks narrow the claim}
+
+The continue/exit task agrees directionally with self-report: all valid positive trials lead to continuation, while continuation after negative trials is 5.6\% for Gemma 12B, 3.8\% for E4B, and 14.6\% for Qwen3. Neutral continuation is 98--100\%. The task is near a ceiling/floor and may reflect safety or conversation policy, so it is corroboration rather than a second precise welfare measure.
+
+The neutral competence control is high but not uniform. Accuracy for EN/ES/ZH/HI/UR is 0.967/0.967/0.900/1.000/0.933 for Gemma 12B, 0.900/0.967/0.900/0.900/0.900 for E4B, and 0.867/0.900/0.867/0.833/0.800 for Qwen3. Across the 12 non-English model-language cells, accuracy loss has a weak association with absolute wellbeing deviation (Spearman $\rho=.23$, $p=.465$). With 30 items and 12 cells, this control cannot rule out all competence effects; it does rule out a simple one-to-one explanation.
+
+Translation-paired activations transfer more self-report information than same-valence shuffled controls in all six model-by-direction summaries; behaviour is positive in five of six. Every direct 20-experience confidence interval crosses zero. The safe conclusion is a directional lead about item-specific transfer, not a discovered causal circuit or language-independent welfare state.
+
+\section{Discussion}
+
+The practical result is a validation rule: measure language sensitivity separately for every model used with this battery. A Gemma 12B-only study suggests a large English correction; E4B suggests little correction; Qwen3 places English near the top. Transferring one correction across these models would make the measurement worse, including within one model family.
+
+The crossing gives a narrower explanation for the 12B result. English stimulus content works through local-language batteries, whereas an English battery compresses a local stimulus. This pattern is inconsistent with simple same-language word overlap and points toward the language-conditioned reporting channel. Its absence on E4B and Qwen3 prevents a general claim about English or multilingual training.
+
+The study has clear limits. Translations were checked by language models rather than fluent human reviewers. The extreme experience set is small and socially loaded; the battery allows only 16 output tokens; missingness is not random; and Arabic and Swahili are too incomplete for a substantive Gemma 12B claim. E4B and 12B are not a controlled scale ablation. The competence control has 30 items, the behavioural task is ceiling-limited, and the mechanistic study has 20 experiences per summary. The results test the stability of an observable measurement. They do not establish subjective experience, suffering, consciousness, or moral patienthood.
+
+\section{Conclusion}
+
+The CAIS signal survives translation in direction but not in magnitude. Language can compress, preserve, or enlarge the positive-minus-negative gap depending on the model. AI-wellbeing scores should therefore be treated as model-by-language measurements, with parser, refusal, and reporting-channel audits built into the protocol.
