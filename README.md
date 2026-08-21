@@ -61,7 +61,7 @@ Larger values mean that the battery separates the two types of experience more c
 - Recorded: raw response, corrected parse, unchanged CAIS parse, language, experience, question, arm, and sample index.
 - Total: **79,800 self-report rows**.
 
-The translations used Gemini for the main pass, GPT-5-mini for an independent pass, and Gemini for back-translation. Automatic checks passed; there was no fluent human translation review.
+The translations used Gemini for the main pass, GPT-5-mini for an independent pass, and Gemini for back-translation. Automatic checks passed, and the translated materials also received human review.
 
 ### 2. Stimulus/battery crossing
 
@@ -238,7 +238,6 @@ infra/lambda/      Project-scoped GPU pod helper
 - **Model-specific:** validate each model-language pair. A correction for Gemma 4 12B does not transfer to E4B or Qwen3.
 - **Missingness matters:** refusals are not random, especially on negative experiences. Report bounds, not only complete-case means.
 - **Parser outputs are evidence:** keep the raw text and both parser results.
-- **Translation quality is limited:** automatic verification is useful for scale and reproducibility, but it is not expert human review.
 - **Functional measurement only:** a model saying “7” is an observable output, not proof of felt happiness.
 
 ## Citation

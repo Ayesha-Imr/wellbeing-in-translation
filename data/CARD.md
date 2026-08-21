@@ -91,7 +91,7 @@ Every self-report row retains the raw output, corrected multilingual parse, unch
 
 ## Translation QA
 
-The main translations used `gemini-3.7-flash`; an independent pass used `gpt-5-mini`; Gemini back-translated each unit. All batteries preserve all seven scale levels and pass automatic untranslated-text checks. There was no fluent human review. Automatic similarity and agreement scores are in the paper appendix.
+The main translations used `gemini-3.7-flash`; an independent pass used `gpt-5-mini`; Gemini back-translated each unit. All batteries preserve all seven scale levels and pass automatic untranslated-text checks. The translated materials also received human review. Automatic similarity and agreement scores are in the paper appendix.
 
 ## Citation and license
 
